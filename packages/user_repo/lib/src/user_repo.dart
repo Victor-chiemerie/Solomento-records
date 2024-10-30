@@ -12,4 +12,10 @@ abstract class UserRepository {
 
   /// Reset password method
   Future<void> resetPassword(String email);
+
+  /// Update user data if aleady existing or creates and saves new user in document
+  Future<void> setUserData(MyUser user);
+
+  /// Get user data
+  Future<MyUser> getMyUser(String myUserId);
 }
