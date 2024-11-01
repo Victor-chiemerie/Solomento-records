@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Logic/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 
 import 'UI/home/home_page.dart';
 import 'UI/authentication/welcome_page.dart';
@@ -28,7 +29,13 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
         if (state.status == AuthenticationStatus.authenticated) {
-          return const HomePage();
+          return BlocProvider(
+            create: (context) => SignInBloc(
+              myUserRepository:
+                  context.read<AuthenticationBloc>().userRepository,
+            ),
+            child: const HomePage(),
+          );
         } else {
           return const WelcomePage();
         }

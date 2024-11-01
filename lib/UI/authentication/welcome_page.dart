@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solomento_records/Logic/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:solomento_records/Logic/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:solomento_records/UI/authentication/sign_in_page.dart';
+import 'package:solomento_records/UI/authentication/sign_up_page.dart';
 
 import '../../Components/screen_size.dart';
 
@@ -20,7 +25,6 @@ class _WelcomePageState extends State<WelcomePage>
     tabController = TabController(
       length: 2,
       vsync: this,
-      initialIndex: 0,
     );
   }
 
@@ -33,45 +37,63 @@ class _WelcomePageState extends State<WelcomePage>
         physics: const AlwaysScrollableScrollPhysics(),
         child: SizedBox(
           height: deviceHeight,
-          child: Column(
-            children: [
-              TabBar(
-                controller: tabController,
-                tabs: [
-                  const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text(
-                      'Sign In',
-                      style: TextStyle(fontSize: 18),
-                    ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                const Text(
+                  'Welcome Back!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: kToolbarHeight,
+                ),
+                TabBar(
+                  controller: tabController,
+                  tabs: const [
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ],
+                ),
+                // Wrap TabBarView with Expanded to give it bounded height
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      BlocProvider<SignInBloc>(
+                        create: (context) => SignInBloc(
+                          myUserRepository:
+                              context.read<AuthenticationBloc>().userRepository,
+                        ),
+                        child: const SignInPage(),
+                      ),
+                      BlocProvider<SignUpBloc>(
+                        create: (context) => SignUpBloc(
+                          myUserRepository:
+                              context.read<AuthenticationBloc>().userRepository,
+                        ),
+                        child: const SignUpPage(),
+                      ),
+                    ],
                   ),
-                  // Expanded(
-                  //   child: TabBarView(
-                  //     controller: tabController,
-                  //     children: [
-                  //       Container(
-                  //         child: const Center(
-                  //           child: Icon(Icons.abc),
-                  //         ),
-                  //       ),
-                  //       Container(
-                  //         child: const Center(
-                  //           child: Icon(Icons.access_alarms_rounded),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

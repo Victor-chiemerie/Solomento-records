@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(
           create: (_) => AuthenticationBloc(myUserRepository: userRepository),
-        )
+        ),
+        
       ],
       child: const AppView(),
     );
