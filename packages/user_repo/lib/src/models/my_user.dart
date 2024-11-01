@@ -7,11 +7,13 @@ class MyUser extends Equatable {
   final String id;
   final String email;
   final String name;
+  final String userType;
 
   const MyUser({
     required this.id,
     required this.email,
     required this.name,
+    required this.userType,
   });
 
   /// Empty user which represents an unauthenticated user
@@ -19,6 +21,7 @@ class MyUser extends Equatable {
     id: "",
     email: "",
     name: "",
+    userType: "worker",
   );
 
   /// Modify MyUser parameters
@@ -26,11 +29,13 @@ class MyUser extends Equatable {
     String? id,
     String? email,
     String? name,
+    String? userType,
   }) {
     return MyUser(
       id: id ?? this.id,
       email: email ?? this.email,
       name: name ?? this.name,
+      userType: userType ?? this.userType,
     );
   }
 
@@ -45,6 +50,7 @@ class MyUser extends Equatable {
       id: id,
       email: email,
       name: name,
+      userType: userType,
     );
   }
 
@@ -53,9 +59,10 @@ class MyUser extends Equatable {
       id: entity.id,
       email: entity.email,
       name: entity.name,
+      userType: entity.userType,
     );
   }
 
   @override
-  List<Object?> get props => [id, email, name];
+  List<Object?> get props => [id, email, name, userType];
 }

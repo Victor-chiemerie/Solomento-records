@@ -5,11 +5,13 @@ class MyUserEntity extends Equatable {
   final String id;
   final String email;
   final String name;
+  final String userType;
 
   const MyUserEntity({
     required this.id,
     required this.email,
     required this.name,
+    required this.userType,
   });
 
   /// Converts the user entity to a document to be stored to firebase
@@ -18,6 +20,7 @@ class MyUserEntity extends Equatable {
       'id': id,
       'email': email,
       'name': name,
+      'userType': userType,
     };
   }
 
@@ -27,6 +30,7 @@ class MyUserEntity extends Equatable {
       id: doc['id'] as String,
       email: doc['email'] as String,
       name: doc['name'] as String,
+      userType: doc['userType'] as String,
     );
   }
 
@@ -36,9 +40,10 @@ class MyUserEntity extends Equatable {
       id: $id
       email: $email
       name: $name
+      userType: $userType
     }''';
   }
 
   @override
-  List<Object?> get props => [id, email, name];
+  List<Object?> get props => [id, email, name, userType];
 }
