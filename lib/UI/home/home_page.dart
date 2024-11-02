@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
+import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
 
 import '../cars/cars_page.dart';
+import 'upload_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,7 +22,15 @@ class HomePage extends StatelessWidget {
     initializeDeviceSize(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome Ogechi'),
+        title: BlocBuilder<MyUserBloc, MyUserState>(
+          builder: (context, state) {
+            if (state.status == MyUserStatus.success) {
+              return Text('Welcome ${state.user!.name}');
+            } else {
+              return const Text('Welcome');
+            }
+          },
+        ),
         actions: [
           IconButton.outlined(
             onPressed: () {
@@ -98,7 +108,14 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UploadPage(),
+            ),
+          );
+        },
         backgroundColor: Colors.greenAccent,
         shape: const CircleBorder(),
         tooltip: 'Add a new customer',
