@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Logic/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'UI/authentication/welcome_page.dart';
 import 'UI/home/home_page.dart';
+import 'UI/home/welcome_page.dart';
 
 class AppView extends StatelessWidget {
   const AppView({super.key});

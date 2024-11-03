@@ -17,17 +17,29 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Center(
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: const BoxDecoration(
-                  border: Border.fromBorderSide(BorderSide()),
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/solomento.jpg"),
+              child: Column(
+                children: [
+                  Container(
+                    height: 120,
+                    width: 120,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage("assets/images/solomento.jpg"),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Peace of mind...',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
+                  )
+                ],
               ),
             ),
             CustomButton(

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
@@ -8,6 +7,7 @@ import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
 
 import '../cars/cars_page.dart';
+import '../settings/settings_page.dart';
 import 'upload_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -37,6 +37,17 @@ class HomePage extends StatelessWidget {
               logOut(context);
             },
             icon: const Icon(CupertinoIcons.square_arrow_right),
+          ),
+          IconButton.outlined(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.settings),
           ),
         ],
       ),
