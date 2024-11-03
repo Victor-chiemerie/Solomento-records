@@ -30,6 +30,7 @@ class _SignInPageState extends State<SignInPage> {
           setState(() {
             signInRequired = false;
           });
+          Navigator.pop(context);
         } else if (state is SignInProcess) {
           setState(() {
             signInRequired = true;
