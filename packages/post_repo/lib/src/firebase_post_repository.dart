@@ -1,5 +1,5 @@
-import 'post_repo.dart';
+import 'record_repo.dart';
 
-class FirebasePostRepository implements PostRepository {
+class FirebasePostRepository implements RecordRepository {
   
 }

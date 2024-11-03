@@ -1,5 +1,5 @@
-library post_repository;
+library record_repository;
 
 export 'src/models/models.dart';
 export 'src/entities/entities.dart';
-export 'src/post_repo.dart';
+export 'src/record_repo.dart';

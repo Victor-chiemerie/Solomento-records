@@ -1,5 +1,5 @@
-name: post_repository
-description: "Dart package that manages the posts."
+name: record_repository
+description: "Dart package that manages the records."
 publish_to: "none"
 version: 1.0.0+1
 
@@ -12,6 +12,7 @@ dependencies:
 
   # Firebase
   firebase_core: ^3.6.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

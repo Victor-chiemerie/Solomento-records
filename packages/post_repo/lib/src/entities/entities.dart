@@ -1,1 +1,2 @@
-export 'my_post_entity.dart';
+export 'customer_entity.dart';
+export 'car_entity.dart';

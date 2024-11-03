@@ -9,6 +9,12 @@ class UploadPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Add Customer and Car'),
       ),
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [],
+        ),
+      ),
     );
   }
 }
