@@ -7,7 +7,6 @@ import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
 
 import '../cars/cars_page.dart';
-import '../settings/settings_page.dart';
 import 'upload_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -25,29 +24,35 @@ class HomePage extends StatelessWidget {
         title: BlocBuilder<MyUserBloc, MyUserState>(
           builder: (context, state) {
             if (state.status == MyUserStatus.success) {
-              return Text('Welcome ${state.user!.name}');
+              return Text(
+                'Hi, ${state.user!.name}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              );
             } else {
-              return const Text('Welcome');
+              return const Text(
+                'Hi there',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              );
             }
           },
         ),
         actions: [
-          IconButton.outlined(
-            onPressed: () {
-              logOut(context);
-            },
-            icon: const Icon(CupertinoIcons.square_arrow_right),
-          ),
-          IconButton.outlined(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingsPage(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.settings),
+          TextButton(
+            onPressed: () => logOut(context),
+            child: const Text(
+              'Log out',
+              style: TextStyle(
+                color: Colors.redAccent,
+                fontWeight: FontWeight.w500,
+                fontSize: 15,
+              ),
+            ),
           ),
         ],
       ),
@@ -67,19 +72,28 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.greenAccent,
-                      width: 2,
+                child: const Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.people,
+                              color: Colors.grey,
+                            ),
+                            Text('  Customers'),
+                          ],
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 18,
+                        ),
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: const Row(
-                    children: [
-                      Text('Customers'),
-                    ],
                   ),
                 ),
               ),
@@ -96,21 +110,28 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.greenAccent,
-                      width: 2,
+                child: const Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.car_repair_outlined,
+                              color: Colors.grey,
+                            ),
+                            Text('  Cars (0)'),
+                          ],
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 18,
+                        ),
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Cars'),
-                      Text('29'),
-                    ],
                   ),
                 ),
               ),
