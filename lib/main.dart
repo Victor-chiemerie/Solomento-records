@@ -19,6 +19,24 @@ Future main() async {
   runApp(MyApp(FirebaseUserRepository()));
 }
 
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(66, 178, 132, 1.0),
+      body: Column(
+        children: [
+          Center(
+            child: Container(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
   const MyApp(this.userRepository, {super.key});
