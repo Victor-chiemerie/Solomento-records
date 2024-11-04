@@ -48,6 +48,7 @@ class AppView extends StatelessWidget {
                     ),
                   ),
               ),
+              // BlocProvider(create: (context) => CustomerBloc(myRecordRepository: context.read<AuthenticationBloc>()))
             ],
             child: const HomePage(),
           );

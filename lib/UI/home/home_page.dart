@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:solomento_records/UI/customers/add_customer_page.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
-
 import '../cars/cars_page.dart';
 import 'upload_page.dart';
 
@@ -144,7 +144,7 @@ class HomePage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const UploadPage(),
+              builder: (context) => const AddCustomerPage(),
             ),
           );
         },

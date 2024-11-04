@@ -40,6 +40,8 @@ dependencies:
   # Custom Repository
   user_repository:
     path: packages/user_repo
+  record_repository:
+    path: packages/record_repo
 
 dev_dependencies:
   flutter_test:
