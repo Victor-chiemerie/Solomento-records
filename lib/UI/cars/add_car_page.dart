@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:record_repository/record_repository.dart';
@@ -253,7 +251,6 @@ class _AddCarPageState extends State<AddCarPage> {
                 color: const Color.fromRGBO(66, 178, 132, 1.0),
                 text: 'Save',
                 onPressed: () {
-                  Car car = Car.empty;
                 },
               ),
 

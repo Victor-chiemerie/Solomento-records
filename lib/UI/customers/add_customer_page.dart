@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
@@ -22,7 +24,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   @override
   void initState() {
     customer = Customer.empty;
-    // customer.myUser = context.read<MyUserBloc>().state.user!;
+    customer.myUser = context.read<MyUserBloc>().state.user!;
     super.initState();
   }
 
@@ -73,6 +75,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   color: const Color.fromRGBO(66, 178, 132, 1.0),
                   text: 'Vehicle',
                   onPressed: () {
+                    log(customer.toString());
                     Navigator.push(
                       context,
                       MaterialPageRoute(
