@@ -9,7 +9,9 @@ import '../../Components/format_amount.dart';
 import '../../Components/text_field.dart';
 
 class AddCarPage extends StatefulWidget {
-  const AddCarPage({super.key});
+  const AddCarPage({super.key, required this.customer});
+
+  final Customer customer;
 
   @override
   State<AddCarPage> createState() => _AddCarPageState();
@@ -251,11 +253,7 @@ class _AddCarPageState extends State<AddCarPage> {
                 color: const Color.fromRGBO(66, 178, 132, 1.0),
                 text: 'Save',
                 onPressed: () {
-                  Customer customer = Customer.empty;
                   Car car = Car.empty;
-                  Car newCar = car.copyWith(modelName: 'Lexus');
-                  log(car.toString());
-                  log(newCar.toString());
                 },
               ),
 

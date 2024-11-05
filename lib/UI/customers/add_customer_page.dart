@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/text_field.dart';
+import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/UI/cars/add_car_page.dart';
 
 import '../../Components/custom_button.dart';
@@ -14,6 +17,14 @@ class AddCustomerPage extends StatefulWidget {
 class _AddCustomerPageState extends State<AddCustomerPage> {
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
+  late Customer customer;
+
+  @override
+  void initState() {
+    customer = Customer.empty;
+    // customer.myUser = context.read<MyUserBloc>().state.user!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +76,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AddCarPage(),
+                        builder: (context) => AddCarPage(customer: customer),
                       ),
                     );
                   },
