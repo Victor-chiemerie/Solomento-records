@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/multiSelectDialog.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/format_amount.dart';
@@ -33,6 +36,13 @@ class _AddCarPageState extends State<AddCarPage> {
   bool? isRepaired = false;
   bool? isDeparted = false;
   List<String> selectedJobTypes = [];
+  late Car car;
+
+  @override
+  void initState() {
+    car = Car.empty;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +250,13 @@ class _AddCarPageState extends State<AddCarPage> {
                 height: 45,
                 color: const Color.fromRGBO(66, 178, 132, 1.0),
                 text: 'Save',
-                onPressed: () {},
+                onPressed: () {
+                  Customer customer = Customer.empty;
+                  Car car = Car.empty;
+                  Car newCar = car.copyWith(modelName: 'Lexus');
+                  log(car.toString());
+                  log(newCar.toString());
+                },
               ),
 
               const SizedBox(height: 20),

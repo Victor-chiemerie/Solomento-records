@@ -6,18 +6,18 @@ class CarEntity extends Equatable {
   final String modelName;
   final String plateNumber;
   final String serviceAdviser;
-  final String arrivalDate;
+  final DateTime arrivalDate;
   final String jobDetails;
   final List<String> jobType;
   final double cost;
   final bool isApproved;
-  final String approvalDate;
+  final DateTime approvalDate;
   final String paymentStatus;
   final double paymentMade;
   final List<Map<double, String>> paymentHistory;
   final String repairStatus;
   final String repairDetails;
-  final String departureDate;
+  final DateTime departureDate;
 
   const CarEntity({
     required this.id,
@@ -70,18 +70,18 @@ class CarEntity extends Equatable {
       modelName: doc['modelName'] as String,
       plateNumber: doc['plateNumber'] as String,
       serviceAdviser: doc['serviceAdviser'] as String,
-      arrivalDate: doc['arrivalDate'] as String,
+      arrivalDate: DateTime.parse(doc['arrivalDate']),
       jobDetails: doc['jobDetails'] as String,
       jobType: doc['jobType'] as List<String>,
       cost: doc['cost'] as double,
       isApproved: doc['isApproved'] as bool,
-      approvalDate: doc['approvalDate'] as String,
+      approvalDate: DateTime.parse(doc['approvalDate']),
       paymentStatus: doc['paymentStatus'] as String,
       paymentMade: doc['paymentMade'] as double,
       paymentHistory: doc['paymentHistory'] as List<Map<double, String>>,
       repairStatus: doc['repairStatus'] as String,
       repairDetails: doc['repairDetails'] as String,
-      departureDate: doc['departureDate'] as String,
+      departureDate: DateTime.parse(doc['departureDate']),
     );
   }
 

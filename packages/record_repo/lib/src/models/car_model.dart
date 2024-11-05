@@ -7,18 +7,18 @@ class Car extends Equatable {
   final String modelName;
   final String plateNumber;
   final String serviceAdviser;
-  final String arrivalDate; //
+  final DateTime arrivalDate; //
   final String jobDetails;
   final List<String> jobType;
   final double cost;
   final bool isApproved;
-  final String approvalDate; //
+  final DateTime approvalDate; //
   final String paymentStatus; // ignore for now
   final double paymentMade;
   final List<Map<double, String>> paymentHistory; //
   final String repairStatus;
   final String repairDetails;
-  final String departureDate;
+  final DateTime departureDate;
 
   const Car({
     required this.id,
@@ -41,24 +41,24 @@ class Car extends Equatable {
   });
 
   /// Empty user which represents an unauthenticated car
-  static const empty = Car(
+  static Car empty = Car(
     id: "",
     customerId: "",
     modelName: "",
     plateNumber: "",
     serviceAdviser: "",
-    arrivalDate: "",
+    arrivalDate: DateTime.now(),
     jobDetails: "",
-    jobType: [],
+    jobType: const [],
     cost: 0,
     isApproved: false,
-    approvalDate: "",
+    approvalDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
     paymentStatus: "incomplete",
     paymentMade: 0,
-    paymentHistory: [],
+    paymentHistory: const [],
     repairStatus: "pending",
     repairDetails: "",
-    departureDate: "",
+    departureDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
   );
 
   /// Convenience getter to determine whether the current Car has no details
@@ -73,18 +73,18 @@ class Car extends Equatable {
     String? modelName,
     String? plateNumber,
     String? serviceAdviser,
-    String? arrivalDate,
+    DateTime? arrivalDate,
     String? jobDetails,
     List<String>? jobType,
     double? cost,
     bool? isApproved,
-    String? approvalDate,
+    DateTime? approvalDate,
     String? paymentStatus,
     double? paymentMade,
     List<Map<double, String>>? paymentHistory,
     String? repairStatus,
     String? repairDetails,
-    String? departureDate,
+    DateTime? departureDate,
   }) {
     return Car(
       id: id ?? this.id,
@@ -152,7 +152,6 @@ class Car extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         id,
         customerId,
