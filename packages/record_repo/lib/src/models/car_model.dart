@@ -12,10 +12,10 @@ class Car extends Equatable {
   final List<String> jobType;
   final double cost;
   final bool isApproved;
-  final String approvalDate;
-  final String paymentStatus;
+  final String approvalDate; //
+  final String paymentStatus; // ignore for now
   final double paymentMade;
-  final List<Map<double, String>> paymentHistory;
+  final List<Map<double, String>> paymentHistory; //
   final String repairStatus;
   final String repairDetails;
   final String departureDate;
