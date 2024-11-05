@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:solomento_records/Components/text_field.dart';
+import 'package:solomento_records/UI/cars/add_car_page.dart';
+
+import '../../Components/custom_button.dart';
 
 class AddCustomerPage extends StatefulWidget {
   const AddCustomerPage({super.key});
@@ -33,7 +36,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   controller: nameController,
                   hintText: 'Enter Customer Name',
                   obscureText: false,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.phone,
                 ),
 
                 const SizedBox(height: 10),
@@ -42,10 +45,28 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 const Text('Customer Mobile'),
                 const SizedBox(height: 10),
                 MyTextField(
-                  controller: nameController,
+                  controller: mobileController,
                   hintText: 'Enter Customer Mobile',
                   obscureText: false,
                   keyboardType: TextInputType.text,
+                ),
+
+                const SizedBox(height: 20),
+
+                // Add car page
+                CustomButton(
+                  width: double.infinity,
+                  height: 45,
+                  color: const Color.fromRGBO(66, 178, 132, 1.0),
+                  text: 'Vehicle',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddCarPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

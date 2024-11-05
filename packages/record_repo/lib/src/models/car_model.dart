@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import '../entities/entities.dart';
 
 class Car extends Equatable {
-  final String id;
-  final String customerId;
+  final String id; //
+  final String customerId; //
   final String modelName;
   final String plateNumber;
   final String serviceAdviser;
-  final String arrivalDate;
+  final String arrivalDate; //
   final String jobDetails;
   final List<String> jobType;
   final double cost;

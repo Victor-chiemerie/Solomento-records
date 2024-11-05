@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
@@ -7,7 +6,6 @@ import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:solomento_records/UI/customers/add_customer_page.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
 import '../cars/cars_page.dart';
-import 'upload_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -148,7 +146,7 @@ class HomePage extends StatelessWidget {
             ),
           );
         },
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: const Color.fromRGBO(66, 178, 132, 1.0),
         shape: const CircleBorder(),
         tooltip: 'Add a new customer',
         child: const Icon(
