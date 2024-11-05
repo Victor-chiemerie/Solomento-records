@@ -18,6 +18,7 @@ class MyTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? prefixText;
   final bool readOnly;
+  final TextInputAction? textInputAction;
 
   const MyTextField({
     super.key,
@@ -36,7 +37,8 @@ class MyTextField extends StatelessWidget {
     this.expands = false,
     this.inputFormatters,
     this.prefixText,
-    this.readOnly = false
+    this.readOnly = false,
+    this.textInputAction,
   });
 
   @override
@@ -48,7 +50,7 @@ class MyTextField extends StatelessWidget {
       keyboardType: keyboardType,
       focusNode: focusNode,
       onTap: onTap,
-      textInputAction: TextInputAction.next,
+      textInputAction: textInputAction,
       onChanged: onChanged,
       maxLines: maxLines,
       expands: expands,

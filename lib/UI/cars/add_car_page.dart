@@ -91,7 +91,8 @@ class _AddCarPageState extends State<AddCarPage> {
                 controller: jobDetailsController,
                 hintText: 'Enter Job Details',
                 obscureText: false,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
                 maxLines: 4,
               ),
 
@@ -206,7 +207,8 @@ class _AddCarPageState extends State<AddCarPage> {
                 controller: repairDetailsController,
                 hintText: 'Enter Repair Details',
                 obscureText: false,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
                 maxLines: 4,
               ),
 

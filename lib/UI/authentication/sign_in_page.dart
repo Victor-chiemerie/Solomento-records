@@ -53,7 +53,9 @@ class _SignInPageState extends State<SignInPage> {
                     controller: emailController,
                     hintText: 'Email',
                     obscureText: false,
+                    maxLines: 1,
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     prefixIcon: const Icon(CupertinoIcons.mail_solid),
                     errorMsg: _errorMsg,
                     validator: (val) {
@@ -63,7 +65,7 @@ class _SignInPageState extends State<SignInPage> {
                         return 'Please enter a valid email';
                       }
                       return null;
-                    }),
+                    },),
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -72,7 +74,9 @@ class _SignInPageState extends State<SignInPage> {
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: obscurePassword,
+                  maxLines: 1,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(CupertinoIcons.lock_fill),
                   errorMsg: _errorMsg,
                   validator: (val) {

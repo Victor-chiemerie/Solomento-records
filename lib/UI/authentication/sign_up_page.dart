@@ -58,7 +58,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: emailController,
                   hintText: 'Email',
                   obscureText: false,
+                  maxLines: 1,
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(CupertinoIcons.mail_solid),
                   validator: (val) {
                     if (val!.isEmpty) {
@@ -77,7 +79,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: obscurePassword,
+                  maxLines: 1,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(CupertinoIcons.lock_fill),
                   onChanged: (val) {
                     if (val!.contains(RegExp(r'[A-Z]'))) {
@@ -209,7 +213,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: nameController,
                   hintText: 'Name',
                   obscureText: false,
+                  maxLines: 1,
                   keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(CupertinoIcons.person_fill),
                   validator: (val) {
                     if (val!.isEmpty) {

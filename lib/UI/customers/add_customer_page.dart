@@ -36,7 +36,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   controller: nameController,
                   hintText: 'Enter Customer Name',
                   obscureText: false,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
                 ),
 
                 const SizedBox(height: 10),
@@ -48,7 +49,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   controller: mobileController,
                   hintText: 'Enter Customer Mobile',
                   obscureText: false,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.next,
                 ),
 
                 const SizedBox(height: 20),
