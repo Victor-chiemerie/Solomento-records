@@ -1,17 +1,59 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:record_repository/record_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class FirebaseRecordRepository implements RecordRepository {
   // instantiate the collection of cars and customers
   final carCollection = FirebaseFirestore.instance.collection('cars');
   final customerCollection = FirebaseFirestore.instance.collection('customers');
+  final uuid = const Uuid();
+
+  // Save customer and car with cross-referencing IDs
+  @override
+  Future<Map<String, dynamic>> saveCustomerAndCarData(
+    Customer customer,
+    Car car,
+  ) async {
+    try {
+      // Generate IDs for customer and car
+      customer.id = uuid.v1();
+      car.id = uuid.v1();
+
+      // Set cross-referencing IDs
+      customer.carId = car.id;
+      car.customerId = customer.id;
+
+      car.arrivalDate = DateTime.now();
+
+      // Save customer and car data
+      await Future.wait([
+        customerCollection
+            .doc(customer.id)
+            .set(customer.toEntity().toDocument()),
+        carCollection.doc(car.id).set(car.toEntity().toDocument())
+      ]);
+
+      // Return both objects in a Map
+      return {
+        "customer": customer,
+        "car": car,
+      };
+    } catch (error) {
+      log(error.toString());
+      rethrow;
+    }
+  }
 
   // Save car
   @override
-  Future<void> saveCarData(Car car) async {
+  Future<Car> saveCarData(Car car) async {
     try {
+      car.arrivalDate = DateTime.now();
+
       await carCollection.doc(car.id).set(car.toEntity().toDocument());
+
+      return car;
     } catch (error) {
       log(error.toString());
       rethrow;
@@ -38,11 +80,13 @@ class FirebaseRecordRepository implements RecordRepository {
 
   // Save customer
   @override
-  Future<void> saveCustomerData(Customer customer) async {
+  Future<Customer> saveCustomerData(Customer customer) async {
     try {
       await customerCollection
           .doc(customer.id)
           .set(customer.toEntity().toDocument());
+
+      return customer;
     } catch (error) {
       log(error.toString());
       rethrow;

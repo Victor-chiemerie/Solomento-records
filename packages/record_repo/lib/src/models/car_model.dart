@@ -1,26 +1,28 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 import '../entities/entities.dart';
 
 class Car extends Equatable {
-  final String id; //
-  final String customerId; //
-  final String modelName;
-  final String plateNumber;
-  final String serviceAdviser;
-  final DateTime arrivalDate; //
-  final String jobDetails;
-  final List<String> jobType;
-  final double cost;
-  final bool isApproved;
-  final DateTime approvalDate; //
-  final String paymentStatus; // ignore for now
-  final double paymentMade;
-  final List<Map<double, String>> paymentHistory; //
-  final String repairStatus;
-  final String repairDetails;
-  final DateTime departureDate;
+  String id; //
+  String customerId; //
+  String modelName;
+  String plateNumber;
+  String serviceAdviser;
+  DateTime arrivalDate; //
+  String jobDetails;
+  List<String> jobType;
+  double cost;
+  bool isApproved;
+  DateTime approvalDate; //
+  String paymentStatus; // ignore for now
+  double paymentMade;
+  List<Map<double, String>> paymentHistory; //
+  String repairStatus;
+  String repairDetails;
+  DateTime departureDate;
 
-  const Car({
+  Car({
     required this.id,
     required this.customerId,
     required this.modelName,
