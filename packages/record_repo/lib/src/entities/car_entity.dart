@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class CarEntity extends Equatable {
@@ -8,13 +9,13 @@ class CarEntity extends Equatable {
   final String serviceAdviser;
   final DateTime arrivalDate;
   final String jobDetails;
-  final List<String> jobType;
+  final List<dynamic> jobType;
   final double cost;
   final bool isApproved;
   final DateTime approvalDate;
   final String paymentStatus;
   final double paymentMade;
-  final List<Map<double, String>> paymentHistory;
+  final List<dynamic> paymentHistory;
   final String repairStatus;
   final String repairDetails;
   final DateTime departureDate;
@@ -70,18 +71,18 @@ class CarEntity extends Equatable {
       modelName: doc['modelName'] as String,
       plateNumber: doc['plateNumber'] as String,
       serviceAdviser: doc['serviceAdviser'] as String,
-      arrivalDate: DateTime.parse(doc['arrivalDate']),
+      arrivalDate: (doc['arrivalDate'] as Timestamp).toDate(),
       jobDetails: doc['jobDetails'] as String,
-      jobType: doc['jobType'] as List<String>,
+      jobType: doc['jobType'] as List<dynamic>,
       cost: doc['cost'] as double,
       isApproved: doc['isApproved'] as bool,
-      approvalDate: DateTime.parse(doc['approvalDate']),
+      approvalDate: (doc['approvalDate'] as Timestamp).toDate(),
       paymentStatus: doc['paymentStatus'] as String,
       paymentMade: doc['paymentMade'] as double,
-      paymentHistory: doc['paymentHistory'] as List<Map<double, String>>,
+      paymentHistory: doc['paymentHistory'] as List<dynamic>,
       repairStatus: doc['repairStatus'] as String,
       repairDetails: doc['repairDetails'] as String,
-      departureDate: DateTime.parse(doc['departureDate']),
+      departureDate: (doc['departureDate'] as Timestamp).toDate(),
     );
   }
 

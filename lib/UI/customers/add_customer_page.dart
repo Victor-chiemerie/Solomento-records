@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/text_field.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
+import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/UI/cars/add_car_page.dart';
 
 import '../../Components/custom_button.dart';
@@ -17,6 +18,7 @@ class AddCustomerPage extends StatefulWidget {
 }
 
 class _AddCustomerPageState extends State<AddCustomerPage> {
+  final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
   late Customer customer;
@@ -39,6 +41,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Form(
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -51,6 +54,12 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   obscureText: false,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please fill in this field';
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 10),
@@ -64,6 +73,12 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   obscureText: false,
                   keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please fill in this field';
+                    }
+                    return null;
+                  },
                 ),
 
                 const SizedBox(height: 20),
@@ -75,13 +90,20 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   color: const Color.fromRGBO(66, 178, 132, 1.0),
                   text: 'Vehicle',
                   onPressed: () {
-                    log(customer.toString());
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddCarPage(customer: customer),
-                      ),
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      customer.name = nameController.text;
+                      customer.mobile = mobileController.text;
+                      log(customer.toString());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => SaveDataBloc(recordRepository: FirebaseRecordRepository()),
+                            child: AddCarPage(customer: customer),
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
               ],

@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
+import 'package:solomento_records/Logic/blocs/get_data_bloc/get_data_bloc.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:solomento_records/UI/customers/add_customer_page.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
 import '../cars/cars_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   logOut(BuildContext context) {
     context.read<SignInBloc>().add(const SignOutRequired());
+  }
+
+  @override
+  void initState() {
+    context.read<GetDataBloc>().add(GetAllCars());
+    super.initState();
   }
 
   @override
@@ -108,23 +120,37 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Card(
+                child: Card(
                   elevation: 2,
                   child: Padding(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.car_repair_outlined,
                               color: Colors.grey,
                             ),
-                            Text('  Cars (0)'),
+                            BlocBuilder<GetDataBloc, GetDataState>(
+                              builder: (context, state) {
+                                if (state is GetDataSuccess) {
+                                  if (state.cars != null &&
+                                      state.cars!.isNotEmpty) {
+                                    final number = state.cars!.length;
+                                    return Text('   Cars ($number)');
+                                  } else {
+                                    return const Text('  Cars (0)');
+                                  }
+                                } else {
+                                  return const Text('  Cars (0)');
+                                }
+                              },
+                            ),
                           ],
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward,
                           size: 18,
                         ),

@@ -4,20 +4,20 @@ import 'package:equatable/equatable.dart';
 import '../entities/entities.dart';
 
 class Car extends Equatable {
-  String id; //
-  String customerId; //
+  String id;
+  String customerId;
   String modelName;
   String plateNumber;
   String serviceAdviser;
-  DateTime arrivalDate; //
+  DateTime arrivalDate;
   String jobDetails;
-  List<String> jobType;
+  List<dynamic> jobType;
   double cost;
   bool isApproved;
-  DateTime approvalDate; //
-  String paymentStatus; // ignore for now
+  DateTime approvalDate;
+  String paymentStatus;
   double paymentMade;
-  List<Map<double, String>> paymentHistory; //
+  List<dynamic> paymentHistory;
   String repairStatus;
   String repairDetails;
   DateTime departureDate;
@@ -83,7 +83,7 @@ class Car extends Equatable {
     DateTime? approvalDate,
     String? paymentStatus,
     double? paymentMade,
-    List<Map<double, String>>? paymentHistory,
+    List<dynamic>? paymentHistory,
     String? repairStatus,
     String? repairDetails,
     DateTime? departureDate,
