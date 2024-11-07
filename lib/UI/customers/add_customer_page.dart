@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
@@ -93,7 +91,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     if (_formKey.currentState!.validate()) {
                       customer.name = nameController.text;
                       customer.mobile = mobileController.text;
-                      log(customer.toString());
+                      // log(customer.toString());
                       Navigator.push(
                         context,
                         MaterialPageRoute(

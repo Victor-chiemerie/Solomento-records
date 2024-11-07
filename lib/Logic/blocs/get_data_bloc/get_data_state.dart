@@ -1,7 +1,10 @@
 part of 'get_data_bloc.dart';
 
 sealed class GetDataState extends Equatable {
-  const GetDataState();
+  final List<Customer>? customers;
+  final List<Car>? cars;
+
+  const GetDataState({this.customers, this.cars});
 
   @override
   List<Object> get props => [];
@@ -14,9 +17,5 @@ final class GetDataLoading extends GetDataState {}
 final class GetDataFailure extends GetDataState {}
 
 final class GetDataSuccess extends GetDataState {
-  final List<Customer>? customers;
-  final List<Car>? cars;
-
-  const GetDataSuccess({this.customers, this.cars});
-  
+  const GetDataSuccess({super.customers, super.cars});
 }

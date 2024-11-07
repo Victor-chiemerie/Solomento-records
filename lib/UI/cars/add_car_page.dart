@@ -9,6 +9,7 @@ import 'package:solomento_records/Components/multiSelectDialog.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/text_field.dart';
+import '../../Logic/blocs/get_data_bloc/get_data_bloc.dart';
 
 class AddCarPage extends StatefulWidget {
   const AddCarPage({super.key, required this.customer});
@@ -54,6 +55,10 @@ class _AddCarPageState extends State<AddCarPage> {
       listener: (context, state) {
         if (state is SaveDataSuccess) {
           hideLoadingPage(context);
+
+          // Emit GetAllCars to refresh the data in the home page
+        context.read<GetDataBloc>().add(GetAllCars());
+        
           // pop till home screen
           Navigator.popUntil(context, (route) {
             return route.isFirst;

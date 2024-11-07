@@ -16,7 +16,7 @@ class GetDataBloc extends Bloc<GetDataEvent, GetDataState> {
       emit(GetDataLoading());
       try {
         List<Customer> customers = await _recordRepository.getCustomers();
-        emit(GetDataSuccess(customers: customers));
+        emit(GetDataSuccess(customers: customers, cars: state.cars));
       } catch (error) {
         emit(GetDataFailure());
       }
@@ -27,7 +27,7 @@ class GetDataBloc extends Bloc<GetDataEvent, GetDataState> {
       emit(GetDataLoading());
       try {
         List<Car> cars = await _recordRepository.getCars();
-        emit(GetDataSuccess(cars: cars));
+        emit(GetDataSuccess(cars: cars, customers: state.customers));
       } catch (error) {
         emit(GetDataFailure());
       }

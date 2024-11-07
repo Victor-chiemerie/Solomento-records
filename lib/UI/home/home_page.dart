@@ -20,9 +20,13 @@ class _HomePageState extends State<HomePage> {
     context.read<SignInBloc>().add(const SignOutRequired());
   }
 
+  fetchCars() {
+    context.read<GetDataBloc>().add(GetAllCars());
+  }
+
   @override
   void initState() {
-    context.read<GetDataBloc>().add(GetAllCars());
+    fetchCars();
     super.initState();
   }
 
@@ -66,100 +70,99 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              // Customers
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CustomersPage(),
-                    ),
-                  );
-                },
-                child: const Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.people,
-                              color: Colors.grey,
-                            ),
-                            Text('  Customers'),
-                          ],
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: 18,
-                        ),
-                      ],
+      body: RefreshIndicator(
+        onRefresh: () => fetchCars(),
+        color: const Color.fromRGBO(66, 178, 132, 1.0),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              children: [
+                // Customers
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CustomersPage(),
+                      ),
+                    );
+                  },
+                  child: const Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.people,
+                                color: Colors.grey,
+                              ),
+                              Text('  Customers'),
+                            ],
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: 18,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              // Cars
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CarsPage(),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.car_repair_outlined,
-                              color: Colors.grey,
-                            ),
-                            BlocBuilder<GetDataBloc, GetDataState>(
-                              builder: (context, state) {
-                                if (state is GetDataSuccess) {
-                                  if (state.cars != null &&
-                                      state.cars!.isNotEmpty) {
-                                    final number = state.cars!.length;
-                                    return Text('   Cars ($number)');
+                // Cars
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CarsPage(),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.car_repair_outlined,
+                                color: Colors.grey,
+                              ),
+                              BlocBuilder<GetDataBloc, GetDataState>(
+                                builder: (context, state) {
+                                  if (state is GetDataSuccess) {
+                                    final carCount = state.cars?.length ?? 0;
+                                    return Text('   Cars ($carCount)');
                                   } else {
                                     return const Text('  Cars (0)');
                                   }
-                                } else {
-                                  return const Text('  Cars (0)');
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        const Icon(
-                          Icons.arrow_forward,
-                          size: 18,
-                        ),
-                      ],
+                                },
+                              ),
+                            ],
+                          ),
+                          const Icon(
+                            Icons.arrow_forward,
+                            size: 18,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
