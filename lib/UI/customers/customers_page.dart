@@ -1,61 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomersPage extends StatelessWidget {
+import '../../Logic/blocs/get_data_bloc/get_data_bloc.dart';
+
+class CustomersPage extends StatefulWidget {
   const CustomersPage({super.key});
+
+  @override
+  State<CustomersPage> createState() => _CustomersPageState();
+}
+
+class _CustomersPageState extends State<CustomersPage> {
+  fetchCustomers() {
+    context.read<GetDataBloc>().add(GetAllCustomers());
+  }
+
+  @override
+  void initState() {
+    fetchCustomers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List of Customers'),
+        title: const Text('All Customers'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Icon(
+              Icons.people_alt,
+              color: Color.fromRGBO(66, 178, 132, 1.0),
+            ),
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: ListView(
-          children: const [
-            ListTile(
-              title: Text('Nnamani David'),
-              subtitle: Text('Status: Settled'),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Colors.greenAccent,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            ListTile(
-              title: Text('Nwadinigwe Victor'),
-              subtitle: Text('Status: Unsettled'),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Colors.greenAccent,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            ListTile(
-              title: Text('Nwakanma Ogechi'),
-              subtitle: Text('Status: Settled'),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Colors.greenAccent,
-                  width: 2,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: const Center(
+        child: Text('Customer Page'),
       ),
     );
   }

@@ -8,6 +8,7 @@ class Car extends Equatable {
   String customerId;
   String modelName;
   String plateNumber;
+  String picture;
   String serviceAdviser;
   DateTime arrivalDate;
   String jobDetails;
@@ -27,6 +28,7 @@ class Car extends Equatable {
     required this.customerId,
     required this.modelName,
     required this.plateNumber,
+    required this.picture,
     required this.serviceAdviser,
     required this.arrivalDate,
     required this.jobDetails,
@@ -48,6 +50,7 @@ class Car extends Equatable {
     customerId: "",
     modelName: "",
     plateNumber: "",
+    picture: "",
     serviceAdviser: "",
     arrivalDate: DateTime.now(),
     jobDetails: "",
@@ -74,6 +77,7 @@ class Car extends Equatable {
     String? customerId,
     String? modelName,
     String? plateNumber,
+    String? picture,
     String? serviceAdviser,
     DateTime? arrivalDate,
     String? jobDetails,
@@ -93,6 +97,7 @@ class Car extends Equatable {
       customerId: customerId ?? this.customerId,
       modelName: modelName ?? this.modelName,
       plateNumber: plateNumber ?? this.plateNumber,
+      picture: picture ?? this.picture,
       serviceAdviser: serviceAdviser ?? this.serviceAdviser,
       arrivalDate: arrivalDate ?? this.arrivalDate,
       jobDetails: jobDetails ?? this.jobDetails,
@@ -115,6 +120,7 @@ class Car extends Equatable {
       customerId: customerId,
       modelName: modelName,
       plateNumber: plateNumber,
+      picture: picture,
       serviceAdviser: serviceAdviser,
       arrivalDate: arrivalDate,
       jobDetails: jobDetails,
@@ -137,6 +143,7 @@ class Car extends Equatable {
       customerId: entity.customerId,
       modelName: entity.modelName,
       plateNumber: entity.plateNumber,
+      picture: entity.picture,
       serviceAdviser: entity.serviceAdviser,
       arrivalDate: entity.arrivalDate,
       jobDetails: entity.jobDetails,
@@ -159,6 +166,7 @@ class Car extends Equatable {
         customerId,
         modelName,
         plateNumber,
+        picture,
         serviceAdviser,
         arrivalDate,
         jobDetails,

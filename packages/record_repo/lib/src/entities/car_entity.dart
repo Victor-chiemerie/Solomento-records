@@ -6,6 +6,7 @@ class CarEntity extends Equatable {
   final String customerId;
   final String modelName;
   final String plateNumber;
+  final String picture;
   final String serviceAdviser;
   final DateTime arrivalDate;
   final String jobDetails;
@@ -25,6 +26,7 @@ class CarEntity extends Equatable {
     required this.customerId,
     required this.modelName,
     required this.plateNumber,
+    required this.picture,
     required this.serviceAdviser,
     required this.arrivalDate,
     required this.jobDetails,
@@ -47,6 +49,7 @@ class CarEntity extends Equatable {
       'customerId': customerId,
       'modelName': modelName,
       'plateNumber': plateNumber,
+      'picture': picture,
       'serviceAdviser': serviceAdviser,
       'arrivalDate': arrivalDate,
       'jobDetails': jobDetails,
@@ -70,6 +73,7 @@ class CarEntity extends Equatable {
       customerId: doc['customerId'] as String,
       modelName: doc['modelName'] as String,
       plateNumber: doc['plateNumber'] as String,
+      picture: doc['picture'] as String,
       serviceAdviser: doc['serviceAdviser'] as String,
       arrivalDate: (doc['arrivalDate'] as Timestamp).toDate(),
       jobDetails: doc['jobDetails'] as String,
@@ -93,6 +97,7 @@ class CarEntity extends Equatable {
       customerId: $customerId
       modelName: $modelName
       plateNumber: $plateNumber
+      picture: $picture
       serviceAdviser: $serviceAdviser
       arrivalDate: $arrivalDate
       jobDetails: $jobDetails
@@ -115,6 +120,7 @@ class CarEntity extends Equatable {
         customerId,
         modelName,
         plateNumber,
+        picture,
         serviceAdviser,
         arrivalDate,
         jobDetails,
