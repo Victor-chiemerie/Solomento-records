@@ -20,16 +20,6 @@ class _HomePageState extends State<HomePage> {
     context.read<SignInBloc>().add(const SignOutRequired());
   }
 
-  fetchCars() {
-    context.read<GetDataBloc>().add(GetAllCars());
-  }
-
-  @override
-  void initState() {
-    fetchCars();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     initializeDeviceSize(context);
@@ -71,7 +61,9 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () => fetchCars(),
+        onRefresh: () async {
+          BlocProvider.of<GetDataBloc>(context).add(GetAllCars());
+        },
         color: const Color.fromRGBO(66, 178, 132, 1.0),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),

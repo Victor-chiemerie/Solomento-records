@@ -30,25 +30,33 @@ Future main() async {
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
   final RecordRepository recordRepository;
-  const MyApp(this.userRepository, this.recordRepository, {super.key});
+  MyApp(this.userRepository, this.recordRepository, {super.key});
+
+  // create one instance of the bloc, and use it multiple times
+  final AuthenticationBloc _authenticationBloc =
+      AuthenticationBloc(myUserRepository: FirebaseUserRepository());
+  final MyUserBloc _myUserBloc =
+      MyUserBloc(myUserRepository: FirebaseUserRepository());
+  final SignInBloc _signInBloc =
+      SignInBloc(myUserRepository: FirebaseUserRepository());
+  final GetDataBloc _getDataBloc =
+      GetDataBloc(recordRepository: FirebaseRecordRepository());
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => AuthenticationBloc(myUserRepository: userRepository),
+          create: (_) => _authenticationBloc,
         ),
         BlocProvider(
-          create: (context) => MyUserBloc(myUserRepository: userRepository),
+          create: (context) => _myUserBloc,
         ),
         BlocProvider(
-          create: (context) => SignInBloc(
-            myUserRepository: context.read<AuthenticationBloc>().userRepository,
-          ),
+          create: (context) => _signInBloc,
         ),
         BlocProvider(
-          create: (context) => GetDataBloc(recordRepository: recordRepository),
+          create: (context) => _getDataBloc,
         ),
       ],
       child: const AppView(),
