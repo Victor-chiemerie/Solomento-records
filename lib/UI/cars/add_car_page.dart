@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/multiSelectDialog.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/cubit/get_data_cubit.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/hide_loading.dart';
 import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
-import '../../Logic/blocs/get_data_bloc/get_data_bloc.dart';
 
 class AddCarPage extends StatefulWidget {
   const AddCarPage({super.key, required this.customer});
@@ -58,7 +58,7 @@ class _AddCarPageState extends State<AddCarPage> {
           hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
-        context.read<GetDataBloc>().add(GetAllCars());
+        context.read<GetDataCubit>().getData();
         
           // pop till home screen
           Navigator.popUntil(context, (route) {

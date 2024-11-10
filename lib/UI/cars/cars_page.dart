@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solomento_records/Logic/blocs/get_data_bloc/get_data_bloc.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/cubit/get_data_cubit.dart';
 
 class CarsPage extends StatelessWidget {
   const CarsPage({super.key});
@@ -21,28 +21,30 @@ class CarsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<GetDataBloc, GetDataState>(
+      body: BlocBuilder<GetDataCubit, GetDataState>(
         builder: (context, state) {
-          if (state is GetDataFailure) {
+          if (state.status == GetDataStatus.failure) {
             return const Center(
               child: Text('An error occured!!!'),
             );
-          } else if (state is GetDataLoading) {
+          } else if (state.status == GetDataStatus.loading) {
             return const Center(
               child: Text('Loading...'),
             );
-          } else if (state is GetDataSuccess && state.cars != null) {
+          } else if (state.status == GetDataStatus.success &&
+              state.cars.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(15),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  context.read<GetDataBloc>().add(GetAllCars());
+                  // context.read<GetDataCubit>().getData();
+                  BlocProvider.of<GetDataCubit>(context).getData();
                 },
                 child: ListView.builder(
-                  itemCount: state.cars!.length,
+                  itemCount: state.cars.length,
                   itemBuilder: (context, index) {
                     // get the car object
-                    final car = state.cars![index];
+                    final car = state.cars[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Card(

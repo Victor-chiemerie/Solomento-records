@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Logic/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:solomento_records/Logic/blocs/get_data_bloc/get_data_bloc.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/cubit/get_data_cubit.dart';
 import 'package:user_repository/user_repository.dart';
 import 'Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'app_view.dart';
@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
       MyUserBloc(myUserRepository: FirebaseUserRepository());
   final SignInBloc _signInBloc =
       SignInBloc(myUserRepository: FirebaseUserRepository());
-  final GetDataBloc _getDataBloc =
-      GetDataBloc(recordRepository: FirebaseRecordRepository());
+  final GetDataCubit _getDataCubit =
+      GetDataCubit(recordRepository: FirebaseRecordRepository());
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => _signInBloc,
         ),
-        BlocProvider(
-          create: (context) => _getDataBloc,
+        BlocProvider.value(
+          value: _getDataCubit..getData(),
         ),
       ],
       child: const AppView(),

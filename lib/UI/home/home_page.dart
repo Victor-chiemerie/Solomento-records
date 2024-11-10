@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
-import 'package:solomento_records/Logic/blocs/get_data_bloc/get_data_bloc.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/customers/add_customer_page.dart';
 import 'package:solomento_records/UI/customers/customers_page.dart';
 import '../cars/cars_page.dart';
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          BlocProvider.of<GetDataBloc>(context).add(GetAllCars());
+          BlocProvider.of<GetDataCubit>(context).getData();
         },
         color: const Color.fromRGBO(66, 178, 132, 1.0),
         child: SingleChildScrollView(
@@ -132,10 +132,10 @@ class _HomePageState extends State<HomePage> {
                                 Icons.car_repair_outlined,
                                 color: Colors.grey,
                               ),
-                              BlocBuilder<GetDataBloc, GetDataState>(
+                              BlocBuilder<GetDataCubit, GetDataState>(
                                 builder: (context, state) {
-                                  if (state is GetDataSuccess) {
-                                    final carCount = state.cars?.length ?? 0;
+                                  if (state.status == GetDataStatus.success) {
+                                    final carCount = state.cars.length;
                                     return Text('   Cars ($carCount)');
                                   } else {
                                     return const Text('  Cars (0)');
