@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solomento_records/Logic/cubits/get_data_cubit/cubit/get_data_cubit.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 
 class CustomersPage extends StatelessWidget {
   const CustomersPage({super.key});

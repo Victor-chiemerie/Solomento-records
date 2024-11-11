@@ -6,7 +6,7 @@ part 'get_data_state.dart';
 
 class GetDataCubit extends Cubit<GetDataState> {
   GetDataCubit({required this.recordRepository})
-      : super(GetDataState(customers: const [], cars: const []));
+      : super(const GetDataState(customers: [], cars: []));
 
   final RecordRepository recordRepository;
 

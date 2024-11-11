@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solomento_records/Logic/cubits/get_data_cubit/cubit/get_data_cubit.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import 'package:solomento_records/UI/cars/edit_car_page.dart';
 
 class CarsPage extends StatelessWidget {
   const CarsPage({super.key});
@@ -49,6 +50,13 @@ class CarsPage extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Card(
                         child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditCarPage(car: car)));
+                          },
                           leading: const Icon(CupertinoIcons.car_detailed),
                           title: Text(car.modelName),
                           subtitle: Column(

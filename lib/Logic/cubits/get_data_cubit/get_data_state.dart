@@ -3,7 +3,11 @@ part of 'get_data_cubit.dart';
 enum GetDataStatus { initial, loading, success, failure }
 
 class GetDataState extends Equatable {
-  const GetDataState({required this.customers, required this.cars, this.status = GetDataStatus.initial,});
+  const GetDataState({
+    required this.customers,
+    required this.cars,
+    this.status = GetDataStatus.initial,
+  });
 
   final List<Customer> customers;
   final List<Car> cars;
