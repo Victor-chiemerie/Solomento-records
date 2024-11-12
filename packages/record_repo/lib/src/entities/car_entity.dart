@@ -8,6 +8,7 @@ class CarEntity extends Equatable {
   final String plateNumber;
   final String picture;
   final String serviceAdviser;
+  final String technician;
   final DateTime arrivalDate;
   final String jobDetails;
   final List<dynamic> jobType;
@@ -20,6 +21,7 @@ class CarEntity extends Equatable {
   final String repairStatus;
   final String repairDetails;
   final DateTime departureDate;
+  final DateTime pickUpDate;
 
   const CarEntity({
     required this.id,
@@ -28,6 +30,7 @@ class CarEntity extends Equatable {
     required this.plateNumber,
     required this.picture,
     required this.serviceAdviser,
+    required this.technician,
     required this.arrivalDate,
     required this.jobDetails,
     required this.jobType,
@@ -40,6 +43,7 @@ class CarEntity extends Equatable {
     required this.repairStatus,
     required this.repairDetails,
     required this.departureDate,
+    required this.pickUpDate,
   });
 
   /// Converts the car entity to a document to be stored to firebase
@@ -51,6 +55,7 @@ class CarEntity extends Equatable {
       'plateNumber': plateNumber,
       'picture': picture,
       'serviceAdviser': serviceAdviser,
+      'technician': technician,
       'arrivalDate': arrivalDate,
       'jobDetails': jobDetails,
       'jobType': jobType,
@@ -63,6 +68,7 @@ class CarEntity extends Equatable {
       'repairStatus': repairStatus,
       'repairDetails': repairDetails,
       'departureDate': departureDate,
+      'pickUpDate': pickUpDate,
     };
   }
 
@@ -75,6 +81,7 @@ class CarEntity extends Equatable {
       plateNumber: doc['plateNumber'] as String,
       picture: doc['picture'] as String,
       serviceAdviser: doc['serviceAdviser'] as String,
+      technician: doc['technician'] as String,
       arrivalDate: (doc['arrivalDate'] as Timestamp).toDate(),
       jobDetails: doc['jobDetails'] as String,
       jobType: doc['jobType'] as List<dynamic>,
@@ -87,6 +94,7 @@ class CarEntity extends Equatable {
       repairStatus: doc['repairStatus'] as String,
       repairDetails: doc['repairDetails'] as String,
       departureDate: (doc['departureDate'] as Timestamp).toDate(),
+      pickUpDate: (doc['pickUpDate'] as Timestamp).toDate(),
     );
   }
 
@@ -99,6 +107,7 @@ class CarEntity extends Equatable {
       plateNumber: $plateNumber
       picture: $picture
       serviceAdviser: $serviceAdviser
+      technician: $technician
       arrivalDate: $arrivalDate
       jobDetails: $jobDetails
       jobType: $jobType
@@ -111,6 +120,7 @@ class CarEntity extends Equatable {
       repairStatus: $repairStatus
       repairDetails: $repairDetails
       departureDate: $departureDate
+      pickUpDate: $pickUpDate
     }''';
   }
 
@@ -122,6 +132,7 @@ class CarEntity extends Equatable {
         plateNumber,
         picture,
         serviceAdviser,
+        technician,
         arrivalDate,
         jobDetails,
         jobType,
@@ -134,5 +145,6 @@ class CarEntity extends Equatable {
         repairStatus,
         repairDetails,
         departureDate,
+        pickUpDate,
       ];
 }
