@@ -45,13 +45,11 @@ class FirebaseRecordRepository implements RecordRepository {
     }
   }
 
-  // Save car
+  // Update car data
   @override
-  Future<Car> saveCarData(Car car) async {
+  Future<Car> updateCarData(Car car, String id) async {
     try {
-      car.arrivalDate = DateTime.now();
-
-      await carCollection.doc(car.id).set(car.toEntity().toDocument());
+      await carCollection.doc(id).set(car.toEntity().toDocument());
 
       return car;
     } catch (error) {
@@ -78,13 +76,11 @@ class FirebaseRecordRepository implements RecordRepository {
     }
   }
 
-  // Save customer
+  // Update customer data
   @override
-  Future<Customer> saveCustomerData(Customer customer) async {
+  Future<Customer> updateCustomerData(Customer customer, String id) async {
     try {
-      await customerCollection
-          .doc(customer.id)
-          .set(customer.toEntity().toDocument());
+      await customerCollection.doc(id).set(customer.toEntity().toDocument());
 
       return customer;
     } catch (error) {
@@ -105,6 +101,18 @@ class FirebaseRecordRepository implements RecordRepository {
         );
       }).toList();
       return customers;
+    } catch (error) {
+      log(error.toString());
+      rethrow;
+    }
+  }
+
+  // Delete a car and Customer
+  @override
+  Future<void> deleteCustomerAndCar(Car car) async {
+    try {
+      await carCollection.doc(car.id).delete();
+      await customerCollection.doc(car.customerId).delete();
     } catch (error) {
       log(error.toString());
       rethrow;

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -10,6 +11,7 @@ class CustomerEntity extends Equatable {
   String mobile;
   String carId;
   String status;
+  DateTime createdAt;
   MyUser myUser;
 
   CustomerEntity({
@@ -18,6 +20,7 @@ class CustomerEntity extends Equatable {
     required this.mobile,
     required this.carId,
     this.status = 'Unsettled',
+    required this.createdAt,
     required this.myUser,
   });
 
@@ -29,6 +32,7 @@ class CustomerEntity extends Equatable {
       'mobile': mobile,
       'carId': carId,
       'status': status,
+      'createdAt': createdAt,
       'myUser': myUser.toEntity().toDocument(),
     };
   }
@@ -41,6 +45,7 @@ class CustomerEntity extends Equatable {
       mobile: doc['mobile'] as String,
       carId: doc['carId'] as String,
       status: doc['status'] as String,
+      createdAt: (doc['approvalDate'] as Timestamp).toDate(),
       myUser: MyUser.fromEntity(MyUserEntity.fromDocument(doc['myUser'])),
     );
   }
@@ -53,10 +58,12 @@ class CustomerEntity extends Equatable {
       mobile: $mobile
       carId: $carId
       status: $status
+      createdAt: $createdAt
       myUser: $myUser
     }''';
   }
 
   @override
-  List<Object?> get props => [id, name, mobile, carId, status, myUser];
+  List<Object?> get props =>
+      [id, name, mobile, carId, status, createdAt, myUser];
 }

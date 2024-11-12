@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../Logic/blocs/get_data_bloc/get_data_bloc.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
+
+import 'edit_customer_page.dart';
 
 class CustomersPage extends StatelessWidget {
   const CustomersPage({super.key});
@@ -20,32 +22,40 @@ class CustomersPage extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<GetDataBloc, GetDataState>(
+      body: BlocBuilder<GetDataCubit, GetDataState>(
         builder: (context, state) {
-          if (state is GetDataFailure) {
+          if (state.status == GetDataStatus.failure) {
             return const Center(
               child: Text('An error occured!!!'),
             );
-          } else if (state is GetDataLoading) {
+          } else if (state.status == GetDataStatus.loading) {
             return const Center(
               child: Text('Loading...'),
             );
-          } else if (state is GetDataSuccess && state.customers != null) {
+          } else if (state.status == GetDataStatus.success &&
+              state.customers.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(15),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  context.read<GetDataBloc>().add(GetAllCustomers());
+                  context.read<GetDataCubit>().getData();
                 },
                 child: ListView.builder(
-                  itemCount: state.customers!.length,
+                  itemCount: state.customers.length,
                   itemBuilder: (context, index) {
                     // get the customer object
-                    final customer = state.customers![index];
+                    final customer = state.customers[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Card(
                         child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditCustomerPage(customer: customer)));
+                          },
                           leading: const Icon(Icons.person_2),
                           title: Text(customer.name),
                           subtitle: Column(
