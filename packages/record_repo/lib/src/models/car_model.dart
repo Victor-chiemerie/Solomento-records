@@ -54,7 +54,7 @@ class Car extends Equatable {
     plateNumber: "",
     picture: "",
     serviceAdviser: "",
-    technician: "Stanley",
+    technician: "",
     arrivalDate: DateTime.now(),
     jobDetails: "",
     jobType: const [],

@@ -455,7 +455,6 @@ class _EditCarPageState extends State<EditCarPage> {
                                     DateTime.utc(1999, 7, 20, 20, 18, 04)))
                             ? DateTime.now()
                             : newCar.approvalDate;
-                        // ................
                         newCar.paymentStatus =
                             (amountPaid >= parseDouble(costController.text))
                                 ? "Complete"

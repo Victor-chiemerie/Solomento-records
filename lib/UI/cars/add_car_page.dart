@@ -31,6 +31,20 @@ class _AddCarPageState extends State<AddCarPage> {
   final paidAmountController = TextEditingController();
   final repairDetailsController = TextEditingController();
 
+  final technicians = [
+    'Stanley',
+    'OJ',
+    'Ebube',
+    'Chika',
+    'Leo',
+    'Adewale',
+    'Peter',
+    'Nonso',
+    'Uche',
+    'Emma',
+    'Family man',
+  ];
+
   final jobTypes = [
     'Mechanical',
     'Electrical',
@@ -42,6 +56,7 @@ class _AddCarPageState extends State<AddCarPage> {
   bool? isRepaired = false;
   bool? isDeparted = false;
   List<String> selectedJobTypes = [];
+  String? selectedTechnician; // Variable to store the technician
   late Car car;
 
   @override
@@ -201,6 +216,33 @@ class _AddCarPageState extends State<AddCarPage> {
 
                   const SizedBox(height: 10),
 
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Technician",
+                        ),
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            value: selectedTechnician,
+                            isExpanded: true,
+                            hint: const Text(
+                              'pick a technician',
+                            ),
+                            items: technicians.map(technicianList).toList(),
+                            onChanged: (value) {
+                              setState(() => selectedTechnician = value);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
                   // Cost
                   const Text('Cost of repair (optional)'),
                   const SizedBox(height: 10),
@@ -316,6 +358,9 @@ class _AddCarPageState extends State<AddCarPage> {
                         car.modelName = modelNameController.text;
                         car.plateNumber = plateNumberController.text;
                         car.serviceAdviser = serviceAdviserController.text;
+                        car.technician = (selectedTechnician != null)
+                            ? selectedTechnician!
+                            : car.technician;
                         car.arrivalDate = DateTime.now();
                         car.jobDetails = jobDetailsController.text;
                         car.jobType = selectedJobTypes;
@@ -369,6 +414,13 @@ class _AddCarPageState extends State<AddCarPage> {
       ),
     );
   }
+
+  DropdownMenuItem technicianList(String technician) => DropdownMenuItem(
+        value: technician,
+        child: Text(
+          technician,
+        ),
+      );
 
   // join array variables
   String joinArrayContents(List<dynamic> array) {
