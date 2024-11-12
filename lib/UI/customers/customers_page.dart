@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 
+import 'edit_customer_page.dart';
+
 class CustomersPage extends StatelessWidget {
   const CustomersPage({super.key});
 
@@ -30,7 +32,8 @@ class CustomersPage extends StatelessWidget {
             return const Center(
               child: Text('Loading...'),
             );
-          } else if (state.status == GetDataStatus.success && state.customers.isNotEmpty) {
+          } else if (state.status == GetDataStatus.success &&
+              state.customers.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(15),
               child: RefreshIndicator(
@@ -46,6 +49,13 @@ class CustomersPage extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Card(
                         child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditCustomerPage(customer: customer)));
+                          },
                           leading: const Icon(Icons.person_2),
                           title: Text(customer.name),
                           subtitle: Column(

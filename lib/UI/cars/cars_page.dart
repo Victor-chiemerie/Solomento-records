@@ -110,7 +110,7 @@ class CarsPage extends StatelessWidget {
                                 const Text('Color: '),
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Plate Number',
+                                    text: 'Plate Number: ',
                                     children: [
                                       TextSpan(
                                         text: car.plateNumber,
