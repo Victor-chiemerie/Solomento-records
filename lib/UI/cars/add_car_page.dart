@@ -58,8 +58,8 @@ class _AddCarPageState extends State<AddCarPage> {
           hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
-        BlocProvider.of<GetDataCubit>(context).getData();
-        
+          BlocProvider.of<GetDataCubit>(context).getData();
+
           // pop till home screen
           Navigator.popUntil(context, (route) {
             return route.isFirst;

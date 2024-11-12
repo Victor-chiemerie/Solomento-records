@@ -8,6 +8,7 @@ class CarEntity extends Equatable {
   final String plateNumber;
   final String picture;
   final String serviceAdviser;
+  final String technician;
   final DateTime arrivalDate;
   final String jobDetails;
   final List<dynamic> jobType;
@@ -28,6 +29,7 @@ class CarEntity extends Equatable {
     required this.plateNumber,
     required this.picture,
     required this.serviceAdviser,
+    required this.technician,
     required this.arrivalDate,
     required this.jobDetails,
     required this.jobType,
@@ -51,6 +53,7 @@ class CarEntity extends Equatable {
       'plateNumber': plateNumber,
       'picture': picture,
       'serviceAdviser': serviceAdviser,
+      'technician': technician,
       'arrivalDate': arrivalDate,
       'jobDetails': jobDetails,
       'jobType': jobType,
@@ -75,6 +78,7 @@ class CarEntity extends Equatable {
       plateNumber: doc['plateNumber'] as String,
       picture: doc['picture'] as String,
       serviceAdviser: doc['serviceAdviser'] as String,
+      technician: doc['technician'] as String,
       arrivalDate: (doc['arrivalDate'] as Timestamp).toDate(),
       jobDetails: doc['jobDetails'] as String,
       jobType: doc['jobType'] as List<dynamic>,
@@ -99,6 +103,7 @@ class CarEntity extends Equatable {
       plateNumber: $plateNumber
       picture: $picture
       serviceAdviser: $serviceAdviser
+      technician: $technician
       arrivalDate: $arrivalDate
       jobDetails: $jobDetails
       jobType: $jobType
@@ -122,6 +127,7 @@ class CarEntity extends Equatable {
         plateNumber,
         picture,
         serviceAdviser,
+        technician,
         arrivalDate,
         jobDetails,
         jobType,

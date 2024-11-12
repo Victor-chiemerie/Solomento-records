@@ -10,6 +10,7 @@ class Car extends Equatable {
   String plateNumber;
   String picture;
   String serviceAdviser;
+  String technician;
   DateTime arrivalDate;
   String jobDetails;
   List<dynamic> jobType;
@@ -30,6 +31,7 @@ class Car extends Equatable {
     required this.plateNumber,
     required this.picture,
     required this.serviceAdviser,
+    required this.technician,
     required this.arrivalDate,
     required this.jobDetails,
     required this.jobType,
@@ -52,6 +54,7 @@ class Car extends Equatable {
     plateNumber: "",
     picture: "",
     serviceAdviser: "",
+    technician: "Stanley",
     arrivalDate: DateTime.now(),
     jobDetails: "",
     jobType: const [],
@@ -79,6 +82,7 @@ class Car extends Equatable {
     String? plateNumber,
     String? picture,
     String? serviceAdviser,
+    String? technician,
     DateTime? arrivalDate,
     String? jobDetails,
     List<String>? jobType,
@@ -99,6 +103,7 @@ class Car extends Equatable {
       plateNumber: plateNumber ?? this.plateNumber,
       picture: picture ?? this.picture,
       serviceAdviser: serviceAdviser ?? this.serviceAdviser,
+      technician: technician ?? this.technician,
       arrivalDate: arrivalDate ?? this.arrivalDate,
       jobDetails: jobDetails ?? this.jobDetails,
       jobType: jobType ?? this.jobType,
@@ -122,6 +127,7 @@ class Car extends Equatable {
       plateNumber: plateNumber,
       picture: picture,
       serviceAdviser: serviceAdviser,
+      technician: technician,
       arrivalDate: arrivalDate,
       jobDetails: jobDetails,
       jobType: jobType,
@@ -145,6 +151,7 @@ class Car extends Equatable {
       plateNumber: entity.plateNumber,
       picture: entity.picture,
       serviceAdviser: entity.serviceAdviser,
+      technician: entity.technician,
       arrivalDate: entity.arrivalDate,
       jobDetails: entity.jobDetails,
       jobType: entity.jobType,
@@ -168,6 +175,7 @@ class Car extends Equatable {
         plateNumber,
         picture,
         serviceAdviser,
+        technician,
         arrivalDate,
         jobDetails,
         jobType,

@@ -104,6 +104,7 @@ class _EditCarPageState extends State<EditCarPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(newCar.technician),
                   // car picture
                   Center(
                     child: Container(
