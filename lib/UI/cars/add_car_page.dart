@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/multiSelectDialog.dart';
+import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import '../../Components/custom_button.dart';
@@ -67,6 +68,7 @@ class _AddCarPageState extends State<AddCarPage> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDeviceSize(context);
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
@@ -216,16 +218,23 @@ class _AddCarPageState extends State<AddCarPage> {
 
                   const SizedBox(height: 10),
 
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Technician",
+                  // Technician
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Technician",
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        DropdownButtonHideUnderline(
+                        child: DropdownButtonHideUnderline(
                           child: DropdownButton(
+                            menuWidth: deviceWidth * 0.5,
+                            menuMaxHeight: deviceHeight * 0.5,
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
                             value: selectedTechnician,
                             isExpanded: true,
                             hint: const Text(
@@ -237,8 +246,8 @@ class _AddCarPageState extends State<AddCarPage> {
                             },
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: 10),

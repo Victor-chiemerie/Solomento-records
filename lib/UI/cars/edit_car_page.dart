@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/multiSelectDialog.dart';
+import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import '../../Components/custom_button.dart';
@@ -41,6 +42,19 @@ class _EditCarPageState extends State<EditCarPage> {
     'Air Conditioning',
     'Painting',
   ];
+  final technicians = [
+    'Stanley',
+    'OJ',
+    'Ebube',
+    'Chika',
+    'Leo',
+    'Adewale',
+    'Peter',
+    'Nonso',
+    'Uche',
+    'Emma',
+    'Family man',
+  ];
   bool? isApproved = false;
   bool? isRepaired = false;
   bool? isDeparted = false;
@@ -48,6 +62,7 @@ class _EditCarPageState extends State<EditCarPage> {
   List<Map<String, dynamic>> paymentHistory = [];
   late Car newCar;
   double amountPaid = 0;
+  String? selectedTechnician; // Variable to store the technician
 
   @override
   void initState() {
@@ -56,6 +71,8 @@ class _EditCarPageState extends State<EditCarPage> {
     plateNumberController.text = newCar.plateNumber;
     serviceAdviserController.text = newCar.serviceAdviser;
     jobDetailsController.text = newCar.jobDetails;
+    selectedTechnician =
+        (newCar.technician.isNotEmpty) ? newCar.technician : null;
     costController.text = newCar.cost.toString();
     amountPaid = newCar.paymentMade;
     repairDetailsController.text = newCar.repairDetails;
@@ -74,6 +91,7 @@ class _EditCarPageState extends State<EditCarPage> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDeviceSize(context);
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
@@ -94,6 +112,15 @@ class _EditCarPageState extends State<EditCarPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Car details'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.delete_forever,
+                color: Colors.redAccent,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -248,6 +275,40 @@ class _EditCarPageState extends State<EditCarPage> {
                         fontSize: 14,
                       ),
                     ),
+
+                  const SizedBox(height: 10),
+
+                  // Technician
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Edit Technician",
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            menuWidth: deviceWidth * 0.5,
+                            menuMaxHeight: deviceHeight * 0.5,
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            value: selectedTechnician,
+                            isExpanded: true,
+                            hint: const Text(
+                              'pick a technician',
+                            ),
+                            items: technicians.map(technicianList).toList(),
+                            onChanged: (value) {
+                              setState(() => selectedTechnician = value);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
                   const SizedBox(height: 10),
 
@@ -444,6 +505,9 @@ class _EditCarPageState extends State<EditCarPage> {
                         newCar.modelName = modelNameController.text;
                         newCar.plateNumber = plateNumberController.text;
                         newCar.serviceAdviser = serviceAdviserController.text;
+                        newCar.technician = (selectedTechnician != null)
+                            ? selectedTechnician!
+                            : newCar.technician;
                         newCar.jobDetails = jobDetailsController.text;
                         newCar.jobType = selectedJobTypes;
                         newCar.cost = (costController.text.isNotEmpty)
@@ -489,6 +553,13 @@ class _EditCarPageState extends State<EditCarPage> {
       ),
     );
   }
+
+  DropdownMenuItem technicianList(String technician) => DropdownMenuItem(
+        value: technician,
+        child: Text(
+          technician,
+        ),
+      );
 
   // join array variables
   String joinArrayContents(List<dynamic> array) {
