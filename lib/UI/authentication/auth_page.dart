@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Logic/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:solomento_records/Logic/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:solomento_records/UI/Theme/text_theme.dart';
 import 'package:solomento_records/UI/authentication/sign_in_page.dart';
 import 'package:solomento_records/UI/authentication/sign_up_page.dart';
 
@@ -41,31 +42,31 @@ class _AuthenticationPageState extends State<AuthenticationPage>
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                const Text(
-                  'Welcome Back!',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: deviceHeight * 0.08),
+                  child: Text(
+                    'Welcome Back!',
+                    style: TextThemes.headline1.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: kToolbarHeight,
                 ),
                 TabBar(
                   controller: tabController,
-                  tabs: const [
+                  tabs: [
                     Padding(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       child: Text(
                         'Sign In',
-                        style: TextStyle(fontSize: 18),
+                        style: TextThemes.text,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       child: Text(
                         'Sign Up',
-                        style: TextStyle(fontSize: 18),
+                        style: TextThemes.text,
                       ),
                     ),
                   ],

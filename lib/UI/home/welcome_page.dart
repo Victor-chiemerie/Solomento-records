@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
+import 'package:solomento_records/UI/Theme/text_theme.dart';
 import 'package:solomento_records/UI/authentication/auth_page.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/screen_size.dart';
@@ -10,7 +12,7 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDeviceSize(context);
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(66, 178, 132, 1.0),
+      backgroundColor: AppColor.mainGreen,
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
@@ -31,13 +33,9 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text(
+                  Text(
                     'Peace of mind...',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                    ),
+                    style: TextThemes.headline1.copyWith(color: Colors.white),
                   )
                 ],
               ),

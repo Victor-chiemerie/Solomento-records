@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
+import 'package:solomento_records/UI/Theme/text_theme.dart';
 import '../../Components/strings.dart';
 import '../../Components/text_field.dart';
 import '../../Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
@@ -50,22 +51,23 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(
                 width: deviceWidth * 0.9,
                 child: MyTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    obscureText: false,
-                    maxLines: 1,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                    errorMsg: _errorMsg,
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Please fill in this field';
-                      } else if (!emailRexExp.hasMatch(val)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },),
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false,
+                  maxLines: 1,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  prefixIcon: const Icon(CupertinoIcons.mail_solid),
+                  errorMsg: _errorMsg,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please fill in this field';
+                    } else if (!emailRexExp.hasMatch(val)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
               ),
               const SizedBox(height: 10),
               SizedBox(
@@ -108,35 +110,34 @@ class _SignInPageState extends State<SignInPage> {
                       width: deviceWidth * 0.9,
                       height: 50,
                       child: TextButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              context.read<SignInBloc>().add(
-                                    SignInRequired(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    ),
-                                  );
-                            }
-                          },
-                          style: TextButton.styleFrom(
-                              elevation: 3.0,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(60))),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 5),
-                            child: Text(
-                              'Sign In',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          )),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<SignInBloc>().add(
+                                  SignInRequired(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                            elevation: 3.0,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(60))),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 5),
+                          child: Text(
+                            'Sign In',
+                            textAlign: TextAlign.center,
+                            style: TextThemes.headline1
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
                     )
                   : const CircularProgressIndicator()
             ],

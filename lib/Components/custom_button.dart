@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solomento_records/UI/Theme/text_theme.dart';
 
 class CustomButton extends StatelessWidget {
   final double width;
@@ -33,6 +34,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
+            style: TextThemes.text,
           ),
         ),
       ),
