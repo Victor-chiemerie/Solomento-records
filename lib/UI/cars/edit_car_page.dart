@@ -15,6 +15,8 @@ import '../../Components/text_field.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
+
 class EditCarPage extends StatefulWidget {
   const EditCarPage({super.key, required this.car});
 
@@ -119,11 +121,53 @@ class _EditCarPageState extends State<EditCarPage> {
         appBar: AppBar(
           title: const Text('Car details'),
           actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.delete_forever,
-                color: Colors.redAccent,
+            BlocListener<DeleteDataCubit, DeleteDataState>(
+              listener: (context, state) {
+                if (state.status == DeleteDataStatus.success) {
+                  hideLoadingPage(context);
+
+                  // Emit GetAllCars to refresh the data in the home page
+                  BlocProvider.of<GetDataCubit>(context).getData();
+
+                  // pop the screen
+                  Navigator.pop(context);
+                } else if (state.status == DeleteDataStatus.loading) {
+                  showLoadingPage(context);
+                } else if (state.status == DeleteDataStatus.failure) {
+                  hideLoadingPage(context);
+
+                  // pop the screen
+                  Navigator.pop(context);
+                }
+              },
+              child: IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Delete car data?'),
+                      content: const Text(
+                          'All information on this vehicle and the customer associated with the vehicle will be deleted permanently'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            BlocProvider.of<DeleteDataCubit>(context)
+                                .deleteData(newCar);
+                          },
+                          child: const Text('Yes'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('No'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete_forever,
+                  color: Colors.redAccent,
+                ),
               ),
             ),
           ],
