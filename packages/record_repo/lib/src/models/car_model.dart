@@ -23,6 +23,7 @@ class Car extends Equatable {
   String repairStatus;
   String repairDetails;
   DateTime departureDate;
+  DateTime pickUpDate;
 
   Car({
     required this.id,
@@ -44,6 +45,7 @@ class Car extends Equatable {
     required this.repairStatus,
     required this.repairDetails,
     required this.departureDate,
+    required this.pickUpDate,
   });
 
   /// Empty user which represents an unauthenticated car
@@ -67,6 +69,7 @@ class Car extends Equatable {
     repairStatus: "pending",
     repairDetails: "",
     departureDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
+    pickUpDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
   );
 
   /// Convenience getter to determine whether the current Car has no details
@@ -95,6 +98,7 @@ class Car extends Equatable {
     String? repairStatus,
     String? repairDetails,
     DateTime? departureDate,
+    DateTime? pickUpDate,
   }) {
     return Car(
       id: id ?? this.id,
@@ -116,6 +120,7 @@ class Car extends Equatable {
       repairStatus: repairStatus ?? this.repairStatus,
       repairDetails: repairDetails ?? this.repairDetails,
       departureDate: departureDate ?? this.departureDate,
+      pickUpDate: pickUpDate ?? this.pickUpDate,
     );
   }
 
@@ -140,6 +145,7 @@ class Car extends Equatable {
       repairStatus: repairStatus,
       repairDetails: repairDetails,
       departureDate: departureDate,
+      pickUpDate: pickUpDate,
     );
   }
 
@@ -164,6 +170,7 @@ class Car extends Equatable {
       repairStatus: entity.repairStatus,
       repairDetails: entity.repairDetails,
       departureDate: entity.departureDate,
+      pickUpDate: entity.pickUpDate,
     );
   }
 
@@ -188,5 +195,6 @@ class Car extends Equatable {
         repairStatus,
         repairDetails,
         departureDate,
+        pickUpDate,
       ];
 }
