@@ -34,6 +34,7 @@ class _EditCarPageState extends State<EditCarPage> {
   final paidAmountController = TextEditingController();
   final repairDetailsController = TextEditingController();
   final arrivalDateController = TextEditingController();
+  final pickUpDateDateController = TextEditingController();
 
   final jobTypes = [
     'Mechanical',
@@ -63,6 +64,7 @@ class _EditCarPageState extends State<EditCarPage> {
   late Car newCar;
   double amountPaid = 0;
   String? selectedTechnician; // Variable to store the technician
+  DateTime? selectedDate;
 
   @override
   void initState() {
@@ -86,6 +88,10 @@ class _EditCarPageState extends State<EditCarPage> {
             : false;
     arrivalDateController.text =
         DateFormat('dd-MM-yyyy').format(newCar.arrivalDate);
+    pickUpDateDateController.text =
+        newCar.pickUpDate.toUtc() != DateTime.utc(1999, 7, 20, 20, 18, 04)
+            ? DateFormat('dd-MM-yyyy').format(newCar.pickUpDate)
+            : "";
     super.initState();
   }
 
@@ -187,6 +193,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   const Text('Date of Arrival'),
                   const SizedBox(height: 10),
                   MyTextField(
+                    prefixIcon: const Icon(Icons.calendar_today),
                     controller: arrivalDateController,
                     hintText: 'Enter Arrival date',
                     obscureText: false,
@@ -437,6 +444,23 @@ class _EditCarPageState extends State<EditCarPage> {
 
                   const SizedBox(height: 10),
 
+                  // Pick-Up date
+                  const Text('Date of Pick-Up'),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    prefixIcon: const Icon(Icons.calendar_today),
+                    controller: pickUpDateDateController,
+                    hintText: 'Enter Pick-Up date',
+                    obscureText: false,
+                    keyboardType: TextInputType.text,
+                    readOnly: true,
+                    onTap: () {
+                      _selecDate();
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
                   // Repair status
                   const Text('Edit Repair status'),
                   const SizedBox(height: 10),
@@ -535,6 +559,9 @@ class _EditCarPageState extends State<EditCarPage> {
                                     DateTime.utc(1999, 7, 20, 20, 18, 04)))
                             ? DateTime.now()
                             : newCar.departureDate;
+                        newCar.pickUpDate = (selectedDate != null)
+                            ? selectedDate!
+                            : newCar.pickUpDate;
 
                         context
                             .read<SaveDataBloc>()
@@ -551,6 +578,23 @@ class _EditCarPageState extends State<EditCarPage> {
         ),
       ),
     );
+  }
+
+  // calendar
+  Future<void> _selecDate() async {
+    DateTime? _picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (_picked != null) {
+      setState(() {
+        pickUpDateDateController.text = _picked.toString().split(" ")[0];
+        selectedDate = _picked;
+      });
+    }
   }
 
   DropdownMenuItem technicianList(String technician) => DropdownMenuItem(

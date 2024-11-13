@@ -31,6 +31,7 @@ class _AddCarPageState extends State<AddCarPage> {
   final costController = TextEditingController();
   final paidAmountController = TextEditingController();
   final repairDetailsController = TextEditingController();
+  final pickUpDateDateController = TextEditingController();
 
   final technicians = [
     'Stanley',
@@ -58,6 +59,7 @@ class _AddCarPageState extends State<AddCarPage> {
   bool? isDeparted = false;
   List<String> selectedJobTypes = [];
   String? selectedTechnician; // Variable to store the technician
+  DateTime? selectedDate;
   late Car car;
 
   @override
@@ -301,6 +303,23 @@ class _AddCarPageState extends State<AddCarPage> {
 
                   const SizedBox(height: 10),
 
+                  // Pick-Up date
+                  const Text('Date of Pick-Up'),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    prefixIcon: const Icon(Icons.calendar_today),
+                    controller: pickUpDateDateController,
+                    hintText: 'Enter Pick-Up date',
+                    obscureText: false,
+                    keyboardType: TextInputType.text,
+                    readOnly: true,
+                    onTap: () {
+                      _selecDate();
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
                   // Repair status
                   const Text('Repair status'),
                   const SizedBox(height: 10),
@@ -377,6 +396,9 @@ class _AddCarPageState extends State<AddCarPage> {
                             ? parseDouble(costController.text)
                             : car.cost;
                         car.isApproved = isApproved!;
+                        car.pickUpDate = (selectedDate != null)
+                            ? selectedDate!
+                            : car.pickUpDate;
                         car.approvalDate =
                             (isApproved!) ? DateTime.now() : car.approvalDate;
                         car.paymentStatus =
@@ -422,6 +444,23 @@ class _AddCarPageState extends State<AddCarPage> {
         ),
       ),
     );
+  }
+
+  // calendar
+  Future<void> _selecDate() async {
+    DateTime? _picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (_picked != null) {
+      setState(() {
+        pickUpDateDateController.text = _picked.toString().split(" ")[0];
+        selectedDate = _picked;
+      });
+    }
   }
 
   DropdownMenuItem technicianList(String technician) => DropdownMenuItem(
