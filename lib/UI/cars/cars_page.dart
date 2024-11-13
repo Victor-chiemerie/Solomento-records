@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/cars/edit_car_page.dart';
 
 import '../../Components/hide_loading.dart';
 import '../../Components/show_loading.dart';
+import '../customers/edit_customer_page.dart';
 
 class CarsPage extends StatelessWidget {
   const CarsPage({super.key});
@@ -128,6 +130,18 @@ class CarsPage extends StatelessWidget {
                             trailing: TextButton(
                               onPressed: () {
                                 // view the vehicle owner
+                                try {
+                                  Customer customer =
+                                      state.findCustomerById(car.customerId);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditCustomerPage(
+                                                  customer: customer)));
+                                } catch (error) {
+                                  print(error.toString());
+                                }
                               },
                               child: const Text(
                                 'Owner',

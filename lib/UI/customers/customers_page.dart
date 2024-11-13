@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/Theme/text_theme.dart';
-
+import 'package:solomento_records/UI/cars/edit_car_page.dart';
 import 'edit_customer_page.dart';
 
 class CustomersPage extends StatelessWidget {
@@ -92,6 +93,16 @@ class CustomersPage extends StatelessWidget {
                           trailing: TextButton(
                             onPressed: () {
                               // view the customer vehicle
+                              try {
+                                Car car = state.findCarById(customer.carId);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditCarPage(car: car)));
+                              } catch (error) {
+                                print(error.toString());
+                              }
                             },
                             child: Text(
                               'Vehicle',
