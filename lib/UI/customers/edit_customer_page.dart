@@ -4,6 +4,7 @@ import 'package:record_repository/record_repository.dart';
 
 import '../../Components/custom_button.dart';
 import '../../Components/hide_loading.dart';
+import '../../Components/screen_size.dart';
 import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
 import '../../Logic/blocs/save_data_bloc/save_data_bloc.dart';
@@ -23,17 +24,25 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
   late Customer newCustomer;
+  String? selectedStatus; // Variable to store the technician
+
+  final status = [
+    'Settled',
+    'unSettled',
+  ];
 
   @override
   void initState() {
     newCustomer = widget.customer;
     nameController.text = newCustomer.name;
     mobileController.text = newCustomer.mobile;
+    selectedStatus = newCustomer.status;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    initializeDeviceSize(context);
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
@@ -115,9 +124,43 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                     },
                   ),
 
+                  const SizedBox(height: 10),
+
+                  // Status
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Edit Customer Staus",
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            menuWidth: deviceWidth * 0.5,
+                            menuMaxHeight: deviceHeight * 0.5,
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            value: selectedStatus,
+                            isExpanded: true,
+                            hint: const Text(
+                              'select status',
+                            ),
+                            items: status.map(statusList).toList(),
+                            onChanged: (value) {
+                              setState(() => selectedStatus = value);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
                   const SizedBox(height: 20),
 
-                  // Add car page
+                  // Update button
                   CustomButton(
                     width: double.infinity,
                     height: 45,
@@ -127,6 +170,7 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                       if (_formKey.currentState!.validate()) {
                         newCustomer.name = nameController.text;
                         newCustomer.mobile = mobileController.text;
+                        newCustomer.status = selectedStatus!;
 
                         context.read<SaveDataBloc>().add(
                             UpdateCustomerData(newCustomer, newCustomer.id));
@@ -141,4 +185,11 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
       ),
     );
   }
+
+  DropdownMenuItem statusList(String technician) => DropdownMenuItem(
+        value: technician,
+        child: Text(
+          technician,
+        ),
+      );
 }
