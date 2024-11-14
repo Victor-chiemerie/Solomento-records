@@ -8,6 +8,7 @@ import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import '../../Components/custom_button.dart';
+import '../../Components/deleteData.dart';
 import '../../Components/format_amount.dart';
 import '../../Components/hide_loading.dart';
 import '../../Components/show_loading.dart';
@@ -142,26 +143,11 @@ class _EditCarPageState extends State<EditCarPage> {
               },
               child: IconButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Delete car data?'),
-                      content: const Text(
-                          'All information on this vehicle and the customer associated with the vehicle will be deleted permanently'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            BlocProvider.of<DeleteDataCubit>(context)
-                                .deleteData(newCar);
-                          },
-                          child: const Text('Yes'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('No'),
-                        ),
-                      ],
-                    ),
+                  deleteData(
+                    context,
+                    newCar,
+                    () => BlocProvider.of<DeleteDataCubit>(context)
+                        .deleteData(newCar),
                   );
                 },
                 icon: const Icon(

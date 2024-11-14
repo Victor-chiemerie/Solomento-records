@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
+import 'package:solomento_records/Components/deleteData.dart';
 import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/edit_car_page.dart';
 
 import '../../Components/hide_loading.dart';
 import '../../Components/show_loading.dart';
+import '../Theme/text_theme.dart';
 import '../customers/edit_customer_page.dart';
 
 class CarsPage extends StatelessWidget {
@@ -36,13 +39,18 @@ class CarsPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('All Cars'),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          title: Text('All Cars',
+              style: TextThemes.headline1.copyWith(fontSize: 20)),
           actions: const [
             Padding(
               padding: EdgeInsets.only(right: 15),
               child: Icon(
                 Icons.people_alt,
-                color: Color.fromRGBO(66, 178, 132, 1.0),
+                color: AppColor.mainGreen,
               ),
             ),
           ],
@@ -50,12 +58,12 @@ class CarsPage extends StatelessWidget {
         body: BlocBuilder<GetDataCubit, GetDataState>(
           builder: (context, state) {
             if (state.status == GetDataStatus.failure) {
-              return const Center(
-                child: Text('An error occured!!!'),
+              return Center(
+                child: Text('An error occured!!!', style: TextThemes.headline1),
               );
             } else if (state.status == GetDataStatus.loading) {
-              return const Center(
-                child: Text('Loading...'),
+              return Center(
+                child: Text('Loading...', style: TextThemes.headline1),
               );
             } else if (state.status == GetDataStatus.success &&
                 state.cars.isNotEmpty) {
@@ -75,27 +83,11 @@ class CarsPage extends StatelessWidget {
                         child: Card(
                           child: ListTile(
                             onLongPress: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Delete car data?'),
-                                  content: const Text(
-                                      'All information on this vehicle and the customer associated with the vehicle will be deleted permanently'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        BlocProvider.of<DeleteDataCubit>(
-                                                context)
-                                            .deleteData(car);
-                                      },
-                                      child: const Text('Yes'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('No'),
-                                    ),
-                                  ],
-                                ),
+                              deleteData(
+                                context,
+                                car,
+                                () => BlocProvider.of<DeleteDataCubit>(context)
+                                    .deleteData(car),
                               );
                             },
                             onTap: () {
