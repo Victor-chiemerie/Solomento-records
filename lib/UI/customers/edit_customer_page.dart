@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
+import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 import '../../Components/custom_button.dart';
+import '../../Components/drop_down_menu.dart';
 import '../../Components/hide_loading.dart';
 import '../../Components/screen_size.dart';
 import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
 import '../../Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import '../../Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import '../Theme/text_theme.dart';
 
 class EditCustomerPage extends StatefulWidget {
   const EditCustomerPage({super.key, required this.customer});
@@ -24,6 +28,7 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
   late Customer newCustomer;
+  late MyUser user;
   String? selectedStatus; // Variable to store the technician
 
   final status = [
@@ -37,6 +42,8 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
     nameController.text = newCustomer.name;
     mobileController.text = newCustomer.mobile;
     selectedStatus = newCustomer.status;
+
+    user = BlocProvider.of<MyUserBloc>(context).state.user!;
     super.initState();
   }
 
@@ -61,7 +68,10 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Customer details'),
+          title: Text(
+            'Customer details',
+            style: TextThemes.headline1.copyWith(fontSize: 20),
+          ),
         ),
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -89,8 +99,8 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                   const SizedBox(height: 20),
 
                   // name
-                  const Text('Edit Customer Name'),
-                  const SizedBox(height: 10),
+                  Text('Edit Customer Name', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: nameController,
                     hintText: 'Enter Customer Name',
@@ -108,8 +118,8 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                   const SizedBox(height: 10),
 
                   // mobile
-                  const Text('Edit Customer Mobile'),
-                  const SizedBox(height: 10),
+                  Text('Edit Customer Mobile', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: mobileController,
                     hintText: 'Enter Customer Mobile',
@@ -130,29 +140,21 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Edit Customer Staus",
-                      ),
+                      Text("Edit Customer Status", style: TextThemes.text),
+                      const SizedBox(height: 2),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            menuWidth: deviceWidth * 0.5,
-                            menuMaxHeight: deviceHeight * 0.5,
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            value: selectedStatus,
-                            isExpanded: true,
-                            hint: const Text(
-                              'select status',
-                            ),
-                            items: status.map(statusList).toList(),
-                            onChanged: (value) {
-                              setState(() => selectedStatus = value);
-                            },
-                          ),
+                        child: MyDropDownMenu(
+                          items: status, // List of statuses
+                          value: selectedStatus, // Current selected value
+                          hint: 'Select status',
+                          onChanged: (value) {
+                            setState(() => selectedStatus =
+                                value); // Update selected value
+                          },
                         ),
                       ),
                     ],
@@ -161,22 +163,23 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                   const SizedBox(height: 20),
 
                   // Update button
-                  CustomButton(
-                    width: double.infinity,
-                    height: 45,
-                    color: const Color.fromRGBO(66, 178, 132, 1.0),
-                    text: 'Update customer',
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        newCustomer.name = nameController.text;
-                        newCustomer.mobile = mobileController.text;
-                        newCustomer.status = selectedStatus!;
+                  if (user.userType == 'admin')
+                    CustomButton(
+                      width: double.infinity,
+                      height: 45,
+                      color: const Color.fromRGBO(66, 178, 132, 1.0),
+                      text: 'Update customer',
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          newCustomer.name = nameController.text;
+                          newCustomer.mobile = mobileController.text;
+                          newCustomer.status = selectedStatus!;
 
-                        context.read<SaveDataBloc>().add(
-                            UpdateCustomerData(newCustomer, newCustomer.id));
-                      }
-                    },
-                  ),
+                          context.read<SaveDataBloc>().add(
+                              UpdateCustomerData(newCustomer, newCustomer.id));
+                        }
+                      },
+                    ),
                 ],
               ),
             ),
@@ -185,11 +188,4 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
       ),
     );
   }
-
-  DropdownMenuItem statusList(String technician) => DropdownMenuItem(
-        value: technician,
-        child: Text(
-          technician,
-        ),
-      );
 }
