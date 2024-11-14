@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/deleteData.dart';
 import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
@@ -78,6 +79,11 @@ class CarsPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       // get the car object
                       final car = state.cars[index];
+                      final String pickUpDate = (car.pickUpDate.toUtc() !=
+                              DateTime.utc(1999, 7, 20, 20, 18, 04))
+                          ? shortenDate(
+                              DateFormat('dd-MM-yyyy').format(car.pickUpDate))
+                          : 'Not set';
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Card(
@@ -98,25 +104,50 @@ class CarsPage extends StatelessWidget {
                                           EditCarPage(car: car)));
                             },
                             leading: const Icon(CupertinoIcons.car_detailed),
-                            title: Text(car.modelName),
+                            contentPadding: const EdgeInsets.all(5),
+                            title: Text(car.modelName,
+                                style: TextThemes.headline1
+                                    .copyWith(fontSize: 16)),
                             subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Color: '),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Plate Number: ',
+                                    style:
+                                        TextThemes.text.copyWith(fontSize: 12),
                                     children: [
                                       TextSpan(
                                         text: car.plateNumber,
-                                        style: const TextStyle(
-                                          color:
-                                              Color.fromRGBO(66, 178, 132, 1.0),
+                                        style: TextThemes.text.copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColor.mainGreen,
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Text('Repair Status: ${car.repairStatus}'),
+                                Row(
+                                  children: [
+                                    Text('Repair Status: ',
+                                        style: TextThemes.text
+                                            .copyWith(fontSize: 12)),
+                                    if (car.repairStatus == 'Pending')
+                                      Text(car.repairStatus,
+                                          style: TextThemes.text.copyWith(
+                                              fontSize: 12,
+                                              color: Colors.redAccent)),
+                                    if (car.repairStatus == 'Fixed')
+                                      Text(car.repairStatus,
+                                          style: TextThemes.text.copyWith(
+                                              fontSize: 12,
+                                              color: AppColor.mainGreen)),
+                                  ],
+                                ),
+                                Text('Pick-Up Date: $pickUpDate',
+                                    style:
+                                        TextThemes.text.copyWith(fontSize: 12)),
                               ],
                             ),
                             trailing: TextButton(
@@ -132,13 +163,15 @@ class CarsPage extends StatelessWidget {
                                               EditCustomerPage(
                                                   customer: customer)));
                                 } catch (error) {
-                                  print(error.toString());
+                                  debugPrint(error.toString());
                                 }
                               },
-                              child: const Text(
-                                'Owner',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(66, 178, 132, 1.0),
+                              child: Text(
+                                'View\nOwner',
+                                textAlign: TextAlign.center,
+                                style: TextThemes.text.copyWith(
+                                  color: AppColor.mainGreen,
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
@@ -150,13 +183,21 @@ class CarsPage extends StatelessWidget {
                 ),
               );
             } else {
-              return const Center(
-                child: Text('No cars available.'),
+              return Center(
+                child: Text('No cars available.', style: TextThemes.headline1),
               );
             }
           },
         ),
       ),
     );
+  }
+
+  String shortenDate(String date, {int maxLength = 10}) {
+    if (date.length <= maxLength) {
+      return date; // If the date is shorter than maxLength, return as is
+    }
+
+    return '${date.substring(0, maxLength)}...'; // Truncate and add ellipsis
   }
 }

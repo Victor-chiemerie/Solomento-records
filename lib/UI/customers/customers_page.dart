@@ -109,7 +109,8 @@ class CustomersPage extends StatelessWidget {
                               }
                             },
                             child: Text(
-                              'Vehicle',
+                              'View\nVehicle',
+                              textAlign: TextAlign.center,
                               style: TextThemes.text.copyWith(
                                 color: AppColor.mainGreen,
                                 fontSize: 12,
