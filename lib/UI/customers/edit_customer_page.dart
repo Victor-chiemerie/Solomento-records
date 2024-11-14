@@ -68,6 +68,10 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
           title: Text(
             'Customer details',
             style: TextThemes.headline1.copyWith(fontSize: 20),

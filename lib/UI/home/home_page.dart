@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const Icon(
-                            Icons.arrow_forward,
+                            Icons.arrow_forward_ios,
                             size: 18,
                           ),
                         ],
@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const Icon(
-                            Icons.arrow_forward,
+                            Icons.arrow_forward_ios,
                             size: 18,
                           ),
                         ],
