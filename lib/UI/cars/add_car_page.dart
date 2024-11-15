@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
+import 'package:solomento_records/Components/functions.dart';
 import 'package:solomento_records/Components/multiSelectDialog.dart';
 import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/hide_loading.dart';
 import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
+import '../Theme/text_theme.dart';
 
 class AddCarPage extends StatefulWidget {
   const AddCarPage({super.key, required this.customer});
@@ -92,7 +95,14 @@ class _AddCarPageState extends State<AddCarPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Add customer vehicle'),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          title: Text(
+            'Add customer vehicle',
+            style: TextThemes.headline1.copyWith(fontSize: 20),
+          ),
         ),
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -104,8 +114,8 @@ class _AddCarPageState extends State<AddCarPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Model name
-                  const Text('Model Name'),
-                  const SizedBox(height: 10),
+                  Text('Model Name', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: modelNameController,
                     hintText: 'Enter Model Name',
@@ -122,8 +132,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Plate number
-                  const Text('Plate Number'),
-                  const SizedBox(height: 10),
+                  Text('Plate Number', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: plateNumberController,
                     hintText: 'Enter Plate Number',
@@ -140,8 +150,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Service adviser
-                  const Text('Service Adviser'),
-                  const SizedBox(height: 10),
+                  Text('Service Adviser', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: serviceAdviserController,
                     hintText: 'Enter Service Adviser',
@@ -158,8 +168,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Job Details
-                  const Text('Job Details'),
-                  const SizedBox(height: 10),
+                  Text('Job Details', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: jobDetailsController,
                     hintText: 'Enter Job Details',
@@ -178,8 +188,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Job Type
-                  const Text('Job Type'),
-                  const SizedBox(height: 10),
+                  Text('Job Type', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CustomButton(
                     width: double.infinity,
                     height: 45,
@@ -207,16 +217,12 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 5),
 
                   if (selectedJobTypes.isNotEmpty)
-                    Text(joinArrayContents(selectedJobTypes)),
+                    Text(joinArrayContents(selectedJobTypes),
+                        style: TextThemes.text.copyWith(fontSize: 11.5)),
 
                   if (selectedJobTypes.isEmpty)
-                    const Text(
-                      'Select one job or more',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                    ),
+                    Text('Select one job or more',
+                        style: TextThemes.text.copyWith(color: Colors.red)),
 
                   const SizedBox(height: 10),
 
@@ -224,9 +230,7 @@ class _AddCarPageState extends State<AddCarPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Technician",
-                      ),
+                      Text("Technician", style: TextThemes.text),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
@@ -236,12 +240,10 @@ class _AddCarPageState extends State<AddCarPage> {
                           child: DropdownButton(
                             menuWidth: deviceWidth * 0.5,
                             menuMaxHeight: deviceHeight * 0.5,
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            padding: const EdgeInsets.only(left: 12, right: 10),
                             value: selectedTechnician,
                             isExpanded: true,
-                            hint: const Text(
-                              'pick a technician',
-                            ),
+                            hint: const Text('pick a technician'),
                             items: technicians.map(technicianList).toList(),
                             onChanged: (value) {
                               setState(() => selectedTechnician = value);
@@ -256,7 +258,7 @@ class _AddCarPageState extends State<AddCarPage> {
 
                   // Cost
                   const Text('Cost of repair (optional)'),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: costController,
                     hintText: 'Enter Amount',
@@ -269,8 +271,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // is Approved
-                  const Text('Approval Status'),
-                  const SizedBox(height: 10),
+                  Text('Approval Status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isApproved,
                     onChanged: (bool? newValue) {
@@ -278,8 +280,9 @@ class _AddCarPageState extends State<AddCarPage> {
                         isApproved = newValue;
                       });
                     },
-                    title: const Text('Is vehicle Approved?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle Approved?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -289,8 +292,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Payment made
-                  const Text('Amount Paid (optional)'),
-                  const SizedBox(height: 10),
+                  Text('Amount Paid (optional)', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: paidAmountController,
                     hintText: 'Enter Amount',
@@ -304,8 +307,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Pick-Up date
-                  const Text('Date of Pick-Up'),
-                  const SizedBox(height: 10),
+                  Text('Date of Pick-Up', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     prefixIcon: const Icon(Icons.calendar_today),
                     controller: pickUpDateDateController,
@@ -314,15 +317,23 @@ class _AddCarPageState extends State<AddCarPage> {
                     keyboardType: TextInputType.text,
                     readOnly: true,
                     onTap: () {
-                      _selecDate();
+                      Functions.selectDate(context, (pickedDate) {
+                        if (pickedDate != null) {
+                          setState(() {
+                            pickUpDateDateController.text =
+                                pickedDate.toString().split(" ")[0];
+                            selectedDate = pickedDate;
+                          });
+                        }
+                      });
                     },
                   ),
 
                   const SizedBox(height: 10),
 
                   // Repair status
-                  const Text('Repair status'),
-                  const SizedBox(height: 10),
+                  Text('Repair status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isRepaired,
                     onChanged: (bool? newValue) {
@@ -330,8 +341,9 @@ class _AddCarPageState extends State<AddCarPage> {
                         isRepaired = newValue;
                       });
                     },
-                    title: const Text('Is vehicle Repaired?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle Repaired?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -341,8 +353,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Repair Details
-                  const Text('Repair Details (optional)'),
-                  const SizedBox(height: 10),
+                  Text('Repair Details (optional)', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: repairDetailsController,
                     hintText: 'Enter Repair Details',
@@ -355,8 +367,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // is Departed
-                  const Text('Pick up status'),
-                  const SizedBox(height: 10),
+                  Text('Pick up status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isDeparted,
                     onChanged: (bool? newValue) {
@@ -378,7 +390,7 @@ class _AddCarPageState extends State<AddCarPage> {
                   CustomButton(
                     width: double.infinity,
                     height: 45,
-                    color: const Color.fromRGBO(66, 178, 132, 1.0),
+                    color: AppColor.mainGreen,
                     text: 'Save',
                     onPressed: () {
                       if (_formKey.currentState!.validate() &
@@ -444,23 +456,6 @@ class _AddCarPageState extends State<AddCarPage> {
         ),
       ),
     );
-  }
-
-  // calendar
-  Future<void> _selecDate() async {
-    DateTime? _picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (_picked != null) {
-      setState(() {
-        pickUpDateDateController.text = _picked.toString().split(" ")[0];
-        selectedDate = _picked;
-      });
-    }
   }
 
   DropdownMenuItem technicianList(String technician) => DropdownMenuItem(

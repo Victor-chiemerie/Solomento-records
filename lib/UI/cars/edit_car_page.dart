@@ -12,6 +12,7 @@ import 'package:user_repository/user_repository.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/deleteData.dart';
 import '../../Components/format_amount.dart';
+import '../../Components/functions.dart';
 import '../../Components/hide_loading.dart';
 import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
@@ -338,7 +339,7 @@ class _EditCarPageState extends State<EditCarPage> {
                           child: DropdownButton(
                             menuWidth: deviceWidth * 0.5,
                             menuMaxHeight: deviceHeight * 0.5,
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            padding: const EdgeInsets.only(left: 12, right: 10),
                             value: selectedTechnician,
                             isExpanded: true,
                             hint: const Text('pick a technician'),
@@ -511,7 +512,15 @@ class _EditCarPageState extends State<EditCarPage> {
                     keyboardType: TextInputType.text,
                     readOnly: true,
                     onTap: () {
-                      _selecDate();
+                      Functions.selectDate(context, (pickedDate) {
+                        if (pickedDate != null) {
+                          setState(() {
+                            pickUpDateDateController.text =
+                                pickedDate.toString().split(" ")[0];
+                            selectedDate = pickedDate;
+                          });
+                        }
+                      });
                     },
                   ),
 
@@ -578,7 +587,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     CustomButton(
                       width: double.infinity,
                       height: 45,
-                      color: const Color.fromRGBO(66, 178, 132, 1.0),
+                      color: AppColor.mainGreen,
                       text: 'Update details',
                       onPressed: () {
                         if (_formKey.currentState!.validate() &
@@ -636,23 +645,6 @@ class _EditCarPageState extends State<EditCarPage> {
         ),
       ),
     );
-  }
-
-  // calendar
-  Future<void> _selecDate() async {
-    DateTime? _picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (_picked != null) {
-      setState(() {
-        pickUpDateDateController.text = _picked.toString().split(" ")[0];
-        selectedDate = _picked;
-      });
-    }
   }
 
   DropdownMenuItem technicianList(String technician) => DropdownMenuItem(
