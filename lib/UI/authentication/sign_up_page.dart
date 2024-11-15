@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Components/screen_size.dart';
+import 'package:solomento_records/UI/Theme/text_theme.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../Components/strings.dart';
 import '../../Components/text_field.dart';
@@ -22,7 +23,6 @@ class _SignUpPageState extends State<SignUpPage> {
   bool obscurePassword = true;
   IconData iconPassword = CupertinoIcons.eye_fill;
   bool signInRequired = false;
-
   bool containsUpperCase = false;
   bool containsLowerCase = false;
   bool containsNumber = false;
@@ -258,16 +258,14 @@ class _SignUpPageState extends State<SignUpPage> {
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(60))),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 25, vertical: 5),
                             child: Text(
                               'Sign Up',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
+                              style: TextThemes.headline1
+                                  .copyWith(color: Colors.white),
                             ),
                           )),
                     )

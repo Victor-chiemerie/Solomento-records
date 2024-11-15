@@ -62,7 +62,8 @@ class FirebaseRecordRepository implements RecordRepository {
   @override
   Future<List<Car>> getCars() async {
     try {
-      final querySnapshot = await carCollection.get();
+      final querySnapshot =
+          await carCollection.orderBy('arrivalDate', descending: true).get();
       // Convert each document to a Car object
       final cars = querySnapshot.docs.map((doc) {
         return Car.fromEntity(
@@ -93,7 +94,8 @@ class FirebaseRecordRepository implements RecordRepository {
   @override
   Future<List<Customer>> getCustomers() async {
     try {
-      final querySnapshot = await customerCollection.get();
+      final querySnapshot =
+          await customerCollection.orderBy('createdAt', descending: true).get();
       // convert each document to a Customer object
       final customers = querySnapshot.docs.map((doc) {
         return Customer.fromEntity(

@@ -85,5 +85,6 @@ class Customer extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, mobile, carId, status, createdAt, myUser];
+  List<Object?> get props =>
+      [id, name, mobile, carId, status, createdAt, myUser];
 }

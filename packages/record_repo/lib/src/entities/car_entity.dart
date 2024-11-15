@@ -75,27 +75,26 @@ class CarEntity extends Equatable {
   /// Converts a document from firebase to a car entity
   static CarEntity fromDocument(Map<String, dynamic> doc) {
     return CarEntity(
-      id: doc['id'] as String,
-      customerId: doc['customerId'] as String,
-      modelName: doc['modelName'] as String,
-      plateNumber: doc['plateNumber'] as String,
-      picture: doc['picture'] as String,
-      serviceAdviser: doc['serviceAdviser'] as String,
-      technician: doc['technician'] as String,
-      arrivalDate: (doc['arrivalDate'] as Timestamp).toDate(),
-      jobDetails: doc['jobDetails'] as String,
-      jobType: doc['jobType'] as List<dynamic>,
-      cost: doc['cost'] as double,
-      isApproved: doc['isApproved'] as bool,
-      approvalDate: (doc['approvalDate'] as Timestamp).toDate(),
-      paymentStatus: doc['paymentStatus'] as String,
-      paymentMade: doc['paymentMade'] as double,
-      paymentHistory: doc['paymentHistory'] as List<dynamic>,
-      repairStatus: doc['repairStatus'] as String,
-      repairDetails: doc['repairDetails'] as String,
-      departureDate: (doc['departureDate'] as Timestamp).toDate(),
-      pickUpDate: (doc['pickUpDate'] as Timestamp).toDate(),
-    );
+        id: doc['id'] as String,
+        customerId: doc['customerId'] as String,
+        modelName: doc['modelName'] as String,
+        plateNumber: doc['plateNumber'] as String,
+        picture: doc['picture'] as String,
+        serviceAdviser: doc['serviceAdviser'] as String,
+        technician: doc['technician'] as String,
+        arrivalDate: (doc['arrivalDate'] as Timestamp).toDate(),
+        jobDetails: doc['jobDetails'] as String,
+        jobType: doc['jobType'] as List<dynamic>,
+        cost: doc['cost'] as double,
+        isApproved: doc['isApproved'] as bool,
+        approvalDate: (doc['approvalDate'] as Timestamp).toDate(),
+        paymentStatus: doc['paymentStatus'] as String,
+        paymentMade: doc['paymentMade'] as double,
+        paymentHistory: doc['paymentHistory'] as List<dynamic>,
+        repairStatus: doc['repairStatus'] as String,
+        repairDetails: doc['repairDetails'] as String,
+        departureDate: (doc['departureDate'] as Timestamp).toDate(),
+        pickUpDate: (doc['pickUpDate'] as Timestamp).toDate());
   }
 
   @override

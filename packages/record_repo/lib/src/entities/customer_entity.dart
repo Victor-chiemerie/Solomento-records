@@ -45,7 +45,7 @@ class CustomerEntity extends Equatable {
       mobile: doc['mobile'] as String,
       carId: doc['carId'] as String,
       status: doc['status'] as String,
-      createdAt: (doc['approvalDate'] as Timestamp).toDate(),
+      createdAt: (doc['createdAt'] as Timestamp).toDate(),
       myUser: MyUser.fromEntity(MyUserEntity.fromDocument(doc['myUser'])),
     );
   }

@@ -4,9 +4,11 @@ import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/text_field.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/add_car_page.dart';
 
 import '../../Components/custom_button.dart';
+import '../Theme/text_theme.dart';
 
 class AddCustomerPage extends StatefulWidget {
   const AddCustomerPage({super.key});
@@ -32,7 +34,14 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new Customer'),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        title: Text(
+          'Add a new Customer',
+          style: TextThemes.headline1.copyWith(fontSize: 20),
+        ),
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -44,8 +53,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // name
-                const Text('Customer Name'),
-                const SizedBox(height: 10),
+                Text('Customer Name', style: TextThemes.text),
+                const SizedBox(height: 2),
                 MyTextField(
                   controller: nameController,
                   hintText: 'Enter Customer Name',
@@ -63,8 +72,8 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 const SizedBox(height: 10),
 
                 // mobile
-                const Text('Customer Mobile'),
-                const SizedBox(height: 10),
+                Text('Customer Mobile', style: TextThemes.text),
+                const SizedBox(height: 2),
                 MyTextField(
                   controller: mobileController,
                   hintText: 'Enter Customer Mobile',
@@ -85,18 +94,18 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 CustomButton(
                   width: double.infinity,
                   height: 45,
-                  color: const Color.fromRGBO(66, 178, 132, 1.0),
+                  color: AppColor.mainGreen,
                   text: 'Vehicle',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       customer.name = nameController.text;
                       customer.mobile = mobileController.text;
-                      // log(customer.toString());
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => BlocProvider(
-                            create: (context) => SaveDataBloc(recordRepository: FirebaseRecordRepository()),
+                            create: (context) => SaveDataBloc(
+                                recordRepository: FirebaseRecordRepository()),
                             child: AddCarPage(customer: customer),
                           ),
                         ),
