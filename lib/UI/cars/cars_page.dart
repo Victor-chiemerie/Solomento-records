@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:record_repository/record_repository.dart';
-import 'package:solomento_records/Components/deleteData.dart';
 import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
@@ -79,7 +78,7 @@ class CarsPage extends StatelessWidget {
                       // get the car object
                       final car = state.cars[index];
                       final String pickUpDate = (car.pickUpDate.toUtc() !=
-                              DateTime.utc(1999, 7, 20, 20, 18, 04))
+                              Functions.emptyDate)
                           ? shortenDate(
                               DateFormat('dd-MM-yyyy').format(car.pickUpDate))
                           : 'Not set';
@@ -88,7 +87,7 @@ class CarsPage extends StatelessWidget {
                         child: Card(
                           child: ListTile(
                             onLongPress: () {
-                              deleteData(
+                              Functions.deleteData(
                                 context,
                                 car,
                                 () => BlocProvider.of<DeleteDataCubit>(context)

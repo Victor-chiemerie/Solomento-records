@@ -374,8 +374,8 @@ class _AddCarPageState extends State<AddCarPage> {
                         isDeparted = newValue;
                       });
                     },
-                    title: const Text('Is vehicle out of compound?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle out of compound?', style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),

@@ -1,6 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
+
+import '../UI/Theme/text_theme.dart';
 
 class Functions {
   /// Pick a date
@@ -71,4 +75,44 @@ class Functions {
       },
     );
   }
+
+  /// Detete car and owner data from database
+  static void deleteData(BuildContext context, Car car, VoidCallback action) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete car data?', style: TextThemes.headline1),
+        content: Text(
+          'All information on this vehicle and the customer associated with the vehicle will be deleted permanently',
+          style: TextThemes.text,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => action(),
+            child: Text('Yes',
+                style: TextThemes.text.copyWith(color: AppColor.mainGreen)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('No',
+                style: TextThemes.text.copyWith(color: Colors.redAccent)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// format int value to currency setting
+  static String formatAmount(int amount) {
+    // convert String value to double value
+    final doubleAmount = double.parse(amount.toString());
+    // Format the amount with commas for thousands and two decimal places
+    final formattedAmount = NumberFormat('#,##0', 'en_US').format(doubleAmount);
+    // NumberFormat('#,##0.00', 'en_US').format(doubleAmount);
+
+    return formattedAmount;
+  }
+
+  /// Default value for empty date
+  static DateTime emptyDate = DateTime.utc(1999, 7, 20, 20, 18, 04);
 }

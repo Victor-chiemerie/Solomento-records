@@ -10,8 +10,6 @@ import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dar
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../Components/custom_button.dart';
-import '../../Components/deleteData.dart';
-import '../../Components/format_amount.dart';
 import '../../Components/functions.dart';
 import '../../Components/text_field.dart';
 import 'package:intl/intl.dart';
@@ -91,13 +89,11 @@ class _EditCarPageState extends State<EditCarPage> {
     isApproved = newCar.isApproved;
     isRepaired = newCar.repairStatus == 'Fixed' ? true : false;
     isDeparted =
-        newCar.departureDate.toUtc() != DateTime.utc(1999, 7, 20, 20, 18, 04)
-            ? true
-            : false;
+        newCar.departureDate.toUtc() != Functions.emptyDate ? true : false;
     arrivalDateController.text =
         DateFormat('dd-MM-yyyy').format(newCar.arrivalDate);
     pickUpDateDateController.text =
-        newCar.pickUpDate.toUtc() != DateTime.utc(1999, 7, 20, 20, 18, 04)
+        newCar.pickUpDate.toUtc() != Functions.emptyDate
             ? DateFormat('dd-MM-yyyy').format(newCar.pickUpDate)
             : "";
     super.initState();
@@ -156,7 +152,7 @@ class _EditCarPageState extends State<EditCarPage> {
                 },
                 child: IconButton(
                   onPressed: () {
-                    deleteData(
+                    Functions.deleteData(
                       context,
                       newCar,
                       () => BlocProvider.of<DeleteDataCubit>(context)
@@ -356,6 +352,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   // Cost
                   if (user.userType == 'admin')
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Edit Cost of repair', style: TextThemes.text),
                         const SizedBox(height: 2),
@@ -397,6 +394,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   // Payment made
                   if (user.userType == 'admin')
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Edit Amount Paid', style: TextThemes.text),
                         const SizedBox(height: 2),
@@ -431,7 +429,8 @@ class _EditCarPageState extends State<EditCarPage> {
                                             DateFormat('dd-MM-yyyy')
                                                 .format(date);
                                         String formattedAmount =
-                                            formatAmount(payment['amount']);
+                                            Functions.formatAmount(
+                                                payment['amount']);
 
                                         return Row(
                                           mainAxisAlignment:
@@ -604,13 +603,13 @@ class _EditCarPageState extends State<EditCarPage> {
                           newCar.isApproved = isApproved!;
                           newCar.approvalDate = (isApproved! &
                                   (newCar.approvalDate.toUtc() ==
-                                      DateTime.utc(1999, 7, 20, 20, 18, 04)))
+                                      Functions.emptyDate))
                               ? DateTime.now()
                               : newCar.approvalDate;
-                          newCar.paymentStatus =
-                              (amountPaid >= Functions.parseDouble(costController.text))
-                                  ? "Complete"
-                                  : newCar.paymentStatus;
+                          newCar.paymentStatus = (amountPaid >=
+                                  Functions.parseDouble(costController.text))
+                              ? "Complete"
+                              : newCar.paymentStatus;
                           newCar.paymentMade = amountPaid;
                           newCar.paymentHistory = paymentHistory;
                           newCar.repairStatus =
@@ -621,7 +620,7 @@ class _EditCarPageState extends State<EditCarPage> {
                                   : newCar.repairDetails;
                           newCar.departureDate = (isDeparted! &
                                   (newCar.departureDate.toUtc() ==
-                                      DateTime.utc(1999, 7, 20, 20, 18, 04)))
+                                      Functions.emptyDate))
                               ? DateTime.now()
                               : newCar.departureDate;
                           newCar.pickUpDate = (selectedDate != null)
