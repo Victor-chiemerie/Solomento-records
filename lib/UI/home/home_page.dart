@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () async {
           BlocProvider.of<GetDataCubit>(context).getData();
         },
-        color: const Color.fromRGBO(66, 178, 132, 1.0),
+        color: AppColor.mainGreen,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(

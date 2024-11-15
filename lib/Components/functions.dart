@@ -7,6 +7,9 @@ import 'package:solomento_records/UI/Theme/color_theme.dart';
 import '../UI/Theme/text_theme.dart';
 
 class Functions {
+  /// Default value for empty date
+  static DateTime emptyDate = DateTime.utc(1999, 7, 20, 20, 18, 04);
+  
   /// Pick a date
   static Future<void> selectDate(
       BuildContext context, ValueChanged<DateTime?> onDatePicked) async {
@@ -113,6 +116,12 @@ class Functions {
     return formattedAmount;
   }
 
-  /// Default value for empty date
-  static DateTime emptyDate = DateTime.utc(1999, 7, 20, 20, 18, 04);
+  /// Remove the time properties of a DateTime variable
+  static String shortenDate(String date, {int maxLength = 10}) {
+    if (date.length <= maxLength) {
+      return date; // If the date is shorter than maxLength, return as is
+    }
+
+    return '${date.substring(0, maxLength)}...'; // Truncate and add ellipsis
+  }
 }

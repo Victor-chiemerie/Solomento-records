@@ -69,6 +69,7 @@ class CarsPage extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(15),
                 child: RefreshIndicator(
+                  color: AppColor.mainGreen,
                   onRefresh: () async {
                     BlocProvider.of<GetDataCubit>(context).getData();
                   },
@@ -79,7 +80,7 @@ class CarsPage extends StatelessWidget {
                       final car = state.cars[index];
                       final String pickUpDate = (car.pickUpDate.toUtc() !=
                               Functions.emptyDate)
-                          ? shortenDate(
+                          ? Functions.shortenDate(
                               DateFormat('dd-MM-yyyy').format(car.pickUpDate))
                           : 'Not set';
                       return Padding(
@@ -189,13 +190,5 @@ class CarsPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String shortenDate(String date, {int maxLength = 10}) {
-    if (date.length <= maxLength) {
-      return date; // If the date is shorter than maxLength, return as is
-    }
-
-    return '${date.substring(0, maxLength)}...'; // Truncate and add ellipsis
   }
 }

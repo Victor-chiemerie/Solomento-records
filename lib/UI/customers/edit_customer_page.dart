@@ -11,6 +11,7 @@ import '../../Components/screen_size.dart';
 import '../../Components/text_field.dart';
 import '../../Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import '../../Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import '../Theme/color_theme.dart';
 import '../Theme/text_theme.dart';
 
 class EditCustomerPage extends StatefulWidget {
@@ -170,7 +171,7 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                     CustomButton(
                       width: double.infinity,
                       height: 45,
-                      color: const Color.fromRGBO(66, 178, 132, 1.0),
+                      color: AppColor.mainGreen,
                       text: 'Update customer',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {

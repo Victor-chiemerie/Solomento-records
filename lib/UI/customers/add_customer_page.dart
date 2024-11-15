@@ -4,6 +4,7 @@ import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/text_field.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/add_car_page.dart';
 
 import '../../Components/custom_button.dart';
@@ -93,13 +94,12 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 CustomButton(
                   width: double.infinity,
                   height: 45,
-                  color: const Color.fromRGBO(66, 178, 132, 1.0),
+                  color: AppColor.mainGreen,
                   text: 'Vehicle',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       customer.name = nameController.text;
                       customer.mobile = mobileController.text;
-                      // log(customer.toString());
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -45,6 +45,7 @@ class CustomersPage extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.all(15),
               child: RefreshIndicator(
+                color: AppColor.mainGreen,
                 onRefresh: () async {
                   context.read<GetDataCubit>().getData();
                 },
@@ -105,7 +106,7 @@ class CustomersPage extends StatelessWidget {
                                         builder: (context) =>
                                             EditCarPage(car: car)));
                               } catch (error) {
-                                print(error.toString());
+                                debugPrint(error.toString());
                               }
                             },
                             child: Text(

@@ -535,7 +535,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     },
                     title: Text('Is vehicle Repaired?',
                         style: TextThemes.text.copyWith(fontSize: 12)),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),

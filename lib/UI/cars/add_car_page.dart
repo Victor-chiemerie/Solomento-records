@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -436,8 +434,6 @@ class _AddCarPageState extends State<AddCarPage> {
                                 : car.repairDetails;
                         car.departureDate =
                             (isDeparted!) ? DateTime.now() : car.departureDate;
-
-                        log(car.toString());
 
                         context
                             .read<SaveDataBloc>()
