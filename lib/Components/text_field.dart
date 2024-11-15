@@ -54,6 +54,7 @@ class MyTextField extends StatelessWidget {
       onChanged: onChanged,
       maxLines: maxLines,
       expands: expands,
+      readOnly: readOnly,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,

@@ -1,4 +1,8 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
 import 'package:flutter/material.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
+import 'package:solomento_records/UI/Theme/text_theme.dart';
 
 class MultiSelectDialog extends StatefulWidget {
   final List<String> jobTypes;
@@ -26,13 +30,14 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Select Job Types"),
+      title: Text("Select Job Types", style: TextThemes.headline1,),
       content: SingleChildScrollView(
         child: Column(
           children: widget.jobTypes.map((jobType) {
             return CheckboxListTile(
-              title: Text(jobType),
+              title: Text(jobType, style: TextThemes.text),
               value: _tempSelectedJobTypes.contains(jobType),
+              activeColor: AppColor.mainGreen,
               onChanged: (bool? selected) {
                 setState(() {
                   if (selected == true) {
@@ -48,13 +53,13 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text("Cancel"),
+          child: Text("Cancel", style: TextThemes.text.copyWith(color: Colors.red),),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: const Text("OK"),
+          child: Text("OK", style: TextThemes.text.copyWith(color: AppColor.mainGreen),),
           onPressed: () {
             Navigator.pop(context, _tempSelectedJobTypes);
           },

@@ -30,9 +30,9 @@ class AppView extends StatelessWidget {
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
             // Directly access MyUserBloc here
-            context.read<MyUserBloc>().add(GetMyUser(
-                  myUserId: context.read<AuthenticationBloc>().state.user!.uid,
-                ));
+            BlocProvider.of<MyUserBloc>(context).add(GetMyUser(
+              myUserId: context.read<AuthenticationBloc>().state.user!.uid,
+            ));
             return const HomePage();
           } else {
             return const WelcomePage();

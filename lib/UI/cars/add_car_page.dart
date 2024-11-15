@@ -1,16 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
+import 'package:solomento_records/Components/functions.dart';
 import 'package:solomento_records/Components/multiSelectDialog.dart';
+import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
 import '../../Components/custom_button.dart';
-import '../../Components/hide_loading.dart';
-import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
-import '../../Logic/blocs/get_data_bloc/get_data_bloc.dart';
+import '../Theme/text_theme.dart';
 
 class AddCarPage extends StatefulWidget {
   const AddCarPage({super.key, required this.customer});
@@ -30,6 +30,21 @@ class _AddCarPageState extends State<AddCarPage> {
   final costController = TextEditingController();
   final paidAmountController = TextEditingController();
   final repairDetailsController = TextEditingController();
+  final pickUpDateDateController = TextEditingController();
+
+  final technicians = [
+    'Stanley',
+    'OJ',
+    'Ebube',
+    'Chika',
+    'Leo',
+    'Adewale',
+    'Peter',
+    'Nonso',
+    'Uche',
+    'Emma',
+    'Family man',
+  ];
 
   final jobTypes = [
     'Mechanical',
@@ -42,6 +57,8 @@ class _AddCarPageState extends State<AddCarPage> {
   bool? isRepaired = false;
   bool? isDeparted = false;
   List<String> selectedJobTypes = [];
+  String? selectedTechnician; // Variable to store the technician
+  DateTime? selectedDate;
   late Car car;
 
   @override
@@ -52,28 +69,36 @@ class _AddCarPageState extends State<AddCarPage> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDeviceSize(context);
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
-        context.read<GetDataBloc>().add(GetAllCars());
-        
+          BlocProvider.of<GetDataCubit>(context).getData();
+
           // pop till home screen
           Navigator.popUntil(context, (route) {
             return route.isFirst;
           });
         } else if (state is SaveDataLoading) {
-          showLoadingPage(context);
+          Functions.showLoadingPage(context);
         } else if (state is SaveDataFailure) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
         }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Add customer vehicle'),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          title: Text(
+            'Add customer vehicle',
+            style: TextThemes.headline1.copyWith(fontSize: 20),
+          ),
         ),
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -85,8 +110,8 @@ class _AddCarPageState extends State<AddCarPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Model name
-                  const Text('Model Name'),
-                  const SizedBox(height: 10),
+                  Text('Model Name', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: modelNameController,
                     hintText: 'Enter Model Name',
@@ -103,8 +128,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Plate number
-                  const Text('Plate Number'),
-                  const SizedBox(height: 10),
+                  Text('Plate Number', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: plateNumberController,
                     hintText: 'Enter Plate Number',
@@ -121,8 +146,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Service adviser
-                  const Text('Service Adviser'),
-                  const SizedBox(height: 10),
+                  Text('Service Adviser', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: serviceAdviserController,
                     hintText: 'Enter Service Adviser',
@@ -139,8 +164,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Job Details
-                  const Text('Job Details'),
-                  const SizedBox(height: 10),
+                  Text('Job Details', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: jobDetailsController,
                     hintText: 'Enter Job Details',
@@ -159,8 +184,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Job Type
-                  const Text('Job Type'),
-                  const SizedBox(height: 10),
+                  Text('Job Type', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CustomButton(
                     width: double.infinity,
                     height: 45,
@@ -188,22 +213,48 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 5),
 
                   if (selectedJobTypes.isNotEmpty)
-                    Text(joinArrayContents(selectedJobTypes)),
+                    Text(Functions.joinArrayContents(selectedJobTypes),
+                        style: TextThemes.text.copyWith(fontSize: 11.5)),
 
                   if (selectedJobTypes.isEmpty)
-                    const Text(
-                      'Select one job or more',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
+                    Text('Select one job or more',
+                        style: TextThemes.text.copyWith(color: Colors.red)),
+
+                  const SizedBox(height: 10),
+
+                  // Technician
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Technician", style: TextThemes.text),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            menuWidth: deviceWidth * 0.5,
+                            menuMaxHeight: deviceHeight * 0.5,
+                            padding: const EdgeInsets.only(left: 12, right: 10),
+                            value: selectedTechnician,
+                            isExpanded: true,
+                            hint: const Text('pick a technician'),
+                            items: technicians.map(technicianList).toList(),
+                            onChanged: (value) {
+                              setState(() => selectedTechnician = value);
+                            },
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
 
                   const SizedBox(height: 10),
 
                   // Cost
                   const Text('Cost of repair (optional)'),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: costController,
                     hintText: 'Enter Amount',
@@ -216,8 +267,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // is Approved
-                  const Text('Approval Status'),
-                  const SizedBox(height: 10),
+                  Text('Approval Status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isApproved,
                     onChanged: (bool? newValue) {
@@ -225,8 +276,9 @@ class _AddCarPageState extends State<AddCarPage> {
                         isApproved = newValue;
                       });
                     },
-                    title: const Text('Is vehicle Approved?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle Approved?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -236,8 +288,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Payment made
-                  const Text('Amount Paid (optional)'),
-                  const SizedBox(height: 10),
+                  Text('Amount Paid (optional)', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: paidAmountController,
                     hintText: 'Enter Amount',
@@ -250,9 +302,34 @@ class _AddCarPageState extends State<AddCarPage> {
 
                   const SizedBox(height: 10),
 
-                  // Repair status
-                  const Text('Repair status'),
+                  // Pick-Up date
+                  Text('Date of Pick-Up', style: TextThemes.text),
+                  const SizedBox(height: 2),
+                  MyTextField(
+                    prefixIcon: const Icon(Icons.calendar_today),
+                    controller: pickUpDateDateController,
+                    hintText: 'Enter Pick-Up date',
+                    obscureText: false,
+                    keyboardType: TextInputType.text,
+                    readOnly: true,
+                    onTap: () {
+                      Functions.selectDate(context, (pickedDate) {
+                        if (pickedDate != null) {
+                          setState(() {
+                            pickUpDateDateController.text =
+                                pickedDate.toString().split(" ")[0];
+                            selectedDate = pickedDate;
+                          });
+                        }
+                      });
+                    },
+                  ),
+
                   const SizedBox(height: 10),
+
+                  // Repair status
+                  Text('Repair status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isRepaired,
                     onChanged: (bool? newValue) {
@@ -260,8 +337,9 @@ class _AddCarPageState extends State<AddCarPage> {
                         isRepaired = newValue;
                       });
                     },
-                    title: const Text('Is vehicle Repaired?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle Repaired?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -271,8 +349,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // Repair Details
-                  const Text('Repair Details (optional)'),
-                  const SizedBox(height: 10),
+                  Text('Repair Details (optional)', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: repairDetailsController,
                     hintText: 'Enter Repair Details',
@@ -285,8 +363,8 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 10),
 
                   // is Departed
-                  const Text('Pick up status'),
-                  const SizedBox(height: 10),
+                  Text('Pick up status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isDeparted,
                     onChanged: (bool? newValue) {
@@ -294,8 +372,8 @@ class _AddCarPageState extends State<AddCarPage> {
                         isDeparted = newValue;
                       });
                     },
-                    title: const Text('Is vehicle out of compound?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle out of compound?', style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -308,7 +386,7 @@ class _AddCarPageState extends State<AddCarPage> {
                   CustomButton(
                     width: double.infinity,
                     height: 45,
-                    color: const Color.fromRGBO(66, 178, 132, 1.0),
+                    color: AppColor.mainGreen,
                     text: 'Save',
                     onPressed: () {
                       if (_formKey.currentState!.validate() &
@@ -316,22 +394,28 @@ class _AddCarPageState extends State<AddCarPage> {
                         car.modelName = modelNameController.text;
                         car.plateNumber = plateNumberController.text;
                         car.serviceAdviser = serviceAdviserController.text;
+                        car.technician = (selectedTechnician != null)
+                            ? selectedTechnician!
+                            : car.technician;
                         car.arrivalDate = DateTime.now();
                         car.jobDetails = jobDetailsController.text;
                         car.jobType = selectedJobTypes;
                         car.cost = (costController.text.isNotEmpty)
-                            ? parseDouble(costController.text)
+                            ? Functions.parseDouble(costController.text)
                             : car.cost;
                         car.isApproved = isApproved!;
+                        car.pickUpDate = (selectedDate != null)
+                            ? selectedDate!
+                            : car.pickUpDate;
                         car.approvalDate =
                             (isApproved!) ? DateTime.now() : car.approvalDate;
                         car.paymentStatus =
-                            (parseDouble(paidAmountController.text) >=
-                                    parseDouble(costController.text))
+                            (Functions.parseDouble(paidAmountController.text) >=
+                                    Functions.parseDouble(costController.text))
                                 ? "Complete"
                                 : car.paymentStatus;
                         car.paymentMade = (paidAmountController.text.isNotEmpty)
-                            ? parseDouble(paidAmountController.text)
+                            ? Functions.parseDouble(paidAmountController.text)
                             : car.paymentMade;
                         car.paymentHistory = (paidAmountController
                                 .text.isNotEmpty)
@@ -339,7 +423,7 @@ class _AddCarPageState extends State<AddCarPage> {
                                 {
                                   'date': DateTime.now(),
                                   'amount':
-                                      parseDouble(paidAmountController.text),
+                                      Functions.parseDouble(paidAmountController.text),
                                 }
                               ]
                             : car.paymentHistory;
@@ -350,8 +434,6 @@ class _AddCarPageState extends State<AddCarPage> {
                                 : car.repairDetails;
                         car.departureDate =
                             (isDeparted!) ? DateTime.now() : car.departureDate;
-
-                        log(car.toString());
 
                         context
                             .read<SaveDataBloc>()
@@ -370,17 +452,10 @@ class _AddCarPageState extends State<AddCarPage> {
     );
   }
 
-  // join array variables
-  String joinArrayContents(List<dynamic> array) {
-    return array.join(', ');
-  }
-
-  // Helper function to safely parse text to double
-  double parseDouble(String text, {double defaultValue = 0.0}) {
-    try {
-      return double.parse(text);
-    } catch (e) {
-      return defaultValue; // Or handle the error in another way if needed
-    }
-  }
+  DropdownMenuItem technicianList(String technician) => DropdownMenuItem(
+        value: technician,
+        child: Text(
+          technician,
+        ),
+      );
 }

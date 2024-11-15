@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';
+
 import '../entities/entities.dart';
 
 class Customer extends Equatable {
@@ -9,6 +10,7 @@ class Customer extends Equatable {
   String mobile;
   String carId;
   String status;
+  DateTime createdAt;
   MyUser myUser;
 
   Customer({
@@ -17,6 +19,7 @@ class Customer extends Equatable {
     required this.mobile,
     required this.carId,
     required this.status,
+    required this.createdAt,
     required this.myUser,
   });
 
@@ -27,6 +30,7 @@ class Customer extends Equatable {
     mobile: "",
     carId: "",
     status: "unSettled",
+    createdAt: DateTime.now(),
     myUser: MyUser.empty,
   );
 
@@ -42,6 +46,7 @@ class Customer extends Equatable {
     String? mobile,
     String? carId,
     String? status,
+    DateTime? createdAt,
     MyUser? myUser,
   }) {
     return Customer(
@@ -50,6 +55,7 @@ class Customer extends Equatable {
       mobile: mobile ?? this.mobile,
       carId: carId ?? this.carId,
       status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
       myUser: myUser ?? this.myUser,
     );
   }
@@ -61,6 +67,7 @@ class Customer extends Equatable {
       mobile: mobile,
       carId: carId,
       status: status,
+      createdAt: createdAt,
       myUser: myUser,
     );
   }
@@ -72,10 +79,12 @@ class Customer extends Equatable {
       mobile: entity.mobile,
       carId: entity.carId,
       status: entity.status,
+      createdAt: entity.createdAt,
       myUser: entity.myUser,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, mobile, carId, status, myUser];
+  List<Object?> get props =>
+      [id, name, mobile, carId, status, createdAt, myUser];
 }

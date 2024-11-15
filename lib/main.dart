@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Logic/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:solomento_records/Logic/blocs/get_data_bloc/get_data_bloc.dart';
 import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
+import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
+import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
+import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:user_repository/user_repository.dart';
 import 'Logic/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'app_view.dart';
@@ -39,25 +41,23 @@ class MyApp extends StatelessWidget {
       MyUserBloc(myUserRepository: FirebaseUserRepository());
   final SignInBloc _signInBloc =
       SignInBloc(myUserRepository: FirebaseUserRepository());
-  final GetDataBloc _getDataBloc =
-      GetDataBloc(recordRepository: FirebaseRecordRepository());
+  final GetDataCubit _getDataCubit =
+      GetDataCubit(recordRepository: FirebaseRecordRepository());
+  final SaveDataBloc _saveDataBloc =
+      SaveDataBloc(recordRepository: FirebaseRecordRepository());
+  final DeleteDataCubit _deleteDataCubit =
+      DeleteDataCubit(recordRepository: FirebaseRecordRepository());
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => _authenticationBloc,
-        ),
-        BlocProvider(
-          create: (context) => _myUserBloc,
-        ),
-        BlocProvider(
-          create: (context) => _signInBloc,
-        ),
-        BlocProvider(
-          create: (context) => _getDataBloc,
-        ),
+        BlocProvider(create: (_) => _authenticationBloc),
+        BlocProvider(create: (context) => _myUserBloc),
+        BlocProvider(create: (context) => _signInBloc),
+        BlocProvider.value(value: _getDataCubit..getData()),
+        BlocProvider(create: (context) => _saveDataBloc),
+        BlocProvider(create: (context) => _deleteDataCubit),
       ],
       child: const AppView(),
     );

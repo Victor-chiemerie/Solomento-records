@@ -7,17 +7,18 @@ abstract class RecordRepository {
     Car car,
   );
 
-  /// Save a car
-  Future<Car> saveCarData(Car car);
+  /// Update a car data
+  Future<Car> updateCarData(Car car, String id);
 
   /// Get list of all cars
   Future<List<Car>> getCars();
 
-  /// Update car information
-
-  /// Save a customer
-  Future<Customer> saveCustomerData(Customer customer);
+  /// Update a customer data
+  Future<Customer> updateCustomerData(Customer customer, String id);
 
   /// Cet list of all customers
   Future<List<Customer>> getCustomers();
+
+  /// Delete customer and car data
+  Future<void> deleteCustomerAndCar(Car car);
 }
