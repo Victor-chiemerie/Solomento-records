@@ -580,7 +580,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 20),
 
                   // Update record
-                  if (user.userType == 'admin')
+                  if (user.userType == 'admin' || user.userType == 'supervisor')
                     CustomButton(
                       width: double.infinity,
                       height: 45,

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:record_repository/record_repository.dart';
+import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/edit_car_page.dart';
+import 'package:user_repository/user_repository.dart';
 
 import '../../Components/functions.dart';
 import '../Theme/text_theme.dart';
@@ -17,6 +19,7 @@ class CarsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MyUser user = BlocProvider.of<MyUserBloc>(context).state.user!;
     return BlocListener<DeleteDataCubit, DeleteDataState>(
       listener: (context, state) {
         if (state.status == DeleteDataStatus.success) {
@@ -88,12 +91,15 @@ class CarsPage extends StatelessWidget {
                         child: Card(
                           child: ListTile(
                             onLongPress: () {
-                              Functions.deleteData(
-                                context,
-                                car,
-                                () => BlocProvider.of<DeleteDataCubit>(context)
-                                    .deleteData(car),
-                              );
+                              if (user.userType == 'admin') {
+                                Functions.deleteData(
+                                  context,
+                                  car,
+                                  () =>
+                                      BlocProvider.of<DeleteDataCubit>(context)
+                                          .deleteData(car),
+                                );
+                              }
                             },
                             onTap: () {
                               Navigator.push(
