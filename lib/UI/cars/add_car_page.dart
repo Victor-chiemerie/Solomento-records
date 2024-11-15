@@ -11,8 +11,6 @@ import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import '../../Components/custom_button.dart';
-import '../../Components/hide_loading.dart';
-import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
 import '../Theme/text_theme.dart';
 
@@ -77,7 +75,7 @@ class _AddCarPageState extends State<AddCarPage> {
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
           BlocProvider.of<GetDataCubit>(context).getData();
@@ -87,9 +85,9 @@ class _AddCarPageState extends State<AddCarPage> {
             return route.isFirst;
           });
         } else if (state is SaveDataLoading) {
-          showLoadingPage(context);
+          Functions.showLoadingPage(context);
         } else if (state is SaveDataFailure) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
         }
       },
       child: Scaffold(
@@ -217,7 +215,7 @@ class _AddCarPageState extends State<AddCarPage> {
                   const SizedBox(height: 5),
 
                   if (selectedJobTypes.isNotEmpty)
-                    Text(joinArrayContents(selectedJobTypes),
+                    Text(Functions.joinArrayContents(selectedJobTypes),
                         style: TextThemes.text.copyWith(fontSize: 11.5)),
 
                   if (selectedJobTypes.isEmpty)
@@ -405,7 +403,7 @@ class _AddCarPageState extends State<AddCarPage> {
                         car.jobDetails = jobDetailsController.text;
                         car.jobType = selectedJobTypes;
                         car.cost = (costController.text.isNotEmpty)
-                            ? parseDouble(costController.text)
+                            ? Functions.parseDouble(costController.text)
                             : car.cost;
                         car.isApproved = isApproved!;
                         car.pickUpDate = (selectedDate != null)
@@ -414,12 +412,12 @@ class _AddCarPageState extends State<AddCarPage> {
                         car.approvalDate =
                             (isApproved!) ? DateTime.now() : car.approvalDate;
                         car.paymentStatus =
-                            (parseDouble(paidAmountController.text) >=
-                                    parseDouble(costController.text))
+                            (Functions.parseDouble(paidAmountController.text) >=
+                                    Functions.parseDouble(costController.text))
                                 ? "Complete"
                                 : car.paymentStatus;
                         car.paymentMade = (paidAmountController.text.isNotEmpty)
-                            ? parseDouble(paidAmountController.text)
+                            ? Functions.parseDouble(paidAmountController.text)
                             : car.paymentMade;
                         car.paymentHistory = (paidAmountController
                                 .text.isNotEmpty)
@@ -427,7 +425,7 @@ class _AddCarPageState extends State<AddCarPage> {
                                 {
                                   'date': DateTime.now(),
                                   'amount':
-                                      parseDouble(paidAmountController.text),
+                                      Functions.parseDouble(paidAmountController.text),
                                 }
                               ]
                             : car.paymentHistory;
@@ -464,18 +462,4 @@ class _AddCarPageState extends State<AddCarPage> {
           technician,
         ),
       );
-
-  // join array variables
-  String joinArrayContents(List<dynamic> array) {
-    return array.join(', ');
-  }
-
-  // Helper function to safely parse text to double
-  double parseDouble(String text, {double defaultValue = 0.0}) {
-    try {
-      return double.parse(text);
-    } catch (e) {
-      return defaultValue; // Or handle the error in another way if needed
-    }
-  }
 }

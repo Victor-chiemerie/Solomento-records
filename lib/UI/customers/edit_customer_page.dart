@@ -6,9 +6,8 @@ import 'package:user_repository/user_repository.dart';
 
 import '../../Components/custom_button.dart';
 import '../../Components/drop_down_menu.dart';
-import '../../Components/hide_loading.dart';
+import '../../Components/functions.dart';
 import '../../Components/screen_size.dart';
-import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
 import '../../Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import '../../Logic/cubits/get_data_cubit/get_data_cubit.dart';
@@ -53,7 +52,7 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
           context.read<GetDataCubit>().getData();
@@ -61,9 +60,9 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
           // pop the screen
           Navigator.pop(context);
         } else if (state is SaveDataLoading) {
-          showLoadingPage(context);
+          Functions.showLoadingPage(context);
         } else if (state is SaveDataFailure) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
         }
       },
       child: Scaffold(

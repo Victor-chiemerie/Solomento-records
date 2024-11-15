@@ -9,8 +9,7 @@ import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dar
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/edit_car_page.dart';
 
-import '../../Components/hide_loading.dart';
-import '../../Components/show_loading.dart';
+import '../../Components/functions.dart';
 import '../Theme/text_theme.dart';
 import '../customers/edit_customer_page.dart';
 
@@ -22,7 +21,7 @@ class CarsPage extends StatelessWidget {
     return BlocListener<DeleteDataCubit, DeleteDataState>(
       listener: (context, state) {
         if (state.status == DeleteDataStatus.success) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
           BlocProvider.of<GetDataCubit>(context).getData();
@@ -30,9 +29,9 @@ class CarsPage extends StatelessWidget {
           // pop the screen
           Navigator.pop(context);
         } else if (state.status == DeleteDataStatus.loading) {
-          showLoadingPage(context);
+          Functions.showLoadingPage(context);
         } else if (state.status == DeleteDataStatus.failure) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
 
           // pop the screen
           Navigator.pop(context);

@@ -13,8 +13,6 @@ import '../../Components/custom_button.dart';
 import '../../Components/deleteData.dart';
 import '../../Components/format_amount.dart';
 import '../../Components/functions.dart';
-import '../../Components/hide_loading.dart';
-import '../../Components/show_loading.dart';
 import '../../Components/text_field.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -111,7 +109,7 @@ class _EditCarPageState extends State<EditCarPage> {
     return BlocListener<SaveDataBloc, SaveDataState>(
       listener: (context, state) {
         if (state is SaveDataSuccess) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
 
           // Emit GetAllCars to refresh the data in the home page
           context.read<GetDataCubit>().getData();
@@ -119,9 +117,9 @@ class _EditCarPageState extends State<EditCarPage> {
           // pop the screen
           Navigator.pop(context);
         } else if (state is SaveDataLoading) {
-          showLoadingPage(context);
+          Functions.showLoadingPage(context);
         } else if (state is SaveDataFailure) {
-          hideLoadingPage(context);
+          Functions.hideLoadingPage(context);
         }
       },
       child: Scaffold(
@@ -140,7 +138,7 @@ class _EditCarPageState extends State<EditCarPage> {
               BlocListener<DeleteDataCubit, DeleteDataState>(
                 listener: (context, state) {
                   if (state.status == DeleteDataStatus.success) {
-                    hideLoadingPage(context);
+                    Functions.hideLoadingPage(context);
 
                     // Emit GetAllCars to refresh the data in the home page
                     BlocProvider.of<GetDataCubit>(context).getData();
@@ -148,9 +146,9 @@ class _EditCarPageState extends State<EditCarPage> {
                     // pop the screen
                     Navigator.pop(context);
                   } else if (state.status == DeleteDataStatus.loading) {
-                    showLoadingPage(context);
+                    Functions.showLoadingPage(context);
                   } else if (state.status == DeleteDataStatus.failure) {
-                    hideLoadingPage(context);
+                    Functions.hideLoadingPage(context);
 
                     // pop the screen
                     Navigator.pop(context);
@@ -316,7 +314,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 2),
 
                   if (selectedJobTypes.isNotEmpty)
-                    Text(joinArrayContents(selectedJobTypes),
+                    Text(Functions.joinArrayContents(selectedJobTypes),
                         style: TextThemes.text.copyWith(fontSize: 11.5)),
 
                   if (selectedJobTypes.isEmpty)
@@ -477,10 +475,10 @@ class _EditCarPageState extends State<EditCarPage> {
                                             .text.isNotEmpty) {
                                           setState(() {
                                             amountPaid = amountPaid +
-                                                parseDouble(
+                                                Functions.parseDouble(
                                                     paidAmountController.text);
                                             paymentHistory.add({
-                                              'amount': parseDouble(
+                                              'amount': Functions.parseDouble(
                                                   paidAmountController.text),
                                               'date': Timestamp.fromDate(
                                                   DateTime.now()),
@@ -601,7 +599,7 @@ class _EditCarPageState extends State<EditCarPage> {
                           newCar.jobDetails = jobDetailsController.text;
                           newCar.jobType = selectedJobTypes;
                           newCar.cost = (costController.text.isNotEmpty)
-                              ? parseDouble(costController.text)
+                              ? Functions.parseDouble(costController.text)
                               : newCar.cost;
                           newCar.isApproved = isApproved!;
                           newCar.approvalDate = (isApproved! &
@@ -610,7 +608,7 @@ class _EditCarPageState extends State<EditCarPage> {
                               ? DateTime.now()
                               : newCar.approvalDate;
                           newCar.paymentStatus =
-                              (amountPaid >= parseDouble(costController.text))
+                              (amountPaid >= Functions.parseDouble(costController.text))
                                   ? "Complete"
                                   : newCar.paymentStatus;
                           newCar.paymentMade = amountPaid;
@@ -653,18 +651,4 @@ class _EditCarPageState extends State<EditCarPage> {
           technician,
         ),
       );
-
-  // join array variables
-  String joinArrayContents(List<dynamic> array) {
-    return array.join(', ');
-  }
-
-  // Helper function to safely parse text to double
-  double parseDouble(String text, {double defaultValue = 0.0}) {
-    try {
-      return double.parse(text);
-    } catch (e) {
-      return defaultValue; // Or handle the error in another way if needed
-    }
-  }
 }
