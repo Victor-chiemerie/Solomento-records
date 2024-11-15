@@ -7,6 +7,8 @@ import 'package:solomento_records/Components/multiSelectDialog.dart';
 import 'package:solomento_records/Components/screen_size.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
+import 'package:solomento_records/UI/Theme/color_theme.dart';
+import 'package:user_repository/user_repository.dart';
 import '../../Components/custom_button.dart';
 import '../../Components/deleteData.dart';
 import '../../Components/format_amount.dart';
@@ -16,7 +18,9 @@ import '../../Components/text_field.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import '../../Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
+import '../Theme/text_theme.dart';
 
 class EditCarPage extends StatefulWidget {
   const EditCarPage({super.key, required this.car});
@@ -65,6 +69,7 @@ class _EditCarPageState extends State<EditCarPage> {
   List<String> selectedJobTypes = [];
   List<Map<String, dynamic>> paymentHistory = [];
   late Car newCar;
+  late MyUser user;
   double amountPaid = 0;
   String? selectedTechnician; // Variable to store the technician
   DateTime? selectedDate;
@@ -72,6 +77,7 @@ class _EditCarPageState extends State<EditCarPage> {
   @override
   void initState() {
     newCar = widget.car;
+    user = BlocProvider.of<MyUserBloc>(context).state.user!;
     modelNameController.text = newCar.modelName;
     plateNumberController.text = newCar.plateNumber;
     serviceAdviserController.text = newCar.serviceAdviser;
@@ -120,42 +126,50 @@ class _EditCarPageState extends State<EditCarPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Car details'),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          title: Text(
+            'Car details',
+            style: TextThemes.headline1.copyWith(fontSize: 20),
+          ),
           actions: [
-            BlocListener<DeleteDataCubit, DeleteDataState>(
-              listener: (context, state) {
-                if (state.status == DeleteDataStatus.success) {
-                  hideLoadingPage(context);
+            if (user.userType == 'admin')
+              BlocListener<DeleteDataCubit, DeleteDataState>(
+                listener: (context, state) {
+                  if (state.status == DeleteDataStatus.success) {
+                    hideLoadingPage(context);
 
-                  // Emit GetAllCars to refresh the data in the home page
-                  BlocProvider.of<GetDataCubit>(context).getData();
+                    // Emit GetAllCars to refresh the data in the home page
+                    BlocProvider.of<GetDataCubit>(context).getData();
 
-                  // pop the screen
-                  Navigator.pop(context);
-                } else if (state.status == DeleteDataStatus.loading) {
-                  showLoadingPage(context);
-                } else if (state.status == DeleteDataStatus.failure) {
-                  hideLoadingPage(context);
+                    // pop the screen
+                    Navigator.pop(context);
+                  } else if (state.status == DeleteDataStatus.loading) {
+                    showLoadingPage(context);
+                  } else if (state.status == DeleteDataStatus.failure) {
+                    hideLoadingPage(context);
 
-                  // pop the screen
-                  Navigator.pop(context);
-                }
-              },
-              child: IconButton(
-                onPressed: () {
-                  deleteData(
-                    context,
-                    newCar,
-                    () => BlocProvider.of<DeleteDataCubit>(context)
-                        .deleteData(newCar),
-                  );
+                    // pop the screen
+                    Navigator.pop(context);
+                  }
                 },
-                icon: const Icon(
-                  Icons.delete_forever,
-                  color: Colors.redAccent,
+                child: IconButton(
+                  onPressed: () {
+                    deleteData(
+                      context,
+                      newCar,
+                      () => BlocProvider.of<DeleteDataCubit>(context)
+                          .deleteData(newCar),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.delete_forever,
+                    color: Colors.redAccent,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         body: SingleChildScrollView(
@@ -184,8 +198,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 20),
 
                   // Model name
-                  const Text('Edit Model Name'),
-                  const SizedBox(height: 10),
+                  Text('Edit Model Name', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: modelNameController,
                     hintText: 'Enter Model Name',
@@ -202,8 +216,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Plate number
-                  const Text('Edit Plate Number'),
-                  const SizedBox(height: 10),
+                  Text('Edit Plate Number', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: plateNumberController,
                     hintText: 'Enter Plate Number',
@@ -220,8 +234,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Arrival date
-                  const Text('Date of Arrival'),
-                  const SizedBox(height: 10),
+                  Text('Date of Arrival', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     prefixIcon: const Icon(Icons.calendar_today),
                     controller: arrivalDateController,
@@ -234,8 +248,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Service adviser
-                  const Text('Edit Service Adviser'),
-                  const SizedBox(height: 10),
+                  Text('Edit Service Adviser', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: serviceAdviserController,
                     hintText: 'Enter Service Adviser',
@@ -252,8 +266,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Job Details
-                  const Text('Edit Job Details'),
-                  const SizedBox(height: 10),
+                  Text('Edit Job Details', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: jobDetailsController,
                     hintText: 'Enter Job Details',
@@ -272,8 +286,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Job Type
-                  const Text('Edit Job Type'),
-                  const SizedBox(height: 10),
+                  Text('Edit Job Type', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CustomButton(
                     width: double.infinity,
                     height: 45,
@@ -298,19 +312,15 @@ class _EditCarPageState extends State<EditCarPage> {
                     },
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 2),
 
                   if (selectedJobTypes.isNotEmpty)
-                    Text(joinArrayContents(selectedJobTypes)),
+                    Text(joinArrayContents(selectedJobTypes),
+                        style: TextThemes.text.copyWith(fontSize: 11.5)),
 
                   if (selectedJobTypes.isEmpty)
-                    const Text(
-                      'Select one job or more',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                    ),
+                    Text('Select one job or more',
+                        style: TextThemes.text.copyWith(color: Colors.red)),
 
                   const SizedBox(height: 10),
 
@@ -318,9 +328,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Edit Technician",
-                      ),
+                      Text("Edit Technician", style: TextThemes.text),
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
@@ -333,9 +341,7 @@ class _EditCarPageState extends State<EditCarPage> {
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             value: selectedTechnician,
                             isExpanded: true,
-                            hint: const Text(
-                              'pick a technician',
-                            ),
+                            hint: const Text('pick a technician'),
                             items: technicians.map(technicianList).toList(),
                             onChanged: (value) {
                               setState(() => selectedTechnician = value);
@@ -349,22 +355,28 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Cost
-                  const Text('Edit Cost of repair'),
-                  const SizedBox(height: 10),
-                  MyTextField(
-                    controller: costController,
-                    hintText: 'Enter Amount',
-                    prefixText: '₦ ',
-                    obscureText: false,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),
-
-                  const SizedBox(height: 10),
+                  if (user.userType == 'admin')
+                    Column(
+                      children: [
+                        Text('Edit Cost of repair', style: TextThemes.text),
+                        const SizedBox(height: 2),
+                        MyTextField(
+                          controller: costController,
+                          hintText: 'Enter Amount',
+                          prefixText: '₦ ',
+                          obscureText: false,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
 
                   // is Approved
-                  const Text('Edit Approval Status'),
-                  const SizedBox(height: 10),
+                  Text('Edit Approval Status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isApproved,
                     onChanged: (bool? newValue) {
@@ -372,8 +384,9 @@ class _EditCarPageState extends State<EditCarPage> {
                         isApproved = newValue;
                       });
                     },
-                    title: const Text('Is vehicle Approved?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle Approved?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -383,100 +396,113 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Payment made
-                  const Text('Edit Amount Paid'),
-                  const SizedBox(height: 10),
-                  CustomButton(
-                    width: double.infinity,
-                    height: 45,
-                    color: Colors.white,
-                    text: 'view and add new payment',
-                    border: Border.all(),
-                    onPressed: () {
-                      // show dialog box with trasaction history
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Payment History'),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: paymentHistory.map((payment) {
-                                  // Convert the Timestamp to DateTIme
-                                  DateTime date =
-                                      (payment['date'] as Timestamp).toDate();
-                                  String formattedDate =
-                                      DateFormat('dd-MM-yyyy').format(date);
-                                  String formattedAmount =
-                                      formatAmount(payment['amount']);
+                  if (user.userType == 'admin')
+                    Column(
+                      children: [
+                        Text('Edit Amount Paid', style: TextThemes.text),
+                        const SizedBox(height: 2),
+                        CustomButton(
+                          width: double.infinity,
+                          height: 45,
+                          color: Colors.white,
+                          text: 'view and add new payment',
+                          border: Border.all(),
+                          onPressed: () {
+                            // show dialog box with trasaction history
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                scrollable: true,
+                                title: Text('Payment History',
+                                    style: TextThemes.headline1),
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: paymentHistory.map((payment) {
+                                        // Convert the Timestamp to DateTIme
+                                        DateTime date =
+                                            (payment['date'] as Timestamp)
+                                                .toDate();
+                                        String formattedDate =
+                                            DateFormat('dd-MM-yyyy')
+                                                .format(date);
+                                        String formattedAmount =
+                                            formatAmount(payment['amount']);
 
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('₦$formattedAmount',
-                                          style: const TextStyle(fontSize: 16)),
-                                      Text(formattedDate,
-                                          style: const TextStyle(fontSize: 16)),
-                                    ],
-                                  );
-                                }).toList(),
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('⚈  ₦$formattedAmount',
+                                                style: TextThemes.text),
+                                            Text(formattedDate,
+                                                style: TextThemes.text),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    // Cost
+                                    Text('Add payment', style: TextThemes.text),
+                                    const SizedBox(height: 2),
+                                    MyTextField(
+                                      controller: paidAmountController,
+                                      hintText: 'Enter Amount',
+                                      prefixText: '₦ ',
+                                      obscureText: false,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 10),
+
+                                    // Add payment
+                                    CustomButton(
+                                      width: double.infinity,
+                                      height: 45,
+                                      color: const Color.fromRGBO(
+                                          66, 178, 132, 1.0),
+                                      text: 'Add payment',
+                                      onPressed: () {
+                                        if (paidAmountController
+                                            .text.isNotEmpty) {
+                                          setState(() {
+                                            amountPaid = amountPaid +
+                                                parseDouble(
+                                                    paidAmountController.text);
+                                            paymentHistory.add({
+                                              'amount': parseDouble(
+                                                  paidAmountController.text),
+                                              'date': Timestamp.fromDate(
+                                                  DateTime.now()),
+                                            });
+                                          });
+                                        }
+                                        Navigator.pop(context);
+                                        paidAmountController.clear();
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 10),
-
-                              // Cost
-                              const Text('Add payment'),
-                              const SizedBox(height: 10),
-                              MyTextField(
-                                controller: paidAmountController,
-                                hintText: 'Enter Amount',
-                                prefixText: '₦ ',
-                                obscureText: false,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              // Add payment
-                              CustomButton(
-                                width: double.infinity,
-                                height: 45,
-                                color: const Color.fromRGBO(66, 178, 132, 1.0),
-                                text: 'Add payment',
-                                onPressed: () {
-                                  if (paidAmountController.text.isNotEmpty) {
-                                    setState(() {
-                                      amountPaid = amountPaid +
-                                          parseDouble(
-                                              paidAmountController.text);
-                                      paymentHistory.add({
-                                        'amount': parseDouble(
-                                            paidAmountController.text),
-                                        'date':
-                                            Timestamp.fromDate(DateTime.now()),
-                                      });
-                                    });
-                                  }
-                                  Navigator.pop(context);
-                                  paidAmountController.clear();
-                                },
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 10),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
 
                   // Pick-Up date
-                  const Text('Date of Pick-Up'),
-                  const SizedBox(height: 10),
+                  Text('Date of Pick-Up', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     prefixIcon: const Icon(Icons.calendar_today),
                     controller: pickUpDateDateController,
@@ -492,8 +518,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Repair status
-                  const Text('Edit Repair status'),
-                  const SizedBox(height: 10),
+                  Text('Edit Repair status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isRepaired,
                     onChanged: (bool? newValue) {
@@ -501,7 +527,8 @@ class _EditCarPageState extends State<EditCarPage> {
                         isRepaired = newValue;
                       });
                     },
-                    title: const Text('Is vehicle Repaired?'),
+                    title: Text('Is vehicle Repaired?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
                     activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
@@ -512,8 +539,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // Repair Details
-                  const Text('Edit Repair Details'),
-                  const SizedBox(height: 10),
+                  Text('Edit Repair Details', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   MyTextField(
                     controller: repairDetailsController,
                     hintText: 'Enter Repair Details',
@@ -526,18 +553,18 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 10),
 
                   // is Departed
-                  const Text('Edit Pick up status'),
-                  const SizedBox(height: 10),
+                  Text('Edit Pick up status', style: TextThemes.text),
+                  const SizedBox(height: 2),
                   CheckboxListTile(
                     value: isDeparted,
                     onChanged: (bool? newValue) {
                       setState(() {
                         isDeparted = newValue;
                       });
-                      print('Is departed = $isDeparted');
                     },
-                    title: const Text('Is vehicle out of compound?'),
-                    activeColor: const Color.fromRGBO(66, 178, 132, 1.0),
+                    title: Text('Is vehicle out of compound?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
+                    activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                       side: const BorderSide(),
@@ -547,58 +574,59 @@ class _EditCarPageState extends State<EditCarPage> {
                   const SizedBox(height: 20),
 
                   // Update record
-                  CustomButton(
-                    width: double.infinity,
-                    height: 45,
-                    color: const Color.fromRGBO(66, 178, 132, 1.0),
-                    text: 'Update details',
-                    onPressed: () {
-                      if (_formKey.currentState!.validate() &
-                          selectedJobTypes.isNotEmpty) {
-                        newCar.modelName = modelNameController.text;
-                        newCar.plateNumber = plateNumberController.text;
-                        newCar.serviceAdviser = serviceAdviserController.text;
-                        newCar.technician = (selectedTechnician != null)
-                            ? selectedTechnician!
-                            : newCar.technician;
-                        newCar.jobDetails = jobDetailsController.text;
-                        newCar.jobType = selectedJobTypes;
-                        newCar.cost = (costController.text.isNotEmpty)
-                            ? parseDouble(costController.text)
-                            : newCar.cost;
-                        newCar.isApproved = isApproved!;
-                        newCar.approvalDate = (isApproved! &
-                                (newCar.approvalDate.toUtc() ==
-                                    DateTime.utc(1999, 7, 20, 20, 18, 04)))
-                            ? DateTime.now()
-                            : newCar.approvalDate;
-                        newCar.paymentStatus =
-                            (amountPaid >= parseDouble(costController.text))
-                                ? "Complete"
-                                : newCar.paymentStatus;
-                        newCar.paymentMade = amountPaid;
-                        newCar.paymentHistory = paymentHistory;
-                        newCar.repairStatus =
-                            (isRepaired!) ? "Fixed" : "Pending";
-                        newCar.repairDetails =
-                            (repairDetailsController.text.isNotEmpty)
-                                ? repairDetailsController.text
-                                : newCar.repairDetails;
-                        newCar.departureDate = (isDeparted! &
-                                (newCar.departureDate.toUtc() ==
-                                    DateTime.utc(1999, 7, 20, 20, 18, 04)))
-                            ? DateTime.now()
-                            : newCar.departureDate;
-                        newCar.pickUpDate = (selectedDate != null)
-                            ? selectedDate!
-                            : newCar.pickUpDate;
+                  if (user.userType == 'admin')
+                    CustomButton(
+                      width: double.infinity,
+                      height: 45,
+                      color: const Color.fromRGBO(66, 178, 132, 1.0),
+                      text: 'Update details',
+                      onPressed: () {
+                        if (_formKey.currentState!.validate() &
+                            selectedJobTypes.isNotEmpty) {
+                          newCar.modelName = modelNameController.text;
+                          newCar.plateNumber = plateNumberController.text;
+                          newCar.serviceAdviser = serviceAdviserController.text;
+                          newCar.technician = (selectedTechnician != null)
+                              ? selectedTechnician!
+                              : newCar.technician;
+                          newCar.jobDetails = jobDetailsController.text;
+                          newCar.jobType = selectedJobTypes;
+                          newCar.cost = (costController.text.isNotEmpty)
+                              ? parseDouble(costController.text)
+                              : newCar.cost;
+                          newCar.isApproved = isApproved!;
+                          newCar.approvalDate = (isApproved! &
+                                  (newCar.approvalDate.toUtc() ==
+                                      DateTime.utc(1999, 7, 20, 20, 18, 04)))
+                              ? DateTime.now()
+                              : newCar.approvalDate;
+                          newCar.paymentStatus =
+                              (amountPaid >= parseDouble(costController.text))
+                                  ? "Complete"
+                                  : newCar.paymentStatus;
+                          newCar.paymentMade = amountPaid;
+                          newCar.paymentHistory = paymentHistory;
+                          newCar.repairStatus =
+                              (isRepaired!) ? "Fixed" : "Pending";
+                          newCar.repairDetails =
+                              (repairDetailsController.text.isNotEmpty)
+                                  ? repairDetailsController.text
+                                  : newCar.repairDetails;
+                          newCar.departureDate = (isDeparted! &
+                                  (newCar.departureDate.toUtc() ==
+                                      DateTime.utc(1999, 7, 20, 20, 18, 04)))
+                              ? DateTime.now()
+                              : newCar.departureDate;
+                          newCar.pickUpDate = (selectedDate != null)
+                              ? selectedDate!
+                              : newCar.pickUpDate;
 
-                        context
-                            .read<SaveDataBloc>()
-                            .add(UpdateCarData(newCar.id, newCar));
-                      }
-                    },
-                  ),
+                          context
+                              .read<SaveDataBloc>()
+                              .add(UpdateCarData(newCar.id, newCar));
+                        }
+                      },
+                    ),
 
                   const SizedBox(height: 20),
                 ],
