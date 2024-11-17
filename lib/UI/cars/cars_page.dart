@@ -51,7 +51,7 @@ class CarsPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(right: 15),
               child: Icon(
-                Icons.people_alt,
+                Icons.directions_car,
                 color: AppColor.mainGreen,
               ),
             ),
