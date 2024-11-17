@@ -297,7 +297,6 @@ class _AddCarPageState extends State<AddCarPage> {
                     obscureText: false,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    readOnly: true,
                   ),
 
                   const SizedBox(height: 10),
