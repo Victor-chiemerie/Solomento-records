@@ -47,9 +47,24 @@ class CarsPage extends StatelessWidget {
           ),
           title: Text('All Cars',
               style: TextThemes.headline1.copyWith(fontSize: 20)),
-          actions: const [
+          actions: [
+            BlocBuilder<GetDataCubit, GetDataState>(
+              builder: (context, state) {
+                final List<Car> cars = state.cars ?? [];
+                return IconButton(
+                  onPressed: () => showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate(cars: cars),
+                  ),
+                  icon: const Icon(
+                    Icons.search,
+                    color: AppColor.mainGreen,
+                  ),
+                );
+              },
+            ),
             Padding(
-              padding: EdgeInsets.only(right: 15),
+              padding: EdgeInsets.only(right: 15, left: 10),
               child: Icon(
                 Icons.directions_car,
                 color: AppColor.mainGreen,
@@ -195,6 +210,94 @@ class CarsPage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  CustomSearchDelegate({required this.cars});
+  final List<Car> cars;
+  // Customize the search hint text
+  @override
+  String get searchFieldLabel => 'Search for cars by name or plate number';
+
+  // Style the search hint text
+  @override
+  TextStyle? get searchFieldStyle => TextStyle(
+        color: Colors.grey.shade600,
+        fontSize: 16,
+        fontStyle: FontStyle.italic,
+      );
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<Car> matchQuery = [];
+    for (var car in cars) {
+      if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
+          car.plateNumber.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(car);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        // get the car object
+        final car = matchQuery[index];
+        return ListTile(
+          title: Text(car.modelName),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditCarPage(car: car)));
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<Car> matchQuery = [];
+    for (var car in cars) {
+      if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
+          car.plateNumber.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(car);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        // get the car object
+        final car = matchQuery[index];
+        return ListTile(
+          title: Text(car.modelName),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => EditCarPage(car: car)));
+          },
+        );
+      },
     );
   }
 }
