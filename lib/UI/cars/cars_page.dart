@@ -74,6 +74,7 @@ class CarsPage extends StatelessWidget {
         ),
         body: BlocBuilder<GetDataCubit, GetDataState>(
           builder: (context, state) {
+            final carsToShow = state.filteredCars ?? state.cars;
             if (state.status == GetDataStatus.failure) {
               return Center(
                 child: Text('An error occured!!!', style: TextThemes.headline1),
@@ -83,7 +84,7 @@ class CarsPage extends StatelessWidget {
                 child: Text('Loading...', style: TextThemes.headline1),
               );
             } else if (state.status == GetDataStatus.success &&
-                state.cars.isNotEmpty) {
+                carsToShow.isNotEmpty) {
               return Padding(
                 padding: const EdgeInsets.all(15),
                 child: RefreshIndicator(
@@ -92,10 +93,10 @@ class CarsPage extends StatelessWidget {
                     BlocProvider.of<GetDataCubit>(context).getData();
                   },
                   child: ListView.builder(
-                    itemCount: state.cars.length,
+                    itemCount: carsToShow.length,
                     itemBuilder: (context, index) {
                       // get the car object
-                      final car = state.cars[index];
+                      final car = carsToShow[index];
                       final String pickUpDate = (car.pickUpDate.toUtc() !=
                               Functions.emptyDate)
                           ? Functions.shortenDate(
