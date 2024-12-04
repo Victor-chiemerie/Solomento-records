@@ -253,6 +253,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     List<Car> matchQuery = [];
     for (var car in cars) {
       if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
@@ -266,7 +267,36 @@ class CustomSearchDelegate extends SearchDelegate {
         // get the car object
         final car = matchQuery[index];
         return ListTile(
-          title: Text(car.modelName),
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: const Icon(CupertinoIcons.car_detailed, size: 100),
+          ),
+          title: Text(
+            car.modelName,
+            style: TextThemes.headline1.copyWith(fontSize: 16),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                textAlign: TextAlign.start,
+                car.plateNumber,
+                style: TextThemes.text.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColor.mainGreen,
+                ),
+              ),
+              Text(
+                'Customer name',
+                style: TextThemes.text.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColor.mainGreen,
+                ),
+              ),
+            ],
+          ),
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => EditCarPage(car: car)));
@@ -278,6 +308,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     List<Car> matchQuery = [];
     for (var car in cars) {
       if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
@@ -285,19 +316,114 @@ class CustomSearchDelegate extends SearchDelegate {
         matchQuery.add(car);
       }
     }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        // get the car object
-        final car = matchQuery[index];
-        return ListTile(
-          title: Text(car.modelName),
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EditCarPage(car: car)));
-          },
-        );
-      },
-    );
+    return (screenWidth < 800)
+        ? ListView.builder(
+            itemCount: matchQuery.length,
+            itemBuilder: (context, index) {
+              // get the car object
+              final car = matchQuery[index];
+              return ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: const Icon(CupertinoIcons.car_detailed),
+                ),
+                title: Text(
+                  car.modelName,
+                  style: TextThemes.headline1.copyWith(fontSize: 16),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      car.plateNumber,
+                      style: TextThemes.text.copyWith(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.mainGreen,
+                      ),
+                    ),
+                    Text(
+                      'Customer name',
+                      style: TextThemes.text.copyWith(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.mainGreen,
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditCarPage(car: car)));
+                },
+              );
+            },
+          )
+        : SingleChildScrollView(
+            child: Wrap(
+              spacing: 16.0, // Horizontal spacing between items
+              runSpacing: 16.0, // Vertical spacing between lines
+              children: matchQuery.map((car) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditCarPage(car: car)),
+                    );
+                  },
+                  child: Container(
+                    width: 150, // Set a fixed width for items
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            CupertinoIcons.car_detailed,
+                            size: 40,
+                          ),
+                        ),
+                        Text(
+                          car.modelName,
+                          style: TextThemes.headline1.copyWith(fontSize: 16),
+                        ),
+                        Text(
+                          car.plateNumber,
+                          style: TextThemes.text.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.mainGreen,
+                          ),
+                        ),
+                        Text(
+                          'Customer name',
+                          style: TextThemes.text.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.mainGreen,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          );
   }
 }
