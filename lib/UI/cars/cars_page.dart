@@ -219,7 +219,8 @@ class CustomSearchDelegate extends SearchDelegate {
   final List<Car> cars;
   // Customize the search hint text
   @override
-  String get searchFieldLabel => 'Search for cars by name or plate number';
+  String get searchFieldLabel =>
+      'Search for cars by customer / car name / plate number';
 
   // Style the search hint text
   @override
