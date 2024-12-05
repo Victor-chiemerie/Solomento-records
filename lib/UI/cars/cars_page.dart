@@ -163,40 +163,110 @@ class CarsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   ExpansionTile(
-                    title: Text('Price, \$'),
-                    children: [Text('Price filter options here')],
-                  ),
-                  ExpansionTile(
-                    title: Text('Availability'),
-                    children: [Text('Availability filter options here')],
-                  ),
-                  ExpansionTile(
-                    title: Text('Vendor'),
-                    children: [Text('Vendor filter options here')],
-                  ),
-                  ExpansionTile(
-                    title: Text('Product Type'),
-                    children: [Text('Product type filter options here')],
-                  ),
-                  ExpansionTile(
-                    title: Text('Color'),
-                    initiallyExpanded: false, // This section starts expanded
+                    title: Text('Repair Status'),
                     children: [
                       CheckboxListTile(
                         value: true,
                         onChanged: (value) {},
-                        title: Text('Black'),
+                        title: Text('Repaired'),
                       ),
                       CheckboxListTile(
                         value: false,
                         onChanged: (value) {},
-                        title: Text('Blue'),
+                        title: Text('Pending'),
                       ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text('Approved'),
+                    children: [
                       CheckboxListTile(
                         value: true,
                         onChanged: (value) {},
-                        title: Text('White'),
+                        title: Text('Yes'),
                       ),
+                      CheckboxListTile(
+                        value: false,
+                        onChanged: (value) {},
+                        title: Text('No'),
+                      ),
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: Text('Technician'),
+                    children: [
+                      SizedBox(
+                        height: screenHeight * 0.4,
+                        child: ListView(
+                          children: [
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (value) {},
+                              title: Text('Chika'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('OJ'),
+                            ),
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (value) {},
+                              title: Text('Ebube'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('Stanley'),
+                            ),
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (value) {},
+                              title: Text('Uche'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('Adewale'),
+                            ),
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (value) {},
+                              title: Text('Solue'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('Leo'),
+                            ),
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (value) {},
+                              title: Text('Emma'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('Family man'),
+                            ),
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (value) {},
+                              title: Text('Blessing'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('Peter'),
+                            ),
+                            CheckboxListTile(
+                              value: false,
+                              onChanged: (value) {},
+                              title: Text('Outsider'),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ],
