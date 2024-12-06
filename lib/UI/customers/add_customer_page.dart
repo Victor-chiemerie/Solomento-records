@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Components/text_field.dart';
-import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/blocs/save_data_bloc/save_data_bloc.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/add_car_page.dart';
@@ -21,12 +20,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
-  late Customer customer;
 
   @override
   void initState() {
-    customer = Customer.empty;
-    customer.myUser = context.read<MyUserBloc>().state.user!;
     super.initState();
   }
 
@@ -98,15 +94,13 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                   text: 'Vehicle',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      customer.name = nameController.text;
-                      customer.mobile = mobileController.text;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => BlocProvider(
                             create: (context) => SaveDataBloc(
                                 recordRepository: FirebaseRecordRepository()),
-                            child: AddCarPage(customer: customer),
+                            child: AddCarPage(customerName: nameController.text, customerMobile: mobileController.text,),
                           ),
                         ),
                       );

@@ -1,11 +1,8 @@
 import '../record_repository.dart';
 
 abstract class RecordRepository {
-  /// Save car and customer
-  Future<Map<String, dynamic>> saveCustomerAndCarData(
-    Customer customer,
-    Car car,
-  );
+  /// Save car
+  Future<Car> saveCarData(Car car);
 
   /// Update a car data
   Future<Car> updateCarData(Car car, String id);

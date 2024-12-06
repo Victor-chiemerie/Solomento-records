@@ -7,11 +7,10 @@ abstract class SaveDataEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SaveCustomerAndCar extends SaveDataEvent {
-  final Customer customer;
+class SaveCar extends SaveDataEvent {
   final Car car;
 
-  const SaveCustomerAndCar(this.customer, this.car);
+  const SaveCar(this.car);
 }
 
 class UpdateCustomerData extends SaveDataEvent {

@@ -9,36 +9,19 @@ class FirebaseRecordRepository implements RecordRepository {
   final customerCollection = FirebaseFirestore.instance.collection('customers');
   final uuid = const Uuid();
 
-  // Save customer and car with cross-referencing IDs
+  // Save car
   @override
-  Future<Map<String, dynamic>> saveCustomerAndCarData(
-    Customer customer,
-    Car car,
-  ) async {
+  Future<Car> saveCarData(Car car) async {
     try {
-      // Generate IDs for customer and car
-      customer.id = uuid.v1();
+      // Generate ID car
       car.id = uuid.v1();
-
-      // Set cross-referencing IDs
-      customer.carId = car.id;
-      car.customerId = customer.id;
-
       car.arrivalDate = DateTime.now();
 
-      // Save customer and car data
-      await Future.wait([
-        customerCollection
-            .doc(customer.name)
-            .set(customer.toEntity().toDocument()),
-        carCollection.doc(car.plateNumber).set(car.toEntity().toDocument())
-      ]);
+      // Save car data
+      await carCollection.doc(car.plateNumber).set(car.toEntity().toDocument());
 
-      // Return both objects in a Map
-      return {
-        "customer": customer,
-        "car": car,
-      };
+      // Return object in a Map
+      return car;
     } catch (error) {
       log(error.toString());
       rethrow;

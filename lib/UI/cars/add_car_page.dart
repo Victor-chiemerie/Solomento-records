@@ -13,9 +13,11 @@ import '../../Components/text_field.dart';
 import '../Theme/text_theme.dart';
 
 class AddCarPage extends StatefulWidget {
-  const AddCarPage({super.key, required this.customer});
+  const AddCarPage(
+      {super.key, required this.customerName, required this.customerMobile});
 
-  final Customer customer;
+  final String customerName;
+  final String customerMobile;
 
   @override
   State<AddCarPage> createState() => _AddCarPageState();
@@ -371,7 +373,8 @@ class _AddCarPageState extends State<AddCarPage> {
                         isDeparted = newValue;
                       });
                     },
-                    title: Text('Is vehicle out of compound?', style: TextThemes.text.copyWith(fontSize: 12)),
+                    title: Text('Is vehicle out of compound?',
+                        style: TextThemes.text.copyWith(fontSize: 12)),
                     activeColor: AppColor.mainGreen,
                     shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
@@ -416,16 +419,16 @@ class _AddCarPageState extends State<AddCarPage> {
                         car.paymentMade = (paidAmountController.text.isNotEmpty)
                             ? Functions.parseDouble(paidAmountController.text)
                             : car.paymentMade;
-                        car.paymentHistory = (paidAmountController
-                                .text.isNotEmpty)
-                            ? [
-                                {
-                                  'date': DateTime.now(),
-                                  'amount':
-                                      Functions.parseDouble(paidAmountController.text),
-                                }
-                              ]
-                            : car.paymentHistory;
+                        car.paymentHistory =
+                            (paidAmountController.text.isNotEmpty)
+                                ? [
+                                    {
+                                      'date': DateTime.now(),
+                                      'amount': Functions.parseDouble(
+                                          paidAmountController.text),
+                                    }
+                                  ]
+                                : car.paymentHistory;
                         car.repairStatus = (isRepaired!) ? "Fixed" : "Pending";
                         car.repairDetails =
                             (repairDetailsController.text.isNotEmpty)
@@ -433,10 +436,12 @@ class _AddCarPageState extends State<AddCarPage> {
                                 : car.repairDetails;
                         car.departureDate =
                             (isDeparted!) ? DateTime.now() : car.departureDate;
+                        car.customerName = widget.customerName;
+                        car.customerMobile = widget.customerMobile;
 
                         context
                             .read<SaveDataBloc>()
-                            .add(SaveCustomerAndCar(widget.customer, car));
+                            .add(SaveCar(car));
                       }
                     },
                   ),
