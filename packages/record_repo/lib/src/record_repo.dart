@@ -21,4 +21,7 @@ abstract class RecordRepository {
 
   /// Delete customer and car data
   Future<void> deleteCustomerAndCar(Car car);
+
+  /// Update all cars
+  Future<void> updateAllCars(Car car, Customer customer);
 }

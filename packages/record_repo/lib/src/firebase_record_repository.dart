@@ -29,9 +29,9 @@ class FirebaseRecordRepository implements RecordRepository {
       // Save customer and car data
       await Future.wait([
         customerCollection
-            .doc(customer.id)
+            .doc(customer.name)
             .set(customer.toEntity().toDocument()),
-        carCollection.doc(car.id).set(car.toEntity().toDocument())
+        carCollection.doc(car.plateNumber).set(car.toEntity().toDocument())
       ]);
 
       // Return both objects in a Map
@@ -119,5 +119,25 @@ class FirebaseRecordRepository implements RecordRepository {
       log(error.toString());
       rethrow;
     }
+  }
+
+  @override
+  Future<void> updateAllCars(Car car, Customer customer) async {
+    // try {
+    //   await carCollection.doc(car.plateNumber).update({
+    //     'customerName': customer.name,
+    //     'customerMobile': customer.mobile,
+    //     'customerStatus': customer.status,
+    //     'engineModel': '',
+    //     'vin': '',
+    //     'meterReading': '',
+    //     'manufactureYear': '',
+    //     'fuelLevel': '',
+    //   });
+    //   print('Updated all cars field with the customer data');
+    // } catch (error) {
+    //   log(error.toString());
+    //   rethrow;
+    // }
   }
 }

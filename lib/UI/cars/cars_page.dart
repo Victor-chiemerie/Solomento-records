@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,11 +12,48 @@ import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/cars/edit_car_page.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../Components/functions.dart';
+import '../../Data/car_filter_model.dart';
 import '../Theme/text_theme.dart';
 import '../customers/edit_customer_page.dart';
 
-class CarsPage extends StatelessWidget {
-  const CarsPage({super.key});
+class CarsPage extends StatefulWidget {
+  CarsPage({super.key});
+
+  @override
+  State<CarsPage> createState() => _CarsPageState();
+}
+
+class _CarsPageState extends State<CarsPage> {
+  bool? checkboxValue1 = null; // Initial state as null
+  bool? checkboxValue2 = null; // Initial state as null
+
+  void toggleCheckbox1() {
+    setState(() {
+      if (checkboxValue1 != true) {
+        checkboxValue1 = true; // Select checkbox 1
+        checkboxValue2 = false; // Deselect checkbox 2
+      } else {
+        checkboxValue1 = null; // Toggle to null
+      }
+    });
+  }
+
+  void toggleCheckbox2() {
+    setState(() {
+      if (checkboxValue2 != true) {
+        checkboxValue2 = true; // Select checkbox 2
+        checkboxValue1 = false; // Deselect checkbox 1
+      } else {
+        checkboxValue2 = null; // Toggle to null
+      }
+    });
+  }
+
+  String _selectedRepairOption = "";
+
+  String _selectedTechnicianOption = "";
+
+  bool? isRepaired;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +90,7 @@ class CarsPage extends StatelessWidget {
           actions: [
             BlocBuilder<GetDataCubit, GetDataState>(
               builder: (context, state) {
-                final List<Car> cars = state.cars ?? [];
+                final List<Car> cars = state.filteredCars ?? state.cars;
                 return IconButton(
                   onPressed: () => showSearch(
                     context: context,
@@ -107,7 +146,7 @@ class CarsPage extends StatelessWidget {
                         iconAlignment: IconAlignment.end,
                         onPressed: () {},
                         label: Text(
-                          "Adewale",
+                          "Not repaired",
                           style: TextStyle(color: Colors.black),
                         ),
                         icon: Icon(
@@ -123,7 +162,7 @@ class CarsPage extends StatelessWidget {
                         iconAlignment: IconAlignment.end,
                         onPressed: () {},
                         label: Text(
-                          "Stanley",
+                          "Approved",
                           style: TextStyle(color: Colors.black),
                         ),
                         icon: Icon(
@@ -166,13 +205,33 @@ class CarsPage extends StatelessWidget {
                     title: Text('Repair Status'),
                     children: [
                       CheckboxListTile(
-                        value: true,
+                        tristate: true,
+                        value: checkboxValue2,
                         onChanged: (value) {},
+                        title: Text('All'),
+                      ),
+                      CheckboxListTile(
+                        tristate: true,
+                        value: checkboxValue1,
+                        onChanged: (value) {
+                          toggleCheckbox1();
+                          if (checkboxValue1 == true) {
+                            context.read<GetDataCubit>().filterCars(
+                                FilterCriteria(repairStatus: 'Fixed'));
+                          }
+                        },
                         title: Text('Repaired'),
                       ),
                       CheckboxListTile(
-                        value: false,
-                        onChanged: (value) {},
+                        tristate: true,
+                        value: checkboxValue2,
+                        onChanged: (value) {
+                          toggleCheckbox2();
+                          if (checkboxValue2 == true) {
+                            context.read<GetDataCubit>().filterCars(
+                                FilterCriteria(repairStatus: 'Pending'));
+                          }
+                        },
                         title: Text('Pending'),
                       ),
                     ],
@@ -182,12 +241,19 @@ class CarsPage extends StatelessWidget {
                     children: [
                       CheckboxListTile(
                         value: true,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          context
+                              .read<GetDataCubit>()
+                              .filterCars(FilterCriteria(approvalStatus: true));
+                        },
                         title: Text('Yes'),
                       ),
                       CheckboxListTile(
                         value: false,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          context.read<GetDataCubit>().filterCars(
+                              FilterCriteria(approvalStatus: false));
+                        },
                         title: Text('No'),
                       ),
                     ],
@@ -201,7 +267,10 @@ class CarsPage extends StatelessWidget {
                           children: [
                             CheckboxListTile(
                               value: true,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                    FilterCriteria(technician: 'Chika'));
+                              },
                               title: Text('Chika'),
                             ),
                             CheckboxListTile(
@@ -463,7 +532,6 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     List<Car> matchQuery = [];
     for (var car in cars) {
       if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
