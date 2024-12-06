@@ -5,7 +5,6 @@ import '../entities/entities.dart';
 
 class Car extends Equatable {
   String id;
-  String customerId;
   String modelName;
   String plateNumber;
   String picture;
@@ -36,7 +35,6 @@ class Car extends Equatable {
 
   Car({
     required this.id,
-    required this.customerId,
     required this.modelName,
     required this.plateNumber,
     required this.picture,
@@ -69,7 +67,6 @@ class Car extends Equatable {
   /// Empty user which represents an unauthenticated car
   static Car empty = Car(
     id: "",
-    customerId: "",
     modelName: "",
     plateNumber: "",
     picture: "",
@@ -90,7 +87,7 @@ class Car extends Equatable {
     pickUpDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
     customerName: "",
     customerMobile: "",
-    customerStatus: "",
+    customerStatus: "unSettled",
     engineModel: "",
     vin: "",
     meterReading: "",
@@ -107,7 +104,6 @@ class Car extends Equatable {
 
   Car copyWith({
     String? id,
-    String? customerId,
     String? modelName,
     String? plateNumber,
     String? picture,
@@ -138,7 +134,6 @@ class Car extends Equatable {
   }) {
     return Car(
       id: id ?? this.id,
-      customerId: customerId ?? this.customerId,
       modelName: modelName ?? this.modelName,
       plateNumber: plateNumber ?? this.plateNumber,
       picture: picture ?? this.picture,
@@ -172,7 +167,6 @@ class Car extends Equatable {
   CarEntity toEntity() {
     return CarEntity(
       id: id,
-      customerId: customerId,
       modelName: modelName,
       plateNumber: plateNumber,
       picture: picture,
@@ -206,7 +200,6 @@ class Car extends Equatable {
   static Car fromEntity(CarEntity entity) {
     return Car(
       id: entity.id,
-      customerId: entity.customerId,
       modelName: entity.modelName,
       plateNumber: entity.plateNumber,
       picture: entity.picture,
@@ -240,7 +233,6 @@ class Car extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        customerId,
         modelName,
         plateNumber,
         picture,

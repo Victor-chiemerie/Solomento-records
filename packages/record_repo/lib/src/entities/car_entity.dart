@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 
 class CarEntity extends Equatable {
   final String id;
-  final String customerId;
   final String modelName;
   final String plateNumber;
   final String picture;
@@ -34,7 +33,6 @@ class CarEntity extends Equatable {
 
   const CarEntity({
     required this.id,
-    required this.customerId,
     required this.modelName,
     required this.plateNumber,
     required this.picture,
@@ -68,7 +66,6 @@ class CarEntity extends Equatable {
   Map<String, Object> toDocument() {
     return {
       'id': id,
-      'customerId': customerId,
       'modelName': modelName,
       'plateNumber': plateNumber,
       'picture': picture,
@@ -103,7 +100,6 @@ class CarEntity extends Equatable {
   static CarEntity fromDocument(Map<String, dynamic> doc) {
     return CarEntity(
       id: doc['id'] as String,
-      customerId: doc['customerId'] as String,
       modelName: doc['modelName'] as String,
       plateNumber: doc['plateNumber'] as String,
       picture: doc['picture'] as String,
@@ -138,7 +134,6 @@ class CarEntity extends Equatable {
   String toString() {
     return '''CarEntity: {
       id: $id
-      customerId: $customerId
       modelName: $modelName
       plateNumber: $plateNumber
       picture: $picture
@@ -172,7 +167,6 @@ class CarEntity extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        customerId,
         modelName,
         plateNumber,
         picture,
