@@ -496,7 +496,7 @@ class CustomSearchDelegate extends SearchDelegate {
   // Customize the search hint text
   @override
   String get searchFieldLabel =>
-      'Search for cars by customer / car name / plate number';
+      'Search for cars by customer / car model name / plate number';
 
   // Style the search hint text
   @override
@@ -533,7 +533,8 @@ class CustomSearchDelegate extends SearchDelegate {
     List<Car> matchQuery = [];
     for (var car in cars) {
       if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
-          car.plateNumber.toLowerCase().contains(query.toLowerCase())) {
+          car.plateNumber.toLowerCase().contains(query.toLowerCase()) ||
+          car.customerName.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(car);
       }
     }
@@ -564,7 +565,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 ),
               ),
               Text(
-                'Customer name',
+                car.customerName,
                 style: TextThemes.text.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -588,7 +589,8 @@ class CustomSearchDelegate extends SearchDelegate {
     List<Car> matchQuery = [];
     for (var car in cars) {
       if (car.modelName.toLowerCase().contains(query.toLowerCase()) ||
-          car.plateNumber.toLowerCase().contains(query.toLowerCase())) {
+          car.plateNumber.toLowerCase().contains(query.toLowerCase()) ||
+          car.customerName.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(car);
       }
     }
@@ -619,7 +621,7 @@ class CustomSearchDelegate extends SearchDelegate {
                       ),
                     ),
                     Text(
-                      'Customer name',
+                      car.customerName,
                       style: TextThemes.text.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -687,7 +689,7 @@ class CustomSearchDelegate extends SearchDelegate {
                           ),
                         ),
                         Text(
-                          'Customer name',
+                          car.customerName,
                           style: TextThemes.text.copyWith(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
