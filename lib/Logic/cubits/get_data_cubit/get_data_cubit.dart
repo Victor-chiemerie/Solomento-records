@@ -8,29 +8,25 @@ part 'get_data_state.dart';
 
 class GetDataCubit extends Cubit<GetDataState> {
   GetDataCubit({required this.recordRepository})
-      : super(const GetDataState(customers: [], cars: []));
+      : super(const GetDataState(cars: []));
 
   final RecordRepository recordRepository;
 
   Future<void> getData() async {
     emit(GetDataState(
-      customers: state.customers,
       cars: state.cars,
       status: GetDataStatus.loading,
     ));
     try {
-      List<Customer> customers = await recordRepository.getCustomers();
       List<Car> cars = await recordRepository.getCars();
       // TODO change state emission with copyWith
       emit(GetDataState(
-        customers: customers,
         cars: cars,
         status: GetDataStatus.success,
       ));
     } catch (error) {
       // TODO change state emission with copyWith
       emit(GetDataState(
-        customers: state.customers,
         cars: state.cars,
         status: GetDataStatus.failure,
       ));

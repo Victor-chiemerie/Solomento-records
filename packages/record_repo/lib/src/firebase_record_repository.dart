@@ -60,44 +60,11 @@ class FirebaseRecordRepository implements RecordRepository {
     }
   }
 
-  // Update customer data
-  @override
-  Future<Customer> updateCustomerData(Customer customer, String id) async {
-    try {
-      await customerCollection.doc(id).set(customer.toEntity().toDocument());
-
-      return customer;
-    } catch (error) {
-      log(error.toString());
-      rethrow;
-    }
-  }
-
-  // Get all Customers
-  @override
-  Future<List<Customer>> getCustomers() async {
-    try {
-      final querySnapshot =
-          await customerCollection.orderBy('createdAt', descending: true).get();
-      // convert each document to a Customer object
-      final customers = querySnapshot.docs.map((doc) {
-        return Customer.fromEntity(
-          CustomerEntity.fromDocument(doc.data()),
-        );
-      }).toList();
-      return customers;
-    } catch (error) {
-      log(error.toString());
-      rethrow;
-    }
-  }
-
   // Delete a car and Customer
   @override
-  Future<void> deleteCustomerAndCar(Car car) async {
+  Future<void> deleteCar(Car car) async {
     try {
-      await carCollection.doc(car.id).delete();
-      await customerCollection.doc(car.customerId).delete();
+      await carCollection.doc(car.plateNumber).delete();
     } catch (error) {
       log(error.toString());
       rethrow;
@@ -106,21 +73,14 @@ class FirebaseRecordRepository implements RecordRepository {
 
   @override
   Future<void> updateAllCars(Car car, Customer customer) async {
-    // try {
-    //   await carCollection.doc(car.plateNumber).update({
-    //     'customerName': customer.name,
-    //     'customerMobile': customer.mobile,
-    //     'customerStatus': customer.status,
-    //     'engineModel': '',
-    //     'vin': '',
-    //     'meterReading': '',
-    //     'manufactureYear': '',
-    //     'fuelLevel': '',
-    //   });
-    //   print('Updated all cars field with the customer data');
-    // } catch (error) {
-    //   log(error.toString());
-    //   rethrow;
-    // }
+    try {
+      await carCollection.doc(car.plateNumber).update({
+        'customerId': FieldValue.delete(),
+      });
+      print('Updated all cars field with the customer data');
+    } catch (error) {
+      log(error.toString());
+      rethrow;
+    }
   }
 }
