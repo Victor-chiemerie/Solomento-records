@@ -21,16 +21,6 @@ class SaveDataBloc extends Bloc<SaveDataEvent, SaveDataState> {
       }
     });
 
-    on<UpdateCustomerData>((event, emit) async {
-      emit(SaveDataLoading());
-      try {
-        final data = await _recordRepository.updateCustomerData(event.customer, event.id);
-        emit(SaveDataSuccess());
-      } catch (error) {
-        emit(SaveDataFailure());
-      }
-    });
-
     on<UpdateCarData>((event, emit) async {
       emit(SaveDataLoading());
       try {

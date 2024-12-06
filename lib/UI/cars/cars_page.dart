@@ -448,14 +448,12 @@ class _CarsPageState extends State<CarsPage> {
                                     onPressed: () {
                                       // view the vehicle owner
                                       try {
-                                        Customer customer = state
-                                            .findCustomerById(car.customerId);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     EditCustomerPage(
-                                                        customer: customer)));
+                                                        car: car)));
                                       } catch (error) {
                                         debugPrint(error.toString());
                                       }

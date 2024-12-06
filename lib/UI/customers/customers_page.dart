@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:record_repository/record_repository.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/Theme/text_theme.dart';
@@ -41,7 +40,7 @@ class CustomersPage extends StatelessWidget {
               child: Text('Loading...', style: TextThemes.headline1),
             );
           } else if (state.status == GetDataStatus.success &&
-              state.customers.isNotEmpty) {
+              state.cars.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(15),
               child: RefreshIndicator(
@@ -50,10 +49,10 @@ class CustomersPage extends StatelessWidget {
                   context.read<GetDataCubit>().getData();
                 },
                 child: ListView.builder(
-                  itemCount: state.customers.length,
+                  itemCount: state.cars.length,
                   itemBuilder: (context, index) {
                     // get the customer object
-                    final customer = state.customers[index];
+                    final car = state.cars[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Card(
@@ -64,16 +63,16 @@ class CustomersPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        EditCustomerPage(customer: customer)));
+                                        EditCustomerPage(car: car)));
                           },
                           leading: const Icon(Icons.person_2),
-                          title: Text(customer.name,
+                          title: Text(car.customerName,
                               style:
                                   TextThemes.headline1.copyWith(fontSize: 16)),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Mobile: ${customer.mobile}',
+                              Text('Mobile: ${car.customerMobile}',
                                   style:
                                       TextThemes.text.copyWith(fontSize: 12)),
                               Row(
@@ -81,13 +80,13 @@ class CustomersPage extends StatelessWidget {
                                   Text('Service Status: ',
                                       style: TextThemes.text
                                           .copyWith(fontSize: 12)),
-                                  if (customer.status == 'unSettled')
-                                    Text(customer.status,
+                                  if (car.customerStatus == 'unSettled')
+                                    Text(car.customerStatus,
                                         style: TextThemes.text.copyWith(
                                             fontSize: 12,
                                             color: Colors.redAccent)),
-                                  if (customer.status == 'Settled')
-                                    Text(customer.status,
+                                  if (car.customerStatus == 'Settled')
+                                    Text(car.customerStatus,
                                         style: TextThemes.text.copyWith(
                                             fontSize: 12,
                                             color: AppColor.mainGreen)),
@@ -99,7 +98,6 @@ class CustomersPage extends StatelessWidget {
                             onPressed: () {
                               // view the customer vehicle
                               try {
-                                Car car = state.findCarById(customer.carId);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

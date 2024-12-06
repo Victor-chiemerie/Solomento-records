@@ -15,9 +15,9 @@ import '../Theme/color_theme.dart';
 import '../Theme/text_theme.dart';
 
 class EditCustomerPage extends StatefulWidget {
-  const EditCustomerPage({super.key, required this.customer});
+  const EditCustomerPage({super.key, required this.car});
 
-  final Customer customer;
+  final Car car;
 
   @override
   State<EditCustomerPage> createState() => _EditCustomerPageState();
@@ -27,9 +27,9 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
-  late Customer newCustomer;
+  late Car newCar;
   late MyUser user;
-  String? selectedStatus; // Variable to store the technician
+  String? selectedStatus; // Variable to store the status
 
   final status = [
     'Settled',
@@ -38,10 +38,10 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
 
   @override
   void initState() {
-    newCustomer = widget.customer;
-    nameController.text = newCustomer.name;
-    mobileController.text = newCustomer.mobile;
-    selectedStatus = newCustomer.status;
+    newCar = widget.car;
+    nameController.text = newCar.customerName;
+    mobileController.text = newCar.customerMobile;
+    selectedStatus = newCar.customerStatus;
 
     user = BlocProvider.of<MyUserBloc>(context).state.user!;
     super.initState();
@@ -175,12 +175,12 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                       text: 'Update customer',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          newCustomer.name = nameController.text;
-                          newCustomer.mobile = mobileController.text;
-                          newCustomer.status = selectedStatus!;
+                          newCar.customerName = nameController.text;
+                          newCar.customerMobile = mobileController.text;
+                          newCar.customerStatus = selectedStatus!;
 
                           context.read<SaveDataBloc>().add(
-                              UpdateCustomerData(newCustomer, newCustomer.id));
+                              UpdateCarData(newCar.plateNumber, newCar));
                         }
                       },
                     ),

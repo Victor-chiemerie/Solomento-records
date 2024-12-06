@@ -13,13 +13,6 @@ class SaveCar extends SaveDataEvent {
   const SaveCar(this.car);
 }
 
-class UpdateCustomerData extends SaveDataEvent {
-  final Customer customer;
-  final String id;
-
-  const UpdateCustomerData(this.customer, this.id);
-}
-
 class UpdateCarData extends SaveDataEvent {
   final String id;
   final Car car;
