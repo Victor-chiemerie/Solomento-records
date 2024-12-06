@@ -72,7 +72,7 @@ class FirebaseRecordRepository implements RecordRepository {
   }
 
   @override
-  Future<void> updateAllCars(Car car, Customer customer) async {
+  Future<void> updateAllCars(Car car) async {
     try {
       await carCollection.doc(car.plateNumber).update({
         'customerId': FieldValue.delete(),

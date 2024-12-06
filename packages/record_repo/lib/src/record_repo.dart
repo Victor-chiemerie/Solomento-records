@@ -14,5 +14,5 @@ abstract class RecordRepository {
   Future<void> deleteCar(Car car);
 
   /// Update all cars
-  Future<void> updateAllCars(Car car, Customer customer);
+  Future<void> updateAllCars(Car car);
 }

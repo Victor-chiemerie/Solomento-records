@@ -16,7 +16,6 @@ class GetDataState extends Equatable {
   final FilterCriteria? filterCriteria; // Filtering options
 
   GetDataState copyWith({
-    List<Customer>? customers,
     List<Car>? cars,
     List<Car>? filteredCars,
     FilterCriteria? filterCriteria,
