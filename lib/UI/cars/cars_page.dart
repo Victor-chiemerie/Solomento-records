@@ -538,6 +538,17 @@ class CustomSearchDelegate extends SearchDelegate {
         matchQuery.add(car);
       }
     }
+
+    if (matchQuery.isEmpty) {
+      // Display a "No car found" message if no matches
+      return Center(
+        child: Text(
+          'No car found',
+          style: TextThemes.headline1,
+        ),
+      );
+    }
+
     return ListView.builder(
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
@@ -594,6 +605,17 @@ class CustomSearchDelegate extends SearchDelegate {
         matchQuery.add(car);
       }
     }
+
+    if (matchQuery.isEmpty) {
+      // Display a "No car found" message if no matches
+      return Center(
+        child: Text(
+          'No car found',
+          style: TextThemes.headline1,
+        ),
+      );
+    }
+
     return (screenWidth < 800)
         ? ListView.builder(
             itemCount: matchQuery.length,
