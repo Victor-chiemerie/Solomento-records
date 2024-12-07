@@ -24,16 +24,16 @@ class CarsPage extends StatefulWidget {
 }
 
 class _CarsPageState extends State<CarsPage> {
-  bool? checkboxValue1 = null; // Initial state as null
-  bool? checkboxValue2 = null; // Initial state as null
+  bool checkboxValue1 = true;
+  bool checkboxValue2 = false;
+  bool checkboxValue3 = false;
 
   void toggleCheckbox1() {
     setState(() {
       if (checkboxValue1 != true) {
         checkboxValue1 = true; // Select checkbox 1
         checkboxValue2 = false; // Deselect checkbox 2
-      } else {
-        checkboxValue1 = null; // Toggle to null
+        checkboxValue3 = false; // Deselect checkbox 3
       }
     });
   }
@@ -43,8 +43,17 @@ class _CarsPageState extends State<CarsPage> {
       if (checkboxValue2 != true) {
         checkboxValue2 = true; // Select checkbox 2
         checkboxValue1 = false; // Deselect checkbox 1
-      } else {
-        checkboxValue2 = null; // Toggle to null
+        checkboxValue3 = false; // Deselect checkbox 3
+      }
+    });
+  }
+
+  void toggleCheckbox3() {
+    setState(() {
+      if (checkboxValue3 != true) {
+        checkboxValue3 = true; // Select checkbox 3
+        checkboxValue1 = false; // Deselect checkbox 1
+        checkboxValue2 = false; // Deselect checkbox 2
       }
     });
   }
@@ -52,8 +61,6 @@ class _CarsPageState extends State<CarsPage> {
   String _selectedRepairOption = "";
 
   String _selectedTechnicianOption = "";
-
-  bool? isRepaired;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +122,7 @@ class _CarsPageState extends State<CarsPage> {
         body: Row(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // filter section
             Container(
               height: screenHeight,
               width: screenWidth * 0.15,
@@ -138,59 +146,71 @@ class _CarsPageState extends State<CarsPage> {
                     style: TextStyle(decoration: TextDecoration.underline),
                   ),
                   const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      TextButton.icon(
-                        iconAlignment: IconAlignment.end,
-                        onPressed: () {},
-                        label: Text(
-                          "Not repaired",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        icon: Icon(
-                          Icons.close,
-                          size: 14,
-                          color: Colors.black,
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.grey[200],
-                        ),
-                      ),
-                      TextButton.icon(
-                        iconAlignment: IconAlignment.end,
-                        onPressed: () {},
-                        label: Text(
-                          "Approved",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        icon: Icon(
-                          Icons.close,
-                          size: 14,
-                          color: Colors.black,
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.grey[200],
-                        ),
-                      ),
-                      TextButton.icon(
-                        iconAlignment: IconAlignment.end,
-                        onPressed: () {},
-                        label: Text(
-                          "Chika",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        icon: Icon(
-                          Icons.close,
-                          size: 14,
-                          color: Colors.black,
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.grey[200],
-                        ),
-                      ),
-                    ],
+                  BlocBuilder<GetDataCubit, GetDataState>(
+                    builder: (context, state) {
+                      final filterCriteria = state.filterCriteria;
+                      return Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          if (filterCriteria?.repairStatus != null)
+                            TextButton.icon(
+                              iconAlignment: IconAlignment.end,
+                              onPressed: () {
+                                toggleCheckbox1();
+                                if (checkboxValue1 == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(repairStatus: null));
+                                }
+                              },
+                              label: Text(
+                                filterCriteria!.repairStatus!,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              icon: Icon(
+                                Icons.close,
+                                size: 14,
+                                color: Colors.black,
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey[200],
+                              ),
+                            ),
+                          TextButton.icon(
+                            iconAlignment: IconAlignment.end,
+                            onPressed: () {},
+                            label: Text(
+                              "Approved",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            icon: Icon(
+                              Icons.close,
+                              size: 14,
+                              color: Colors.black,
+                            ),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.grey[200],
+                            ),
+                          ),
+                          TextButton.icon(
+                            iconAlignment: IconAlignment.end,
+                            onPressed: () {},
+                            label: Text(
+                              "Chika",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            icon: Icon(
+                              Icons.close,
+                              size: 14,
+                              color: Colors.black,
+                            ),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.grey[200],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 10),
                   TextButton(
@@ -205,17 +225,22 @@ class _CarsPageState extends State<CarsPage> {
                     title: Text('Repair Status'),
                     children: [
                       CheckboxListTile(
-                        tristate: true,
-                        value: checkboxValue2,
-                        onChanged: (value) {},
-                        title: Text('All'),
-                      ),
-                      CheckboxListTile(
-                        tristate: true,
                         value: checkboxValue1,
                         onChanged: (value) {
                           toggleCheckbox1();
                           if (checkboxValue1 == true) {
+                            context
+                                .read<GetDataCubit>()
+                                .filterCars(FilterCriteria(repairStatus: null));
+                          }
+                        },
+                        title: Text('All'),
+                      ),
+                      CheckboxListTile(
+                        value: checkboxValue2,
+                        onChanged: (value) {
+                          toggleCheckbox2();
+                          if (checkboxValue2 == true) {
                             context.read<GetDataCubit>().filterCars(
                                 FilterCriteria(repairStatus: 'Fixed'));
                           }
@@ -223,11 +248,10 @@ class _CarsPageState extends State<CarsPage> {
                         title: Text('Repaired'),
                       ),
                       CheckboxListTile(
-                        tristate: true,
-                        value: checkboxValue2,
+                        value: checkboxValue3,
                         onChanged: (value) {
-                          toggleCheckbox2();
-                          if (checkboxValue2 == true) {
+                          toggleCheckbox3();
+                          if (checkboxValue3 == true) {
                             context.read<GetDataCubit>().filterCars(
                                 FilterCriteria(repairStatus: 'Pending'));
                           }
@@ -347,7 +371,7 @@ class _CarsPageState extends State<CarsPage> {
                   final carsToShow = state.filteredCars ?? state.cars;
                   if (state.status == GetDataStatus.failure) {
                     return Center(
-                      child: Text('An error occured!!!',
+                      child: Text('An error occured!!! \nRefresh your browser',
                           style: TextThemes.headline1),
                     );
                   } else if (state.status == GetDataStatus.loading) {
