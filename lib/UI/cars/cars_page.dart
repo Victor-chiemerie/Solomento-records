@@ -27,13 +27,16 @@ class _CarsPageState extends State<CarsPage> {
   bool allRepairStatus = true;
   bool repaired = false;
   bool notRepaired = false;
+  bool allApprovalStatus = true;
+  bool approved = false;
+  bool notApproved = false;
 
   void toggleAllRepairStatus() {
     setState(() {
       if (allRepairStatus != true) {
         allRepairStatus = true; // Select All
         repaired = false; // Deselect Repaired
-        notRepaired = false; // Deselect checkbox 3
+        notRepaired = false; // Deselect not Repaired
       }
     });
   }
@@ -43,7 +46,7 @@ class _CarsPageState extends State<CarsPage> {
       if (repaired != true) {
         repaired = true; // Select Repaired
         allRepairStatus = false; // Deselect All
-        notRepaired = false; // Deselect checkbox 3
+        notRepaired = false; // Deselect not Repaired
       }
     });
   }
@@ -51,16 +54,42 @@ class _CarsPageState extends State<CarsPage> {
   void toggleNotRepaired() {
     setState(() {
       if (notRepaired != true) {
-        notRepaired = true; // Select checkbox 3
+        notRepaired = true; // Select not Repaired
         allRepairStatus = false; // Deselect All
         repaired = false; // Deselect Repaired
       }
     });
   }
 
-  String _selectedRepairOption = "";
+  void toggleAllApprovalStatus() {
+    setState(() {
+      if (allApprovalStatus != true) {
+        allApprovalStatus = true; // Select All
+        approved = false; // Deselect Approved
+        notApproved = false; // Deselect not Approved
+      }
+    });
+  }
 
-  String _selectedTechnicianOption = "";
+  void toggleApproved() {
+    setState(() {
+      if (approved != true) {
+        approved = true; // Select Approved
+        allApprovalStatus = false; // Deselect All
+        notApproved = false; // Deselect not Approved
+      }
+    });
+  }
+
+  void toggleNotApproved() {
+    setState(() {
+      if (notApproved != true) {
+        notApproved = true; // Select not Approved
+        allApprovalStatus = false; // Deselect All
+        approved = false; // Deselect Approved
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,22 +205,31 @@ class _CarsPageState extends State<CarsPage> {
                                 backgroundColor: Colors.grey[200],
                               ),
                             ),
-                          TextButton.icon(
-                            iconAlignment: IconAlignment.end,
-                            onPressed: () {},
-                            label: Text(
-                              "Approved",
-                              style: TextStyle(color: Colors.black),
+                          if (filterCriteria?.approvalStatus != null)
+                            TextButton.icon(
+                              iconAlignment: IconAlignment.end,
+                              onPressed: () {
+                                toggleAllApprovalStatus();
+                                if (allApprovalStatus == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(approvalStatus: null));
+                                }
+                              },
+                              label: Text(
+                                filterCriteria!.approvalStatus!
+                                    ? 'Approved'
+                                    : 'Not Approved',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              icon: Icon(
+                                Icons.close,
+                                size: 14,
+                                color: Colors.black,
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey[200],
+                              ),
                             ),
-                            icon: Icon(
-                              Icons.close,
-                              size: 14,
-                              color: Colors.black,
-                            ),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.grey[200],
-                            ),
-                          ),
                           TextButton.icon(
                             iconAlignment: IconAlignment.end,
                             onPressed: () {},
@@ -214,7 +252,14 @@ class _CarsPageState extends State<CarsPage> {
                   ),
                   const SizedBox(height: 10),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      toggleAllRepairStatus();
+                      context.read<GetDataCubit>().filterCars(FilterCriteria(
+                            repairStatus: null,
+                            approvalStatus: null,
+                            technician: null,
+                          ));
+                    },
                     child: Text(
                       "Reset filters",
                       style: TextStyle(decoration: TextDecoration.underline),
@@ -264,19 +309,35 @@ class _CarsPageState extends State<CarsPage> {
                     title: Text('Approved'),
                     children: [
                       CheckboxListTile(
-                        value: true,
+                        value: allApprovalStatus,
                         onChanged: (value) {
-                          context
-                              .read<GetDataCubit>()
-                              .filterCars(FilterCriteria(approvalStatus: true));
+                          toggleAllApprovalStatus();
+                          if (allApprovalStatus == true) {
+                            context.read<GetDataCubit>().filterCars(
+                                FilterCriteria(approvalStatus: null));
+                          }
+                        },
+                        title: Text('All'),
+                      ),
+                      CheckboxListTile(
+                        value: approved,
+                        onChanged: (value) {
+                          toggleApproved();
+                          if (approved == true) {
+                            context.read<GetDataCubit>().filterCars(
+                                FilterCriteria(approvalStatus: true));
+                          }
                         },
                         title: Text('Yes'),
                       ),
                       CheckboxListTile(
-                        value: false,
+                        value: notApproved,
                         onChanged: (value) {
-                          context.read<GetDataCubit>().filterCars(
-                              FilterCriteria(approvalStatus: false));
+                          toggleNotApproved();
+                          if (notApproved == true) {
+                            context.read<GetDataCubit>().filterCars(
+                                FilterCriteria(approvalStatus: false));
+                          }
                         },
                         title: Text('No'),
                       ),
