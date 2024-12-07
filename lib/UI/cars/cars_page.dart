@@ -24,36 +24,36 @@ class CarsPage extends StatefulWidget {
 }
 
 class _CarsPageState extends State<CarsPage> {
-  bool checkboxValue1 = true;
-  bool checkboxValue2 = false;
-  bool checkboxValue3 = false;
+  bool allRepairStatus = true;
+  bool repaired = false;
+  bool notRepaired = false;
 
-  void toggleCheckbox1() {
+  void toggleAllRepairStatus() {
     setState(() {
-      if (checkboxValue1 != true) {
-        checkboxValue1 = true; // Select checkbox 1
-        checkboxValue2 = false; // Deselect checkbox 2
-        checkboxValue3 = false; // Deselect checkbox 3
+      if (allRepairStatus != true) {
+        allRepairStatus = true; // Select All
+        repaired = false; // Deselect Repaired
+        notRepaired = false; // Deselect checkbox 3
       }
     });
   }
 
-  void toggleCheckbox2() {
+  void toggleRepaired() {
     setState(() {
-      if (checkboxValue2 != true) {
-        checkboxValue2 = true; // Select checkbox 2
-        checkboxValue1 = false; // Deselect checkbox 1
-        checkboxValue3 = false; // Deselect checkbox 3
+      if (repaired != true) {
+        repaired = true; // Select Repaired
+        allRepairStatus = false; // Deselect All
+        notRepaired = false; // Deselect checkbox 3
       }
     });
   }
 
-  void toggleCheckbox3() {
+  void toggleNotRepaired() {
     setState(() {
-      if (checkboxValue3 != true) {
-        checkboxValue3 = true; // Select checkbox 3
-        checkboxValue1 = false; // Deselect checkbox 1
-        checkboxValue2 = false; // Deselect checkbox 2
+      if (notRepaired != true) {
+        notRepaired = true; // Select checkbox 3
+        allRepairStatus = false; // Deselect All
+        repaired = false; // Deselect Repaired
       }
     });
   }
@@ -157,8 +157,8 @@ class _CarsPageState extends State<CarsPage> {
                             TextButton.icon(
                               iconAlignment: IconAlignment.end,
                               onPressed: () {
-                                toggleCheckbox1();
-                                if (checkboxValue1 == true) {
+                                toggleAllRepairStatus();
+                                if (allRepairStatus == true) {
                                   context.read<GetDataCubit>().filterCars(
                                       FilterCriteria(repairStatus: null));
                                 }
@@ -225,10 +225,10 @@ class _CarsPageState extends State<CarsPage> {
                     title: Text('Repair Status'),
                     children: [
                       CheckboxListTile(
-                        value: checkboxValue1,
+                        value: allRepairStatus,
                         onChanged: (value) {
-                          toggleCheckbox1();
-                          if (checkboxValue1 == true) {
+                          toggleAllRepairStatus();
+                          if (allRepairStatus == true) {
                             context
                                 .read<GetDataCubit>()
                                 .filterCars(FilterCriteria(repairStatus: null));
@@ -237,10 +237,10 @@ class _CarsPageState extends State<CarsPage> {
                         title: Text('All'),
                       ),
                       CheckboxListTile(
-                        value: checkboxValue2,
+                        value: repaired,
                         onChanged: (value) {
-                          toggleCheckbox2();
-                          if (checkboxValue2 == true) {
+                          toggleRepaired();
+                          if (repaired == true) {
                             context.read<GetDataCubit>().filterCars(
                                 FilterCriteria(repairStatus: 'Fixed'));
                           }
@@ -248,10 +248,10 @@ class _CarsPageState extends State<CarsPage> {
                         title: Text('Repaired'),
                       ),
                       CheckboxListTile(
-                        value: checkboxValue3,
+                        value: notRepaired,
                         onChanged: (value) {
-                          toggleCheckbox3();
-                          if (checkboxValue3 == true) {
+                          toggleNotRepaired();
+                          if (notRepaired == true) {
                             context.read<GetDataCubit>().filterCars(
                                 FilterCriteria(repairStatus: 'Pending'));
                           }
