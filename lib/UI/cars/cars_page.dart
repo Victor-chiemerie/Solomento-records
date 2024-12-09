@@ -24,12 +24,27 @@ class CarsPage extends StatefulWidget {
 }
 
 class _CarsPageState extends State<CarsPage> {
+  // repair
   bool allRepairStatus = true;
   bool repaired = false;
   bool notRepaired = false;
+  // approve
   bool allApprovalStatus = true;
   bool approved = false;
   bool notApproved = false;
+  // technician
+  bool allTechnicians = true;
+  bool chika = false;
+  bool OJ = false;
+  bool ebube = false;
+  bool stanley = false;
+  bool uche = false;
+  bool adewale = false;
+  bool solue = false;
+  bool leo = false;
+  bool emma = false;
+  bool familyMan = false;
+  bool outsider = false;
 
   void toggleAllRepairStatus() {
     setState(() {
@@ -87,6 +102,246 @@ class _CarsPageState extends State<CarsPage> {
         notApproved = true; // Select not Approved
         allApprovalStatus = false; // Deselect All
         approved = false; // Deselect Approved
+      }
+    });
+  }
+
+  void toggleAllTechnicians() {
+    setState(() {
+      if (allTechnicians != true) {
+        allTechnicians = true; // Select All
+        // Deselect the rest
+        chika = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleChika() {
+    setState(() {
+      if (chika != true) {
+        chika = true; // Select chika
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleOJ() {
+    setState(() {
+      if (OJ != true) {
+        OJ = true; // Select OJ
+        // Deselect the rest
+        allTechnicians = false;
+        chika = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleEbube() {
+    setState(() {
+      if (ebube != true) {
+        ebube = true; // Select ebube
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        chika = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleStanley() {
+    setState(() {
+      if (stanley != true) {
+        stanley = true; // Select stanley
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        chika = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleUche() {
+    setState(() {
+      if (uche != true) {
+        uche = true; // Select uche
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        chika = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleAdewale() {
+    setState(() {
+      if (adewale != true) {
+        adewale = true; // Select All
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        chika = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleSolue() {
+    setState(() {
+      if (solue != true) {
+        solue = true; // Select solue
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        chika = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleLeo() {
+    setState(() {
+      if (leo != true) {
+        leo = true; // Select leo
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        chika = false;
+        emma = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleEmma() {
+    setState(() {
+      if (emma != true) {
+        emma = true; // Select All
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        chika = false;
+        familyMan = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleFamilyMan() {
+    setState(() {
+      if (familyMan != true) {
+        familyMan = true; // Select Family man
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        chika = false;
+        outsider = false;
+      }
+    });
+  }
+
+  void toggleOutsider() {
+    setState(() {
+      if (outsider != true) {
+        outsider = true; // Select All
+        // Deselect the rest
+        allTechnicians = false;
+        OJ = false;
+        ebube = false;
+        stanley = false;
+        uche = false;
+        adewale = false;
+        solue = false;
+        leo = false;
+        emma = false;
+        familyMan = false;
+        chika = false;
       }
     });
   }
@@ -230,22 +485,29 @@ class _CarsPageState extends State<CarsPage> {
                                 backgroundColor: Colors.grey[200],
                               ),
                             ),
-                          TextButton.icon(
-                            iconAlignment: IconAlignment.end,
-                            onPressed: () {},
-                            label: Text(
-                              "Chika",
-                              style: TextStyle(color: Colors.black),
+                          if (filterCriteria?.technician != null)
+                            TextButton.icon(
+                              iconAlignment: IconAlignment.end,
+                              onPressed: () {
+                                toggleAllTechnicians();
+                                if (allTechnicians == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: null));
+                                }
+                              },
+                              label: Text(
+                                filterCriteria!.technician!,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              icon: Icon(
+                                Icons.close,
+                                size: 14,
+                                color: Colors.black,
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey[200],
+                              ),
                             ),
-                            icon: Icon(
-                              Icons.close,
-                              size: 14,
-                              color: Colors.black,
-                            ),
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.grey[200],
-                            ),
-                          ),
                         ],
                       );
                     },
@@ -266,6 +528,7 @@ class _CarsPageState extends State<CarsPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
+                  // repair
                   ExpansionTile(
                     title: Text('Repair Status'),
                     children: [
@@ -305,6 +568,7 @@ class _CarsPageState extends State<CarsPage> {
                       ),
                     ],
                   ),
+                  // approve
                   ExpansionTile(
                     title: Text('Approved'),
                     children: [
@@ -343,6 +607,7 @@ class _CarsPageState extends State<CarsPage> {
                       ),
                     ],
                   ),
+                  // technician
                   ExpansionTile(
                     title: Text('Technician'),
                     children: [
@@ -351,71 +616,135 @@ class _CarsPageState extends State<CarsPage> {
                         child: ListView(
                           children: [
                             CheckboxListTile(
-                              value: true,
+                              value: allTechnicians,
                               onChanged: (value) {
-                                context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(technician: 'Chika'));
+                                toggleAllTechnicians();
+                                if (allTechnicians == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: null));
+                                }
+                              },
+                              title: Text('All'),
+                            ),
+                            CheckboxListTile(
+                              value: chika,
+                              onChanged: (value) {
+                                toggleChika();
+                                if (chika == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Chika'));
+                                }
                               },
                               title: Text('Chika'),
                             ),
                             CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
+                              value: OJ,
+                              onChanged: (value) {
+                                toggleOJ();
+                                if (OJ == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'OJ'));
+                                }
+                              },
                               title: Text('OJ'),
                             ),
                             CheckboxListTile(
-                              value: true,
-                              onChanged: (value) {},
+                              value: ebube,
+                              onChanged: (value) {
+                                toggleEbube();
+                                if (ebube == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Ebube'));
+                                }
+                              },
                               title: Text('Ebube'),
                             ),
                             CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
+                              value: stanley,
+                              onChanged: (value) {
+                                toggleStanley();
+                                if (stanley == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Stanley'));
+                                }
+                              },
                               title: Text('Stanley'),
                             ),
                             CheckboxListTile(
-                              value: true,
-                              onChanged: (value) {},
+                              value: uche,
+                              onChanged: (value) {
+                                toggleUche();
+                                if (uche == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Uche'));
+                                }
+                              },
                               title: Text('Uche'),
                             ),
                             CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
+                              value: adewale,
+                              onChanged: (value) {
+                                toggleAdewale();
+                                if (adewale == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Adewale'));
+                                }
+                              },
                               title: Text('Adewale'),
                             ),
                             CheckboxListTile(
-                              value: true,
-                              onChanged: (value) {},
+                              value: solue,
+                              onChanged: (value) {
+                                toggleSolue();
+                                if (solue == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Solue'));
+                                }
+                              },
                               title: Text('Solue'),
                             ),
                             CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
+                              value: leo,
+                              onChanged: (value) {
+                                toggleLeo();
+                                if (leo == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Leo'));
+                                }
+                              },
                               title: Text('Leo'),
                             ),
                             CheckboxListTile(
-                              value: true,
-                              onChanged: (value) {},
+                              value: emma,
+                              onChanged: (value) {
+                                toggleEmma();
+                                if (emma == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Emma'));
+                                }
+                              },
                               title: Text('Emma'),
                             ),
                             CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
+                              value: familyMan,
+                              onChanged: (value) {
+                                toggleFamilyMan();
+                                if (familyMan == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Family Man'));
+                                }
+                              },
                               title: Text('Family man'),
                             ),
                             CheckboxListTile(
-                              value: true,
-                              onChanged: (value) {},
-                              title: Text('Blessing'),
-                            ),
-                            CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
-                              title: Text('Peter'),
-                            ),
-                            CheckboxListTile(
-                              value: false,
-                              onChanged: (value) {},
+                              value: outsider,
+                              onChanged: (value) {
+                                toggleOutsider();
+                                if (outsider == true) {
+                                  context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(technician: 'Outsider'));
+                                }
+                              },
                               title: Text('Outsider'),
                             ),
                           ],

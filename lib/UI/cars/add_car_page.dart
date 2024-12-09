@@ -35,17 +35,17 @@ class _AddCarPageState extends State<AddCarPage> {
   final pickUpDateDateController = TextEditingController();
 
   final technicians = [
-    'Stanley',
+    'Chika',
     'OJ',
     'Ebube',
-    'Chika',
-    'Leo',
-    'Adewale',
-    'Peter',
-    'Nonso',
+    'Stanley',
     'Uche',
+    'Adewale',
+    'Solue',
+    'Leo',
     'Emma',
     'Family man',
+    'Outsider',
   ];
 
   final jobTypes = [
