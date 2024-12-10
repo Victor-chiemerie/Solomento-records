@@ -8,7 +8,10 @@ part 'get_data_state.dart';
 
 class GetDataCubit extends Cubit<GetDataState> {
   GetDataCubit({required this.recordRepository})
-      : super(const GetDataState(cars: []));
+      : super(const GetDataState(
+          cars: [],
+          filterCriteria: FilterCriteria(repairStatus: 'Pending'),
+        ));
 
   final RecordRepository recordRepository;
 
@@ -20,10 +23,13 @@ class GetDataCubit extends Cubit<GetDataState> {
     try {
       List<Car> cars = await recordRepository.getCars();
       // TODO change state emission with copyWith
-      emit(GetDataState(
-        cars: cars,
-        status: GetDataStatus.success,
-      ));
+      emit(
+        GetDataState(
+          cars: cars,
+          status: GetDataStatus.success,
+          filterCriteria: FilterCriteria(repairStatus: 'Pending'),
+        ),
+      );
     } catch (error) {
       // TODO change state emission with copyWith
       emit(GetDataState(
