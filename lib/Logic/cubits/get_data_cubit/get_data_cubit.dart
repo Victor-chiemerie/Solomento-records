@@ -33,20 +33,20 @@ class GetDataCubit extends Cubit<GetDataState> {
     }
   }
 
-  void filterCars(FilterCriteria criteria) {
+  void filterCars(FilterCriteria newCriteria) {
     final filteredCars = state.cars.where((car) {
-      final matchesRepairStatus = criteria.repairStatus == null ||
-          car.repairStatus == criteria.repairStatus;
-      final matchesApprovalStatus = criteria.approvalStatus == null ||
-          car.isApproved == criteria.approvalStatus;
-      final matchesTechnician = criteria.technician == null ||
-          car.technician == criteria.technician;
+      final matchesRepairStatus = newCriteria.repairStatus == null ||
+          car.repairStatus == newCriteria.repairStatus;
+      final matchesApprovalStatus = newCriteria.approvalStatus == null ||
+          car.isApproved == newCriteria.approvalStatus;
+      final matchesTechnician = newCriteria.technician == null ||
+          car.technician == newCriteria.technician;
 
       return matchesRepairStatus && matchesApprovalStatus && matchesTechnician;
     }).toList();
 
     emit(state.copyWith(
-      filterCriteria: criteria,
+      filterCriteria: newCriteria,
       filteredCars: filteredCars,
     ));
   }

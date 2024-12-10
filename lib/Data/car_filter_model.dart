@@ -16,6 +16,19 @@ class FilterCriteria {
     technician: '',
   );
 
+  /// Modify FilterCriteria parameters
+  FilterCriteria copyWith({
+    String? repairStatus,
+    bool? approvalStatus,
+    String? technician,
+  }) {
+    return FilterCriteria(
+      repairStatus: repairStatus ?? this.repairStatus,
+      approvalStatus: approvalStatus ?? this.approvalStatus,
+      technician: technician ?? this.technician,
+    );
+  }
+
   /// Convenience getter to determine whether the current FilterCriteria has no details
   bool get isEmpty => this == FilterCriteria.empty;
 
