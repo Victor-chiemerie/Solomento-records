@@ -18,7 +18,7 @@ class FirebaseRecordRepository implements RecordRepository {
       car.arrivalDate = DateTime.now();
 
       // Save car data
-      await carCollection.doc(car.plateNumber).set(car.toEntity().toDocument());
+      await carCollection.doc(car.id).set(car.toEntity().toDocument());
 
       // Return object in a Map
       return car;
@@ -64,7 +64,7 @@ class FirebaseRecordRepository implements RecordRepository {
   @override
   Future<void> deleteCar(Car car) async {
     try {
-      await carCollection.doc(car.plateNumber).delete();
+      await carCollection.doc(car.id).delete();
     } catch (error) {
       log(error.toString());
       rethrow;

@@ -180,7 +180,7 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                           newCar.customerStatus = selectedStatus!;
 
                           context.read<SaveDataBloc>().add(
-                              UpdateCarData(newCar.plateNumber, newCar));
+                              UpdateCarData(newCar.id, newCar));
                         }
                       },
                     ),
