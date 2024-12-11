@@ -28,7 +28,6 @@ class _CarsPageState extends State<CarsPage> {
   Widget build(BuildContext context) {
     MyUser user = BlocProvider.of<MyUserBloc>(context).state.user!;
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return BlocListener<DeleteDataCubit, DeleteDataState>(
       listener: (context, state) {
         if (state.status == DeleteDataStatus.success) {
@@ -377,11 +376,13 @@ class _CarsPageState extends State<CarsPage> {
                                                   ],
                                                 ),
                                                 child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    SizedBox(
-                                                      width: 190,
+                                                    Expanded(
                                                       child: Column(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
@@ -461,6 +462,25 @@ class _CarsPageState extends State<CarsPage> {
                                                                             .mainGreen)),
                                                             ],
                                                           ),
+                                                          Text(
+                                                            'Details: ${car.repairDetails}',
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextThemes
+                                                                .text
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        12),
+                                                          ),
+                                                          Text(
+                                                              'Promised DD: $pickUpDate',
+                                                              style: TextThemes
+                                                                  .text
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12)),
                                                         ],
                                                       ),
                                                     ),
