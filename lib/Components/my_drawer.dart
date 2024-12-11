@@ -177,332 +177,334 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
                 const SizedBox(height: 10),
 
-                SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      // repair
-                      ExpansionTile(
-                        title: Text(
-                          'Repair Status',
-                          style: TextThemes.text.copyWith(
-                            fontWeight: FontWeight.w600,
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        // repair
+                        ExpansionTile(
+                          title: Text(
+                            'Repair Status',
+                            style: TextThemes.text.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+                          iconColor: AppColor.mainGreen,
+                          initiallyExpanded: true,
+                          children: [
+                            CheckboxListTile(
+                              value: allRepairStatus,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus: null,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: filterCriteria?.technician,
+                                      ),
+                                    );
+                              },
+                              title: Text('All', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: repaired,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus: 'Fixed',
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: filterCriteria?.technician,
+                                      ),
+                                    );
+                              },
+                              title: Text('Repaired', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: notRepaired,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus: 'Pending',
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: filterCriteria?.technician,
+                                      ),
+                                    );
+                              },
+                              title: Text('Pending', style: TextThemes.text),
+                            ),
+                          ],
                         ),
-                        iconColor: AppColor.mainGreen,
-                        initiallyExpanded: true,
-                        children: [
-                          CheckboxListTile(
-                            value: allRepairStatus,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus: null,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: filterCriteria?.technician,
-                                    ),
-                                  );
-                            },
-                            title: Text('All', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: repaired,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus: 'Fixed',
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: filterCriteria?.technician,
-                                    ),
-                                  );
-                            },
-                            title: Text('Repaired', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: notRepaired,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus: 'Pending',
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: filterCriteria?.technician,
-                                    ),
-                                  );
-                            },
-                            title: Text('Pending', style: TextThemes.text),
-                          ),
-                        ],
-                      ),
 
-                      // approve
-                      ExpansionTile(
-                        title: Text(
-                          'Approved',
-                          style: TextThemes.text.copyWith(
-                            fontWeight: FontWeight.w600,
+                        // approve
+                        ExpansionTile(
+                          title: Text(
+                            'Approved',
+                            style: TextThemes.text.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+                          iconColor: AppColor.mainGreen,
+                          children: [
+                            CheckboxListTile(
+                              value: allApprovalStatus,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus: null,
+                                        technician: filterCriteria?.technician,
+                                      ),
+                                    );
+                              },
+                              title: Text('All', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: approved,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus: true,
+                                        technician: filterCriteria?.technician,
+                                      ),
+                                    );
+                              },
+                              title: Text('Yes', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: notApproved,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus: false,
+                                        technician: filterCriteria?.technician,
+                                      ),
+                                    );
+                              },
+                              title: Text('No', style: TextThemes.text),
+                            ),
+                          ],
                         ),
-                        iconColor: AppColor.mainGreen,
-                        children: [
-                          CheckboxListTile(
-                            value: allApprovalStatus,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus: null,
-                                      technician: filterCriteria?.technician,
-                                    ),
-                                  );
-                            },
-                            title: Text('All', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: approved,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus: true,
-                                      technician: filterCriteria?.technician,
-                                    ),
-                                  );
-                            },
-                            title: Text('Yes', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: notApproved,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus: false,
-                                      technician: filterCriteria?.technician,
-                                    ),
-                                  );
-                            },
-                            title: Text('No', style: TextThemes.text),
-                          ),
-                        ],
-                      ),
 
-                      // technician
-                      ExpansionTile(
-                        title: Text(
-                          'Technician',
-                          style: TextThemes.text.copyWith(
-                            fontWeight: FontWeight.w600,
+                        // technician
+                        ExpansionTile(
+                          title: Text(
+                            'Technician',
+                            style: TextThemes.text.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+                          iconColor: AppColor.mainGreen,
+                          children: [
+                            CheckboxListTile(
+                              value: technician == null ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: null,
+                                      ),
+                                    );
+                              },
+                              title: Text('All', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Chika' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Chika',
+                                      ),
+                                    );
+                              },
+                              title: Text('Chika', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'OJ' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'OJ',
+                                      ),
+                                    );
+                              },
+                              title: Text('OJ', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Ebube' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Ebube',
+                                      ),
+                                    );
+                              },
+                              title: Text('Ebube', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Stanley' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Stanley',
+                                      ),
+                                    );
+                              },
+                              title: Text('Stanley', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Uche' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Uche',
+                                      ),
+                                    );
+                              },
+                              title: Text('Uche', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Adewale' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Adewale',
+                                      ),
+                                    );
+                              },
+                              title: Text('Adewale', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Solue' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Adewale',
+                                      ),
+                                    );
+                              },
+                              title: Text('Solue', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Leo' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Leo',
+                                      ),
+                                    );
+                              },
+                              title: Text('Leo', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Emma' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Emma',
+                                      ),
+                                    );
+                              },
+                              title: Text('Emma', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Family man' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Family man',
+                                      ),
+                                    );
+                              },
+                              title: Text('Family man', style: TextThemes.text),
+                            ),
+                            CheckboxListTile(
+                              value: technician == 'Outsider' ? true : false,
+                              activeColor: AppColor.mainGreen,
+                              onChanged: (value) {
+                                context.read<GetDataCubit>().filterCars(
+                                      FilterCriteria(
+                                        repairStatus:
+                                            filterCriteria?.repairStatus,
+                                        approvalStatus:
+                                            filterCriteria?.approvalStatus,
+                                        technician: 'Outsider',
+                                      ),
+                                    );
+                              },
+                              title: Text('Outsider', style: TextThemes.text),
+                            ),
+                          ],
                         ),
-                        iconColor: AppColor.mainGreen,
-                        children: [
-                          CheckboxListTile(
-                            value: technician == null ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: null,
-                                    ),
-                                  );
-                            },
-                            title: Text('All', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Chika' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Chika',
-                                    ),
-                                  );
-                            },
-                            title: Text('Chika', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'OJ' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'OJ',
-                                    ),
-                                  );
-                            },
-                            title: Text('OJ', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Ebube' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Ebube',
-                                    ),
-                                  );
-                            },
-                            title: Text('Ebube', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Stanley' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Stanley',
-                                    ),
-                                  );
-                            },
-                            title: Text('Stanley', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Uche' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Uche',
-                                    ),
-                                  );
-                            },
-                            title: Text('Uche', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Adewale' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Adewale',
-                                    ),
-                                  );
-                            },
-                            title: Text('Adewale', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Solue' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Adewale',
-                                    ),
-                                  );
-                            },
-                            title: Text('Solue', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Leo' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Leo',
-                                    ),
-                                  );
-                            },
-                            title: Text('Leo', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Emma' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Emma',
-                                    ),
-                                  );
-                            },
-                            title: Text('Emma', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Family man' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Family man',
-                                    ),
-                                  );
-                            },
-                            title: Text('Family man', style: TextThemes.text),
-                          ),
-                          CheckboxListTile(
-                            value: technician == 'Outsider' ? true : false,
-                            activeColor: AppColor.mainGreen,
-                            onChanged: (value) {
-                              context.read<GetDataCubit>().filterCars(
-                                    FilterCriteria(
-                                      repairStatus:
-                                          filterCriteria?.repairStatus,
-                                      approvalStatus:
-                                          filterCriteria?.approvalStatus,
-                                      technician: 'Outsider',
-                                    ),
-                                  );
-                            },
-                            title: Text('Outsider', style: TextThemes.text),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
