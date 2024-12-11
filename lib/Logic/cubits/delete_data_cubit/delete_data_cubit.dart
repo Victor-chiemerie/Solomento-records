@@ -13,7 +13,7 @@ class DeleteDataCubit extends Cubit<DeleteDataState> {
   Future<void> deleteData(Car car) async {
     emit(const DeleteDataState(status: DeleteDataStatus.loading));
     try {
-      await recordRepository.deleteCustomerAndCar(car);
+      await recordRepository.deleteCar(car);
       emit(const DeleteDataState(status: DeleteDataStatus.success));
     } catch (error) {
       emit(const DeleteDataState(status: DeleteDataStatus.failure));

@@ -84,7 +84,7 @@ class FirebaseUserRepository implements UserRepository {
   @override
   Future<void> setUserData(MyUser user) async {
     try {
-      await userCollection.doc(user.id).set(user.toEntity().toDocument());
+      await userCollection.doc(user.email).set(user.toEntity().toDocument());
     } catch (error) {
       log(error.toString());
       rethrow;
@@ -93,9 +93,9 @@ class FirebaseUserRepository implements UserRepository {
 
   // get user
   @override
-  Future<MyUser> getMyUser(String myUserId) async {
+  Future<MyUser> getMyUser(String myUserEmail) async {
     try {
-      return userCollection.doc(myUserId).get().then(
+      return userCollection.doc(myUserEmail).get().then(
             (value) => MyUser.fromEntity(
               MyUserEntity.fromDocument(value.data()!),
             ),

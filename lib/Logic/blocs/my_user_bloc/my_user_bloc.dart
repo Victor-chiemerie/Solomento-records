@@ -15,7 +15,7 @@ class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
         super(const MyUserState.loading()) {
     on<GetMyUser>((event, emit) async {
       try {
-        MyUser myUser = await _userRepository.getMyUser(event.myUserId);
+        MyUser myUser = await _userRepository.getMyUser(event.myUserEmail);
         emit(MyUserState.success(myUser));
       } catch (error) {
         log(error.toString());
