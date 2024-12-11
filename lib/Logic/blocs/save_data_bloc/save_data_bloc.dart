@@ -11,21 +11,11 @@ class SaveDataBloc extends Bloc<SaveDataEvent, SaveDataState> {
   SaveDataBloc({required RecordRepository recordRepository})
       : _recordRepository = recordRepository,
         super(SaveDataInitial()) {
-    on<SaveCustomerAndCar>((event, emit) async {
+    on<SaveCar>((event, emit) async {
       emit(SaveDataLoading());
       try {
-        final data = await _recordRepository.saveCustomerAndCarData(event.customer, event.car);
-        emit(SaveDataSuccess(customer: data['customer'], car: data['car']));
-      } catch (error) {
-        emit(SaveDataFailure());
-      }
-    });
-
-    on<UpdateCustomerData>((event, emit) async {
-      emit(SaveDataLoading());
-      try {
-        final data = await _recordRepository.updateCustomerData(event.customer, event.id);
-        emit(SaveDataSuccess(customer: data));
+        final car = await _recordRepository.saveCarData(event.car);
+        emit(SaveDataSuccess(car: car));
       } catch (error) {
         emit(SaveDataFailure());
       }

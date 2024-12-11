@@ -5,7 +5,6 @@ import '../entities/entities.dart';
 
 class Car extends Equatable {
   String id;
-  String customerId;
   String modelName;
   String plateNumber;
   String picture;
@@ -24,10 +23,18 @@ class Car extends Equatable {
   String repairDetails;
   DateTime departureDate;
   DateTime pickUpDate;
+  String customerName;
+  String customerMobile;
+  String customerStatus;
+  String engineModel;
+  String vin;
+  String meterReading;
+  String manufactureYear;
+  String fuelLevel;
+  String color;
 
   Car({
     required this.id,
-    required this.customerId,
     required this.modelName,
     required this.plateNumber,
     required this.picture,
@@ -46,12 +53,20 @@ class Car extends Equatable {
     required this.repairDetails,
     required this.departureDate,
     required this.pickUpDate,
+    required this.customerName,
+    required this.customerMobile,
+    required this.customerStatus,
+    required this.engineModel,
+    required this.vin,
+    required this.meterReading,
+    required this.manufactureYear,
+    required this.fuelLevel,
+    required this.color,
   });
 
   /// Empty user which represents an unauthenticated car
   static Car empty = Car(
     id: "",
-    customerId: "",
     modelName: "",
     plateNumber: "",
     picture: "",
@@ -70,6 +85,15 @@ class Car extends Equatable {
     repairDetails: "",
     departureDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
     pickUpDate: DateTime.utc(1999, 7, 20, 20, 18, 04),
+    customerName: "",
+    customerMobile: "",
+    customerStatus: "unSettled",
+    engineModel: "",
+    vin: "",
+    meterReading: "",
+    manufactureYear: "",
+    fuelLevel: "",
+    color: "",
   );
 
   /// Convenience getter to determine whether the current Car has no details
@@ -80,7 +104,6 @@ class Car extends Equatable {
 
   Car copyWith({
     String? id,
-    String? customerId,
     String? modelName,
     String? plateNumber,
     String? picture,
@@ -99,10 +122,18 @@ class Car extends Equatable {
     String? repairDetails,
     DateTime? departureDate,
     DateTime? pickUpDate,
+    String? customerName,
+    String? customerMobile,
+    String? customerStatus,
+    String? engineModel,
+    String? vin,
+    String? meterReading,
+    String? manufactureYear,
+    String? fuelLevel,
+    String? color,
   }) {
     return Car(
       id: id ?? this.id,
-      customerId: customerId ?? this.customerId,
       modelName: modelName ?? this.modelName,
       plateNumber: plateNumber ?? this.plateNumber,
       picture: picture ?? this.picture,
@@ -121,13 +152,21 @@ class Car extends Equatable {
       repairDetails: repairDetails ?? this.repairDetails,
       departureDate: departureDate ?? this.departureDate,
       pickUpDate: pickUpDate ?? this.pickUpDate,
+      customerName: customerName ?? this.customerName,
+      customerMobile: customerMobile ?? this.customerMobile,
+      customerStatus: customerStatus ?? this.customerStatus,
+      engineModel: engineModel ?? this.engineModel,
+      vin: vin ?? this.vin,
+      meterReading: meterReading ?? this.meterReading,
+      manufactureYear: manufactureYear ?? this.manufactureYear,
+      fuelLevel: fuelLevel ?? this.fuelLevel,
+      color: color ?? this.color,
     );
   }
 
   CarEntity toEntity() {
     return CarEntity(
       id: id,
-      customerId: customerId,
       modelName: modelName,
       plateNumber: plateNumber,
       picture: picture,
@@ -146,13 +185,21 @@ class Car extends Equatable {
       repairDetails: repairDetails,
       departureDate: departureDate,
       pickUpDate: pickUpDate,
+      customerName: customerName,
+      customerMobile: customerMobile,
+      customerStatus: customerStatus,
+      engineModel: engineModel,
+      vin: vin,
+      meterReading: meterReading,
+      manufactureYear: manufactureYear,
+      fuelLevel: fuelLevel,
+      color: color,
     );
   }
 
   static Car fromEntity(CarEntity entity) {
     return Car(
       id: entity.id,
-      customerId: entity.customerId,
       modelName: entity.modelName,
       plateNumber: entity.plateNumber,
       picture: entity.picture,
@@ -171,13 +218,21 @@ class Car extends Equatable {
       repairDetails: entity.repairDetails,
       departureDate: entity.departureDate,
       pickUpDate: entity.pickUpDate,
+      customerName: entity.customerName,
+      customerMobile: entity.customerMobile,
+      customerStatus: entity.customerStatus,
+      engineModel: entity.engineModel,
+      vin: entity.vin,
+      meterReading: entity.meterReading,
+      manufactureYear: entity.manufactureYear,
+      fuelLevel: entity.fuelLevel,
+      color: entity.color,
     );
   }
 
   @override
   List<Object?> get props => [
         id,
-        customerId,
         modelName,
         plateNumber,
         picture,
@@ -196,5 +251,14 @@ class Car extends Equatable {
         repairDetails,
         departureDate,
         pickUpDate,
+        customerName,
+        customerMobile,
+        customerStatus,
+        engineModel,
+        vin,
+        meterReading,
+        manufactureYear,
+        fuelLevel,
+        color,
       ];
 }

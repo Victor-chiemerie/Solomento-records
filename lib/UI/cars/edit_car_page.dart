@@ -48,17 +48,17 @@ class _EditCarPageState extends State<EditCarPage> {
     'Painting',
   ];
   final technicians = [
-    'Stanley',
+    'Chika',
     'OJ',
     'Ebube',
-    'Chika',
-    'Leo',
-    'Adewale',
-    'Peter',
-    'Nonso',
+    'Stanley',
     'Uche',
+    'Adewale',
+    'Solue',
+    'Leo',
     'Emma',
     'Family man',
+    'Outsider',
   ];
   bool? isApproved = false;
   bool? isRepaired = false;
