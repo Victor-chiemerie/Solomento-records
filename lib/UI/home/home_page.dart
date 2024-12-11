@@ -132,10 +132,10 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, state) {
                                   if (state.status == GetDataStatus.success) {
                                     final carCount = state.cars.length;
-                                    return Text('   Cars ($carCount)',
+                                    return Text('  All Cars ($carCount)',
                                         style: TextThemes.text);
                                   } else {
-                                    return Text('  Cars (0)',
+                                    return Text('  All Cars (0)',
                                         style: TextThemes.text);
                                   }
                                 },

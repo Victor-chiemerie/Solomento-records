@@ -99,6 +99,7 @@ class _CarsPageState extends State<CarsPage> {
                   if (state.status == GetDataStatus.failure) {
                     return Center(
                       child: Text('An error occured!!! \nRefresh your browser',
+                      textAlign: TextAlign.center,
                           style: TextThemes.headline1),
                     );
                   } else if (state.status == GetDataStatus.loading) {

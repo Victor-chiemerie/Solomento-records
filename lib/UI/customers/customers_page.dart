@@ -33,7 +33,9 @@ class CustomersPage extends StatelessWidget {
         builder: (context, state) {
           if (state.status == GetDataStatus.failure) {
             return Center(
-              child: Text('An error occured!!!', style: TextThemes.headline1),
+              child: Text('An error occured!!! \nRefresh your browser',
+                      textAlign: TextAlign.center,
+                          style: TextThemes.headline1),
             );
           } else if (state.status == GetDataStatus.loading) {
             return Center(
