@@ -179,8 +179,9 @@ class _EditCustomerPageState extends State<EditCustomerPage> {
                           newCar.customerMobile = mobileController.text;
                           newCar.customerStatus = selectedStatus!;
 
-                          context.read<SaveDataBloc>().add(
-                              UpdateCarData(newCar.id, newCar));
+                          context
+                              .read<SaveDataBloc>()
+                              .add(UpdateCarData(newCar.id, newCar));
                         }
                       },
                     ),

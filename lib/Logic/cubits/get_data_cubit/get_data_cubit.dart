@@ -27,9 +27,9 @@ class GetDataCubit extends Cubit<GetDataState> {
         GetDataState(
           cars: cars,
           status: GetDataStatus.success,
-          filterCriteria: FilterCriteria(repairStatus: 'Pending'),
         ),
       );
+      filterCars(FilterCriteria(repairStatus: 'Pending'));
     } catch (error) {
       // TODO change state emission with copyWith
       emit(GetDataState(

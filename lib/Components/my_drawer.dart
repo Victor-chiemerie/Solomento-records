@@ -46,6 +46,7 @@ class _MyDrawerState extends State<MyDrawer> {
         child: BlocBuilder<GetDataCubit, GetDataState>(
           builder: (context, state) {
             final filterCriteria = state.filterCriteria;
+            final filteredCars = state.filteredCars ?? [];
 
             // Update local repair state based on filterCriteria
             allRepairStatus = filterCriteria?.repairStatus == null;
@@ -66,11 +67,11 @@ class _MyDrawerState extends State<MyDrawer> {
               children: [
                 // filters
                 Text(
-                  "Filters",
+                  "Filters (${filteredCars.length})",
                   style: TextThemes.headline1.copyWith(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
+                    // decoration: TextDecoration.underline,
                   ),
                 ),
                 const SizedBox(height: 10),
