@@ -129,17 +129,6 @@ class _CarsPageState extends State<CarsPage> {
                               padding: const EdgeInsets.only(bottom: 10),
                               child: Card(
                                 child: ListTile(
-                                  onLongPress: () {
-                                    if (user.userType == 'admin') {
-                                      Functions.deleteData(
-                                        context,
-                                        car,
-                                        () => BlocProvider.of<DeleteDataCubit>(
-                                                context)
-                                            .deleteData(car),
-                                      );
-                                    }
-                                  },
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -158,8 +147,8 @@ class _CarsPageState extends State<CarsPage> {
                                   ),
                                   contentPadding: const EdgeInsets.all(5),
                                   title: Text(car.customerName,
-                                  maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextThemes.headline1
                                           .copyWith(fontSize: 16)),
                                   subtitle: Column(
@@ -221,6 +210,13 @@ class _CarsPageState extends State<CarsPage> {
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
+                                            title: Text(
+                                              car.modelName,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextThemes.headline1
+                                                  .copyWith(fontSize: 15),
+                                            ),
                                             contentPadding: EdgeInsets.all(10),
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -298,6 +294,7 @@ class _CarsPageState extends State<CarsPage> {
             :
             // web view
             Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // filter section
@@ -328,124 +325,256 @@ class _CarsPageState extends State<CarsPage> {
                                 BlocProvider.of<GetDataCubit>(context)
                                     .getData();
                               },
-                              child: ListView.builder(
-                                itemCount: carsToShow.length,
-                                itemBuilder: (context, index) {
-                                  // get the car object
-                                  final car = carsToShow[index];
-                                  final String pickUpDate =
-                                      (car.pickUpDate.toUtc() !=
-                                              Functions.emptyDate)
-                                          ? Functions.shortenDate(
-                                              DateFormat('dd-MM-yyyy')
-                                                  .format(car.pickUpDate))
-                                          : 'Not set';
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Card(
-                                      child: ListTile(
-                                        onLongPress: () {
-                                          if (user.userType == 'admin') {
-                                            Functions.deleteData(
-                                              context,
-                                              car,
-                                              () => BlocProvider.of<
-                                                      DeleteDataCubit>(context)
-                                                  .deleteData(car),
-                                            );
-                                          }
-                                        },
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditCarPage(car: car)));
-                                        },
-                                        leading: const Icon(
-                                            CupertinoIcons.car_detailed),
-                                        contentPadding: const EdgeInsets.all(5),
-                                        title: Text(car.modelName,
-                                            style: TextThemes.headline1
-                                                .copyWith(fontSize: 16)),
-                                        subtitle: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                text: 'Plate Number: ',
-                                                style: TextThemes.text
-                                                    .copyWith(fontSize: 12),
-                                                children: [
-                                                  TextSpan(
-                                                    text: car.plateNumber,
-                                                    style: TextThemes.text
-                                                        .copyWith(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: AppColor.mainGreen,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text('Repair Status: ',
-                                                    style: TextThemes.text
-                                                        .copyWith(
-                                                            fontSize: 12)),
-                                                if (car.repairStatus ==
-                                                    'Pending')
-                                                  Text(car.repairStatus,
-                                                      style: TextThemes.text
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: Colors
-                                                                  .redAccent)),
-                                                if (car.repairStatus == 'Fixed')
-                                                  Text(car.repairStatus,
-                                                      style: TextThemes.text
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              color: AppColor
-                                                                  .mainGreen)),
-                                              ],
-                                            ),
-                                            Text('Pick-Up Date: $pickUpDate',
-                                                style: TextThemes.text
-                                                    .copyWith(fontSize: 12)),
-                                          ],
-                                        ),
-                                        trailing: TextButton(
-                                          onPressed: () {
-                                            // view the vehicle owner
-                                            try {
-                                              Navigator.push(
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: SingleChildScrollView(
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  child: Wrap(
+                                    spacing: 16.0,
+                                    runSpacing: 16.0,
+                                    children: carsToShow.map((car) {
+                                      final String pickUpDate =
+                                          (car.pickUpDate.toUtc() !=
+                                                  Functions.emptyDate)
+                                              ? Functions.shortenDate(
+                                                  DateFormat('dd-MM-yyyy')
+                                                      .format(car.pickUpDate))
+                                              : 'Not set';
+                                      return Stack(
+                                        alignment:
+                                            AlignmentDirectional.topCenter,
+                                        children: [
+                                          // Car details
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 30),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          EditCustomerPage(
-                                                              car: car)));
-                                            } catch (error) {
-                                              debugPrint(error.toString());
-                                            }
-                                          },
-                                          child: Text(
-                                            'View\nOwner',
-                                            textAlign: TextAlign.center,
-                                            style: TextThemes.text.copyWith(
-                                              color: AppColor.mainGreen,
-                                              fontSize: 12,
+                                                          EditCarPage(
+                                                              car: car)),
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 250,
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        10, 45, 10, 10),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius: 4.0,
+                                                      offset: Offset(0, 2),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 190,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            car.customerName,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextThemes
+                                                                .headline1
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        16),
+                                                          ),
+                                                          Text(
+                                                              'Model: ${car.modelName}',
+                                                              style: TextThemes
+                                                                  .text
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12)),
+                                                          RichText(
+                                                            text: TextSpan(
+                                                              text:
+                                                                  'Plate Number: ',
+                                                              style: TextThemes
+                                                                  .text
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          12),
+                                                              children: [
+                                                                TextSpan(
+                                                                  text: car
+                                                                      .plateNumber,
+                                                                  style: TextThemes
+                                                                      .text
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: AppColor
+                                                                        .mainGreen,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                  'Repair Status: ',
+                                                                  style: TextThemes
+                                                                      .text
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              12)),
+                                                              if (car.repairStatus ==
+                                                                  'Pending')
+                                                                Text(car.repairStatus,
+                                                                    style: TextThemes.text.copyWith(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .redAccent)),
+                                                              if (car.repairStatus ==
+                                                                  'Fixed')
+                                                                Text(car.repairStatus,
+                                                                    style: TextThemes.text.copyWith(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: AppColor
+                                                                            .mainGreen)),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              title: Text(
+                                                                car.modelName,
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: TextThemes
+                                                                    .headline1
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            15),
+                                                              ),
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(10),
+                                                              content: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  // view owner
+                                                                  ListTile(
+                                                                    leading: Icon(
+                                                                        Icons
+                                                                            .person),
+                                                                    title: Text(
+                                                                      'View owner details',
+                                                                      style: TextThemes
+                                                                          .text,
+                                                                    ),
+                                                                    onTap: () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      // view the vehicle owner
+                                                                      try {
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(builder: (context) => EditCustomerPage(car: car)));
+                                                                      } catch (error) {
+                                                                        debugPrint(
+                                                                            error.toString());
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                  // delete car
+                                                                  if (user.userType ==
+                                                                      'admin')
+                                                                    ListTile(
+                                                                      leading:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .delete,
+                                                                        color: Colors
+                                                                            .redAccent,
+                                                                      ),
+                                                                      title:
+                                                                          Text(
+                                                                        'Delete Car',
+                                                                        style: TextThemes
+                                                                            .text,
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Functions
+                                                                            .deleteData(
+                                                                          context,
+                                                                          car,
+                                                                          () =>
+                                                                              BlocProvider.of<DeleteDataCubit>(context).deleteData(car),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      icon:
+                                                          Icon(Icons.more_vert),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
+                                          // car Icon / car photo
+                                          Container(
+                                            padding: EdgeInsets.all(15),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.grey[200],
+                                            ),
+                                            child: const Icon(
+                                              CupertinoIcons.car_detailed,
+                                              size: 40,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
                               ),
                             ),
                           );
