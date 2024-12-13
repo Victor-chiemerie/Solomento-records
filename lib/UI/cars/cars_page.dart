@@ -57,9 +57,17 @@ class _CarsPageState extends State<CarsPage> {
                 ),
           title: Row(
             children: [
-              Text(
-                'All Cars',
-                style: TextThemes.headline1.copyWith(fontSize: 20),
+              GestureDetector(
+                onTap: () {
+                  // pop till home screen
+                  Navigator.popUntil(context, (route) {
+                    return route.isFirst;
+                  });
+                },
+                child: Text(
+                  'All Cars',
+                  style: TextThemes.headline1.copyWith(fontSize: 20),
+                ),
               ),
               SizedBox(width: 5),
               Icon(
@@ -99,7 +107,7 @@ class _CarsPageState extends State<CarsPage> {
                   if (state.status == GetDataStatus.failure) {
                     return Center(
                       child: Text('An error occured!!! \nRefresh your browser',
-                      textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                           style: TextThemes.headline1),
                     );
                   } else if (state.status == GetDataStatus.loading) {

@@ -56,6 +56,7 @@ class MyTextField extends StatelessWidget {
       expands: expands,
       readOnly: readOnly,
       inputFormatters: inputFormatters,
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,

@@ -5,33 +5,40 @@ import '../entities/entities.dart';
 
 class Car extends Equatable {
   String id;
-  String modelName;
-  String plateNumber;
-  String picture;
-  String serviceAdviser;
-  String technician;
-  DateTime arrivalDate;
-  String jobDetails;
-  List<dynamic> jobType;
-  double cost;
-  bool isApproved;
-  DateTime approvalDate;
-  String paymentStatus;
-  double paymentMade;
-  List<dynamic> paymentHistory;
-  String repairStatus;
-  String repairDetails;
-  DateTime departureDate;
-  DateTime pickUpDate;
+
   String customerName;
   String customerMobile;
   String customerStatus;
+
+  String picture;
+  String modelName;
+  String plateNumber;
   String engineModel;
   String vin;
   String meterReading;
   String manufactureYear;
   String fuelLevel;
   String color;
+
+  String serviceAdviser;
+  String technician;
+
+  DateTime arrivalDate;
+  String jobDetails;
+  List<dynamic> jobType;
+  bool isApproved;
+  DateTime approvalDate;
+
+  double cost;
+  String paymentStatus;
+  double paymentMade;
+  List<dynamic> paymentHistory;
+  
+  String repairStatus;
+  String repairDetails;
+  DateTime departureDate;
+  DateTime pickUpDate;
+  
 
   Car({
     required this.id,
