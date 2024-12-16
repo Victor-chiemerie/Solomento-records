@@ -58,7 +58,7 @@ class _CarDetailsState extends State<CarDetails> {
           style: TextThemes.headline1.copyWith(fontSize: 20),
         ),
         actions: [
-          if (user.userType == 'admin')
+          if (user.userType == 'admin' || user.userType == 'supervisor')
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -82,23 +82,25 @@ class _CarDetailsState extends State<CarDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // car info section
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppColor.mainGreen,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Text(
-                      'Car Information',
-                      style: TextThemes.text.copyWith(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
+              ExpansionTile(
+                initiallyExpanded: true,
+                iconColor: AppColor.mainGreen,
+                title: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColor.mainGreen,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    'Car Information',
+                    style: TextThemes.text.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
                   ),
+                ),
+                children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,7 +226,6 @@ class _CarDetailsState extends State<CarDetails> {
                                     ),
                                   ],
                                 ),
-                                Divider(height: 4, color: Colors.grey),
                               ],
                             ),
                           ),
@@ -235,23 +236,24 @@ class _CarDetailsState extends State<CarDetails> {
                 ],
               ),
               // personnel info section
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppColor.mainGreen,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Text(
-                      'Personnel Information',
-                      style: TextThemes.text.copyWith(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
+              ExpansionTile(
+                iconColor: AppColor.mainGreen,
+                title: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColor.mainGreen,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    'Personnel Information',
+                    style: TextThemes.text.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
                   ),
+                ),
+                children: [
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -292,23 +294,24 @@ class _CarDetailsState extends State<CarDetails> {
                 ],
               ),
               // job info section
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppColor.mainGreen,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Text(
-                      'Job Information',
-                      style: TextThemes.text.copyWith(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
+              ExpansionTile(
+                iconColor: AppColor.mainGreen,
+                title: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColor.mainGreen,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    'Job Information',
+                    style: TextThemes.text.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
                   ),
+                ),
+                children: [
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -379,9 +382,10 @@ class _CarDetailsState extends State<CarDetails> {
                 ],
               ),
               // cost and payment info section
-              Column(
-                children: [
-                  Container(
+              if (user.userType == 'admin')
+                ExpansionTile(
+                  iconColor: AppColor.mainGreen,
+                  title: Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                     decoration: BoxDecoration(
@@ -396,83 +400,86 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                     ),
                   ),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Cost of Repair
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Cost of Repair",
-                                  style: TextThemes.text
-                                      .copyWith(fontWeight: FontWeight.bold)),
-                              Text(
-                                '₦ ${car.cost.toString()}',
-                                style: TextThemes.text.copyWith(fontSize: 13),
-                              ),
-                            ],
-                          ),
-                          Divider(height: 4, color: Colors.grey),
-                          // Payment History
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Payment History",
-                                  style: TextThemes.text
-                                      .copyWith(fontWeight: FontWeight.bold)),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: paymentHistory.map((payment) {
-                                  // Convert the Timestamp to DateTIme
-                                  DateTime date =
-                                      (payment['date'] as Timestamp).toDate();
-                                  String formattedDate =
-                                      DateFormat('dd-MM-yyyy').format(date);
-                                  String formattedAmount =
-                                      Functions.formatAmount(payment['amount']);
+                  children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Cost of Repair
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Cost of Repair",
+                                    style: TextThemes.text
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                Text(
+                                  '₦ ${car.cost.toString()}',
+                                  style: TextThemes.text.copyWith(fontSize: 13),
+                                ),
+                              ],
+                            ),
+                            Divider(height: 4, color: Colors.grey),
+                            // Payment History
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Payment History",
+                                    style: TextThemes.text
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: paymentHistory.map((payment) {
+                                    // Convert the Timestamp to DateTIme
+                                    DateTime date =
+                                        (payment['date'] as Timestamp).toDate();
+                                    String formattedDate =
+                                        DateFormat('dd-MM-yyyy').format(date);
+                                    String formattedAmount =
+                                        Functions.formatAmount(
+                                            payment['amount']);
 
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('⚈  ₦$formattedAmount',
-                                          style: TextThemes.text),
-                                      Text(formattedDate,
-                                          style: TextThemes.text),
-                                    ],
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                        ],
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('⚈  ₦$formattedAmount',
+                                            style: TextThemes.text),
+                                        Text(formattedDate,
+                                            style: TextThemes.text),
+                                      ],
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               // repair info section
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppColor.mainGreen,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Text(
-                      'Repair Information',
-                      style: TextThemes.text.copyWith(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
+              ExpansionTile(
+                iconColor: AppColor.mainGreen,
+                title: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColor.mainGreen,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Text(
+                    'Repair Information',
+                    style: TextThemes.text.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
                   ),
+                ),
+                children: [
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

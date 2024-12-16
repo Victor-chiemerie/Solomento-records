@@ -217,7 +217,7 @@ class _AddCarPageState extends State<AddCarPage> {
                       // Meter Reading
                       Text('Meter Reading (Optional)', style: TextThemes.text),
                       MyTextField(
-                        controller: engineModelController,
+                        controller: meterReadingController,
                         hintText: 'Enter Meter Reading',
                         obscureText: false,
                         keyboardType: TextInputType.text,
@@ -494,22 +494,6 @@ class _AddCarPageState extends State<AddCarPage> {
                         keyboardType: TextInputType.multiline,
                         textInputAction: TextInputAction.newline,
                         maxLines: 4,
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      // Payment made
-                      Text('Amount Paid (optional)', style: TextThemes.text),
-                      const SizedBox(height: 2),
-                      MyTextField(
-                        controller: paidAmountController,
-                        hintText: 'Enter Amount',
-                        prefixText: '₦ ',
-                        obscureText: false,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
                       ),
 
                       const SizedBox(height: 10),
