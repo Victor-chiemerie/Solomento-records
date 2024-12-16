@@ -363,8 +363,7 @@ class _CarsPageState extends State<CarsPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          EditCarPage(
-                                                              car: car)),
+                                                          CarDetails(car: car)),
                                                 );
                                               },
                                               child: Container(
