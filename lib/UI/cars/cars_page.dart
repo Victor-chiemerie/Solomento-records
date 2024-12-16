@@ -10,6 +10,7 @@ import 'package:solomento_records/Logic/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:solomento_records/Logic/cubits/delete_data_cubit/delete_data_cubit.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
+import 'package:solomento_records/UI/cars/car_details.dart';
 import 'package:solomento_records/UI/cars/edit_car_page.dart';
 import 'package:user_repository/user_repository.dart';
 import '../../Components/functions.dart';
@@ -142,7 +143,7 @@ class _CarsPageState extends State<CarsPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                EditCarPage(car: car)));
+                                                CarDetails(car: car)));
                                   },
                                   leading: Container(
                                     padding: EdgeInsets.all(10),

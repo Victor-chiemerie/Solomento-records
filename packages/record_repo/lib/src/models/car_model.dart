@@ -36,8 +36,8 @@ class Car extends Equatable {
   
   String repairStatus;
   String repairDetails;
-  DateTime departureDate;
   DateTime pickUpDate;
+  DateTime departureDate;
   
 
   Car({

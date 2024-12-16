@@ -574,65 +574,6 @@ class _AddCarPageState extends State<AddCarPage> {
                     color: AppColor.mainGreen,
                     text: 'Save',
                     onPressed: validateForm,
-
-                    // onPressed: () {
-                    //   if (_formKey.currentState!.validate() &
-                    //       selectedJobTypes.isNotEmpty) {
-                    //     car.modelName = modelNameController.text;
-                    //     car.plateNumber = plateNumberController.text;
-                    //     car.engineModel = engineModelController.text;
-                    //     car.meterReading = meterReadingController.text;
-                    //     car.manufactureYear = manufactureYearController.text;
-                    //     car.vin = vinController.text;
-                    //     car.fuelLevel = fuelLevelController.text;
-                    //     car.color = colorController.text;
-                    //     car.serviceAdviser = serviceAdviserController.text;
-                    //     car.technician = (selectedTechnician != null)
-                    //         ? selectedTechnician!
-                    //         : car.technician;
-                    //     car.arrivalDate = DateTime.now();
-                    //     car.jobDetails = jobDetailsController.text;
-                    //     car.jobType = selectedJobTypes;
-                    //     car.cost = (costController.text.isNotEmpty)
-                    //         ? Functions.parseDouble(costController.text)
-                    //         : car.cost;
-                    //     car.isApproved = isApproved!;
-                    //     car.pickUpDate = (selectedDate != null)
-                    //         ? selectedDate!
-                    //         : car.pickUpDate;
-                    //     car.approvalDate =
-                    //         (isApproved!) ? DateTime.now() : car.approvalDate;
-                    //     car.paymentStatus =
-                    //         (Functions.parseDouble(paidAmountController.text) >=
-                    //                 Functions.parseDouble(costController.text))
-                    //             ? "Complete"
-                    //             : car.paymentStatus;
-                    //     car.paymentMade = (paidAmountController.text.isNotEmpty)
-                    //         ? Functions.parseDouble(paidAmountController.text)
-                    //         : car.paymentMade;
-                    //     car.paymentHistory =
-                    //         (paidAmountController.text.isNotEmpty)
-                    //             ? [
-                    //                 {
-                    //                   'date': DateTime.now(),
-                    //                   'amount': Functions.parseDouble(
-                    //                       paidAmountController.text),
-                    //                 }
-                    //               ]
-                    //             : car.paymentHistory;
-                    //     car.repairStatus = (isRepaired!) ? "Fixed" : "Pending";
-                    //     car.repairDetails =
-                    //         (repairDetailsController.text.isNotEmpty)
-                    //             ? repairDetailsController.text
-                    //             : car.repairDetails;
-                    //     car.departureDate =
-                    //         (isDeparted!) ? DateTime.now() : car.departureDate;
-                    //     car.customerName = widget.customerName;
-                    //     car.customerMobile = widget.customerMobile;
-
-                    //     context.read<SaveDataBloc>().add(SaveCar(car));
-                    //   }
-                    // },
                   ),
 
                   const SizedBox(height: 20),
