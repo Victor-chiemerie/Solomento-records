@@ -791,7 +791,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EditCarPage(car: car)));
+                          builder: (context) => CarDetails(car: car)));
                 },
               );
             },
@@ -807,7 +807,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EditCarPage(car: car)),
+                          builder: (context) => CarDetails(car: car)),
                     );
                   },
                   child: Container(

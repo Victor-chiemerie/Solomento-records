@@ -138,7 +138,7 @@ class _EditCarPageState extends State<EditCarPage> {
             icon: const Icon(Icons.arrow_back_ios),
           ),
           title: Text(
-            'Car details',
+            'Edit Car',
             style: TextThemes.headline1.copyWith(fontSize: 20),
           ),
           actions: [

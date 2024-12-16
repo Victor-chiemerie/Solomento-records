@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomento_records/Logic/cubits/get_data_cubit/get_data_cubit.dart';
 import 'package:solomento_records/UI/Theme/color_theme.dart';
 import 'package:solomento_records/UI/Theme/text_theme.dart';
-import 'package:solomento_records/UI/cars/edit_car_page.dart';
+import '../cars/car_details.dart';
 import 'edit_customer_page.dart';
 
 class CustomersPage extends StatelessWidget {
@@ -104,7 +104,7 @@ class CustomersPage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            EditCarPage(car: car)));
+                                            CarDetails(car: car)));
                               } catch (error) {
                                 debugPrint(error.toString());
                               }
