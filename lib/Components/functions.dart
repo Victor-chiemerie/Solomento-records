@@ -11,7 +11,7 @@ import '../UI/Theme/text_theme.dart';
 class Functions {
   /// Default value for empty date
   static DateTime emptyDate = DateTime.utc(1999, 7, 20, 20, 18, 04);
-  
+
   /// Pick a date
   static Future<void> selectDate(
       BuildContext context, ValueChanged<DateTime?> onDatePicked) async {
@@ -112,7 +112,8 @@ class Functions {
     // convert String value to double value
     final doubleAmount = double.parse(amount.toString());
     // Format the amount with commas for thousands and two decimal places
-    final formattedAmount = NumberFormat('#,##0', 'en_US').format(doubleAmount);
+    final formattedAmount =
+        NumberFormat('#,##0.00', 'en_US').format(doubleAmount);
     // NumberFormat('#,##0.00', 'en_US').format(doubleAmount);
 
     return formattedAmount;

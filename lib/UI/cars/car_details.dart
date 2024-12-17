@@ -26,6 +26,7 @@ class _CarDetailsState extends State<CarDetails> {
   List<String> jobTypes = [];
   List<Map<String, dynamic>> paymentHistory = [];
   late bool isRepaired;
+  late bool isDeparted;
 
   @override
   void initState() {
@@ -39,6 +40,8 @@ class _CarDetailsState extends State<CarDetails> {
     jobTypes = List<String>.from(car.jobType);
     paymentHistory = List<Map<String, dynamic>>.from(car.paymentHistory);
     isRepaired = car.repairStatus == 'Fixed' ? true : false;
+    isDeparted =
+        car.departureDate.toUtc() != Functions.emptyDate ? true : false;
     final String pickUpDate = (car.pickUpDate.toUtc() != Functions.emptyDate)
         ? Functions.shortenDate(DateFormat('dd-MM-yyyy').format(car.pickUpDate))
         : 'Not set';
@@ -415,7 +418,7 @@ class _CarDetailsState extends State<CarDetails> {
                                     style: TextThemes.text
                                         .copyWith(fontWeight: FontWeight.bold)),
                                 Text(
-                                  '₦ ${car.cost.toString()}',
+                                  '₦ ${Functions.formatAmount(car.cost as int)}',
                                   style: TextThemes.text.copyWith(fontSize: 13),
                                 ),
                               ],
@@ -431,8 +434,15 @@ class _CarDetailsState extends State<CarDetails> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
-                                  children: paymentHistory.map((payment) {
-                                    // Convert the Timestamp to DateTIme
+                                  children: paymentHistory
+                                      .asMap()
+                                      .entries
+                                      .map((entry) {
+                                    int index = entry
+                                        .key; // The index of the current row
+                                    var payment = entry.value;
+
+                                    // Convert the Timestamp to DateTime
                                     DateTime date =
                                         (payment['date'] as Timestamp).toDate();
                                     String formattedDate =
@@ -441,15 +451,26 @@ class _CarDetailsState extends State<CarDetails> {
                                         Functions.formatAmount(
                                             payment['amount']);
 
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('⚈  ₦$formattedAmount',
-                                            style: TextThemes.text),
-                                        Text(formattedDate,
-                                            style: TextThemes.text),
-                                      ],
+                                    // Alternate background colors based on index
+                                    Color? rowColor = index % 2 == 0
+                                        ? Colors.white
+                                        : Colors.grey[200];
+
+                                    return Container(
+                                      color:
+                                          rowColor, // Set the background color here
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 16.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('⚈  ₦$formattedAmount',
+                                              style: TextThemes.text),
+                                          Text(formattedDate,
+                                              style: TextThemes.text),
+                                        ],
+                                      ),
                                     );
                                   }).toList(),
                                 ),
@@ -547,9 +568,9 @@ class _CarDetailsState extends State<CarDetails> {
                                   style: TextThemes.text
                                       .copyWith(fontWeight: FontWeight.bold)),
                               CheckboxListTile(
-                                value: isRepaired,
+                                value: isDeparted,
                                 tileColor: Colors.grey.shade200,
-                                selected: isRepaired,
+                                selected: isDeparted,
                                 selectedTileColor:
                                     AppColor.mainGreen.withOpacity(0.3),
                                 onChanged: (bool? newValue) {},

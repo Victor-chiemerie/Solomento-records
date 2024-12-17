@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -124,6 +125,7 @@ class _EditCarPageState extends State<EditCarPage> {
 
           // pop the screen
           Navigator.pop(context);
+          Navigator.pop(context);
         } else if (state is SaveDataLoading) {
           Functions.showLoadingPage(context);
         } else if (state is SaveDataFailure) {
@@ -152,6 +154,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     BlocProvider.of<GetDataCubit>(context).getData();
 
                     // pop the screen
+                    Navigator.pop(context);
                     Navigator.pop(context);
                   } else if (state.status == DeleteDataStatus.loading) {
                     Functions.showLoadingPage(context);
@@ -679,7 +682,14 @@ class _EditCarPageState extends State<EditCarPage> {
           (amountPaid >= Functions.parseDouble(costController.text))
               ? "Complete"
               : newCar.paymentStatus;
-      newCar.paymentMade = amountPaid;
+      if (paidAmountController.text.isNotEmpty) {
+        newCar.paymentMade = newCar.paymentMade +
+            Functions.parseDouble(paidAmountController.text);
+        paymentHistory.add({
+          'amount': Functions.parseDouble(paidAmountController.text),
+          'date': Timestamp.fromDate(DateTime.now()),
+        });
+      }
       newCar.paymentHistory = paymentHistory;
       newCar.repairStatus = (isRepaired!) ? "Fixed" : "Pending";
       newCar.repairDetails = (repairDetailsController.text.isNotEmpty)
